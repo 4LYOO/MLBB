@@ -1,0 +1,21 @@
+{
+  "_comment": "DONNÉES FICTIVES DE TEST UNIQUEMENT – ne pas importer dans une vraie base.",
+  "format": "mlbb-companion/v1",
+  "source": { "id": "test-source", "name": "Source de test (fictive)", "kind": "statistical", "url": "https://example.org", "reliability": 3 },
+  "capturedAt": "2026-11-01T10:00:00Z",
+  "dataAsOf": "2026-11-01T08:00:00Z",
+  "patch": "0.0.0-test",
+  "heroes": [
+    { "slug": "alpha", "name": "Alpha", "skills": [{ "key": "passive", "name": "Test skill" }] },
+    { "slug": "nouveau-heros", "name": "Nouveau Héros", "roles": ["Mage"], "lanes": ["mid"] }
+  ],
+  "heroStats": [
+    { "hero": "alpha", "rank": "all", "period": "7d", "winRate": 51, "pickRate": 1, "banRate": 2 },
+    { "hero": "fanny", "rank": "all", "period": "7d", "winRate": 47, "pickRate": 2, "banRate": 30 },
+    { "hero": "tigreal", "rank": "all", "period": "7d", "winRate": 53, "pickRate": 1.5, "banRate": 120 },
+    { "hero": "inconnu", "rank": "all", "period": "7d", "winRate": 50, "pickRate": 1, "banRate": 1 }
+  ],
+  "matchups": [{ "hero": "khufra", "other": "fanny", "kind": "counter", "score": 2.4, "unit": "pp" }],
+  "builds": [{ "hero": "alpha", "title": "Test", "type": "meta", "items": ["war-axe"], "sampleSize": 5 }],
+  "patches": [{ "version": "0.0.0-test", "server": "official", "changes": [{ "targetType": "hero", "target": "alpha", "change": "buff", "text": "Test" }] }]
+}
