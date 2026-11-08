@@ -305,8 +305,51 @@ export default async function HeroPage({ params }: { params: Promise<{ slug: str
             <Unavailable reason="Profil incomplet : aucun modèle de build." action={false} />
           )}
         </Card>
-        <Card title="Emblème & sorts" subtitle="Recommandation éditoriale (talents à revérifier selon le patch)">
-          {emblem ? (
+        <Card title="Emblème & sorts" subtitle={details?.extras?.emblemConsensus?.main ? "Consensus des builds de la source, avec échantillon" : "Recommandation éditoriale (talents à revérifier selon le patch)"}>
+          {details?.extras?.emblemConsensus?.main ? (
+            <div className="space-y-3 text-sm">
+              <div>
+                <span className="label">Emblème le plus utilisé</span>
+                <p>
+                  <b>{details.extras.emblemConsensus.main.name}</b>{" "}
+                  <span className="text-muted">
+                    ({details.extras.emblemConsensus.main.count}/{details.extras.emblemConsensus.main.sampleSize} builds)
+                  </span>
+                </p>
+              </div>
+              {details.extras.emblemConsensus.talents?.length ? (
+                <div>
+                  <span className="label">Talents</span>
+                  <ul className="space-y-0.5">
+                    {details.extras.emblemConsensus.talents.map((t) => (
+                      <li key={t.section}>
+                        Palier {t.section} : <b>{t.name}</b> <span className="text-muted">({t.count}/{t.sampleSize})</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+              {details.extras.battleSpellConsensus?.primary && (
+                <div>
+                  <span className="label">Sort de combat</span>
+                  <p>
+                    <b>{details.extras.battleSpellConsensus.primary.name}</b> <span className="text-muted">({Math.round(details.extras.battleSpellConsensus.primary.share * 100)} %)</span>
+                    {details.extras.battleSpellConsensus.alternative && (
+                      <>
+                        {" "}
+                        · alternative <b>{details.extras.battleSpellConsensus.alternative.name}</b>{" "}
+                        <span className="text-muted">({Math.round(details.extras.battleSpellConsensus.alternative.share * 100)} %)</span>
+                      </>
+                    )}
+                  </p>
+                </div>
+              )}
+              {(details.extras.emblemConsensus.smallSample || (details.extras.emblemConsensus.sampleSize ?? 0) < 20) && (
+                <p className="text-xs text-warn">Petit échantillon ({details.extras.emblemConsensus.sampleSize} builds) : simple indication.</p>
+              )}
+              <Provenance source={sources[details.sourceId]} capturedAt={details.capturedAt} />
+            </div>
+          ) : emblem ? (
             <div className="space-y-3 text-sm">
               <p>
                 <span className="label">Emblème</span>

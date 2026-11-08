@@ -2,7 +2,7 @@
 
 Assistant personnel d'analyse et d'optimisation pour **Mobile Legends: Bang Bang** : méta, statistiques des héros, tier lists, simulateur de draft multicritère, builds adaptatifs, suivi de progression et coach personnel.
 
-> Projet de fan, non affilié à Moonton. **Aucune statistique n'est inventée** : sans import de données réelles, l'application affiche « Donnée indisponible ». Les recommandations sont des estimations stratégiques, pas des certitudes.
+> Projet de fan, non affilié à Moonton. **Aucune statistique n'est inventée** : chaque chiffre vient d'une source tracée (mlbb.io, import manuel…) ; sinon l'application affiche « Donnée indisponible ». Les recommandations sont des estimations stratégiques, pas des certitudes.
 
 ---
 
@@ -13,6 +13,7 @@ Prérequis : **Node.js ≥ 20** (testé avec Node 22) et npm.
 ```bash
 npm install          # dépendances
 npm run db:init      # crée data/mlbb-companion.db et charge le référentiel
+npm run data:sync    # première synchronisation mlbb.io (≈ 3 min) — sinon automatique au premier affichage
 npm run dev          # http://localhost:3000
 ```
 
@@ -32,6 +33,8 @@ npm run build && npm start
 | `npm run data:import` | Importe `data/imports/*.json` |
 | `npm run data:import -- fichier.json` | Importe un paquet de données |
 | `npm run data:import -- stats.csv --source-id=x --captured-at=2026-11-08T10:00:00Z` | Importe un CSV de statistiques |
+| `npm run data:sync` | Synchronise mlbb.io au premier plan (≈ 3 min) |
+| `npm run start:lan` | Serveur de production accessible depuis l'iPhone (même Wi-Fi) |
 | `npm run data:status` | État des connecteurs, des statistiques et des synchronisations |
 
 Configuration : copier `.env.example` en `.env.local` (chemin de la base, seuil d'obsolescence, connecteurs). **Aucune variable n'est exposée au navigateur.**
@@ -75,16 +78,38 @@ Chaque enregistrement importé conserve **source, date de capture, date des donn
 
 Détails : [`docs/SOURCES.md`](docs/SOURCES.md) (analyse du dossier ZIP et vérification d'accès), [`docs/DATA-FORMAT.md`](docs/DATA-FORMAT.md) (format d'import), [`docs/METHODOLOGIE.md`](docs/METHODOLOGIE.md) (calculs).
 
-### ⚠️ Décision en attente : quelle source statistique ?
+### Sources branchées (8 nov. 2026)
 
-Vérification du 8 novembre 2026 :
+| Source | Mode | Ce qu'elle apporte |
+| --- | --- | --- |
+| **mlbb.io** | **Synchronisation automatique** (bouton sur Sources, `npm run data:sync`, ou toutes les `AUTO_SYNC_HOURS` heures — 12 par défaut) | WR/PR/BR sur 6 rangs (Tous → Mythical Glory+) × 5 périodes (1 à 30 j), compétences, stats de base, counters et synergies (indice relatif), consensus emblème/talents/sort avec taille d'échantillon, objets (prix, stats, passifs), portraits |
+| **MLBBHub** | **Import manuel par copier-coller** (Sources → « Import manuel par collage ») | Ses conditions d'utilisation interdisent toujours l'extraction automatisée sans autorisation écrite (revérifié le 8 nov. 2026) : tu copies le tableau dans Safari, l'appli reconnaît héros et pourcentages, tu valides l'aperçu |
+| Tout autre site / fichier | Import JSON ou CSV | Format `mlbb-companion/v1` |
 
-- **MLBBHub** (meilleure source selon le dossier) : ses CGU interdisent explicitement l'extraction automatisée sans autorisation écrite, et `robots.txt` bloque `/api/`. → **Aucun connecteur.** Consultation manuelle via les liens, ou demande d'autorisation écrite à l'éditeur.
-- **mlbb.io** : pages accessibles, `robots.txt` autorise tout, aucune CGU trouvée ; le site dit tirer ses données du site officiel. Ses données (stats par rang × période, compétences, counters, consensus d'emblèmes avec échantillon) couvriraient presque tous les besoins. **Le connecteur n'est pas activé** : l'API n'est pas documentée publiquement, et l'utiliser est une décision qui t'appartient (idéalement après avoir contacté l'éditeur).
-- **Moonton (officiel)** : pas d'API publique documentée ; connecteur préparé (`MOONTON_API_BASE`).
-- **Liquipedia** (e-sport, CC BY-SA) : API utilisable avec User-Agent identifiable ; extraction des tableaux de stats de tournoi à implémenter.
+Le connecteur mlbb.io lit des pages publiques (robots.txt : `Allow: /`), une requête à la fois, espacées de 1,2 s, avec un User-Agent identifiable. mlbb.io n'a pas publié de conditions d'utilisation ; si l'éditeur le demande, désactive l'auto-synchro avec `AUTO_SYNC_HOURS=0`.
 
-En attendant, tu peux importer n'importe quelle source (fichier JSON/CSV) depuis **Sources & données**. La provenance que tu déclares est affichée partout.
+Dans un environnement à proxy (ex. conteneur cloud), lance Node avec `NODE_USE_ENV_PROXY=1` pour que `fetch` passe par `HTTPS_PROXY`.
+
+---
+
+## Utilisation sur iPhone
+
+L'interface est pensée d'abord pour l'iPhone : thème sombre « Liquid Glass », barre d'onglets flottante (Stats, Méta, Draft, Moi, Plus), zones de sécurité (encoche, barre d'accueil), champs en 16 px (pas de zoom automatique), cibles tactiles de 44 px, listes en cartes à la place des grands tableaux.
+
+L'application a besoin d'un serveur (Next.js + base SQLite). Deux options :
+
+1. **Sur ton ordinateur, même Wi-Fi que l'iPhone** :
+   ```bash
+   npm run build && npm run start:lan     # écoute sur toutes les interfaces, port 3000
+   ```
+   Sur l'iPhone, ouvre `http://<adresse-IP-de-l'ordinateur>:3000` dans Safari.
+2. **Hébergée en ligne** (accessible partout) : déploie l'image Docker fournie sur un service avec **disque persistant** monté sur `/data` (VPS, Fly.io, Railway, Render…) :
+   ```bash
+   docker build -t mlbb-companion . && docker run -p 3000:3000 -v mlbb-data:/data mlbb-companion
+   ```
+   ⚠️ Pas d'authentification intégrée : si tu l'exposes sur Internet, protège-la (accès par mot de passe du reverse proxy, Cloudflare Access, Tailscale…).
+
+Puis, dans Safari : **Partager → Sur l'écran d'accueil**. L'appli s'ouvre alors en plein écran, comme une application native (icône, barre d'état translucide).
 
 ---
 
@@ -119,7 +144,9 @@ Le moteur de draft est déterministe et explicable. Une couche IA pourra reformu
 ## Limites connues
 
 - Aucune source vérifiée ne fournit **Mythical Immortal**, la séparation **par serveur/région**, **par lane** ou **solo / 5-stack** : ces filtres affichent « indisponible ».
-- Le référentiel éditorial couvre 132 héros (3 récents à profil incomplet : Obsidia, Sora, Marcel) ; le dernier décompte des sources indique 133 héros — le manquant sera ajouté par le premier import qui le contient.
-- Talents d'emblèmes : système 2023–2025, à revérifier (refonte possible en 2026).
+- Le référentiel éditorial couvre 132 héros ; la synchronisation mlbb.io ajoute le 133e (Hirara) et complète les rôles/lanes des héros récents (Obsidia, Sora, Marcel, Hirara) avec un profil de draft **dérivé des notes de la source** (faible confiance).
+- Talents d'emblèmes : remplacés par les talents actuels dès la première synchronisation mlbb.io (sinon liste 2023–2025 à revérifier).
+- « Mythical Glory+ » chez mlbb.io inclut Mythical Immortal : il n'existe toujours pas de statistique Immortal séparée.
+- Les counters/synergies de mlbb.io sont un **indice relatif** (pas des points de win rate) ; le moteur les normalise et le précise dans ses explications.
 - **OCR** (expérimental) : `tesseract.js` télécharge ses modèles depuis un CDN au premier usage (connexion Internet requise) ; le formulaire est seulement pré-rempli, à vérifier avant enregistrement.
 - Portraits : affichés uniquement si une source importée fournit l'URL (sinon avatar à initiales).

@@ -11,7 +11,7 @@ import { importPackage, type ImportResult } from "./importer";
  *  - file-folder : opérationnel (data/imports/*.json)
  *  - moonton     : préparé, en attente d'un accès officiel (aucune API publique documentée)
  *  - liquipedia  : préparé (API MediaWiki CC BY-SA), parsing des pages de stats à implémenter
- *  - mlbbio      : désactivé — décision d'utilisation en attente (pas de CGU trouvée)
+ *  - mlbbio      : opérationnel (activé à la demande de l'utilisateur)
  *  - mlbbhub     : interdit — CGU §4 (« automated scraping … strictly prohibited »)
  */
 export type ConnectorStatus = "ready" | "needs-config" | "not-implemented" | "pending-decision" | "forbidden";
@@ -99,16 +99,21 @@ export const CONNECTORS: Connector[] = [
     explanation:
       "Licence compatible (CC BY-SA) et API MediaWiki disponible. L'extraction des tableaux de statistiques de tournoi reste à implémenter ; en attendant, importe un fichier proStats.",
   }),
-  unavailable({
+  {
     id: "mlbbio",
     name: "mlbb.io",
     sourceId: "mlbbio",
-    status: "pending-decision",
-    provides: ["Stats par rang × période", "Compétences", "Counters/synergies", "Consensus emblème/sort"],
-    requirements: ["Ta décision explicite d'utiliser cette source", "Idéalement l'accord de l'éditeur du site"],
+    status: "ready",
+    provides: ["Stats WR/PR/BR : 6 rangs × 5 périodes", "Compétences et stats de base", "Counters et synergies", "Consensus emblème/talents/sort (avec échantillon)", "Objets : prix, stats, passifs"],
+    requirements: ["Accès Internet vers mlbb.io", "≈ 3 minutes (une page par héros, requêtes espacées)"],
     explanation:
-      "Désactivé : le site n'a pas d'API documentée et aucune condition d'utilisation n'a été trouvée. Décision à prendre (voir README, section « Décision en attente »).",
-  }),
+      "Activé à ta demande. Lit les pages publiques des héros et les listes d'objets/héros de mlbb.io (robots.txt : Allow /). Synchronisation en arrière-plan, automatique toutes les AUTO_SYNC_HOURS heures (12 par défaut).",
+    async run() {
+      const { startMlbbioSync } = await import("./jobs");
+      const st = startMlbbioSync();
+      return [{ ok: true, sourceId: "mlbbio", counts: {}, warnings: [st.running ? "Synchronisation lancée en arrière-plan." : "Déjà en cours."], errors: [] }];
+    },
+  },
   unavailable({
     id: "mlbbhub",
     name: "MLBBHub",

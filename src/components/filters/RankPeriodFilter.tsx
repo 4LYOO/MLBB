@@ -41,8 +41,8 @@ export function RankPeriodFilter({ available, page }: { available: { rank: strin
   };
 
   return (
-    <div className="flex flex-wrap items-end gap-2">
-      <label className="min-w-40">
+    <div className="grid grid-cols-[1fr_1fr_auto] items-end gap-2 sm:flex sm:flex-wrap">
+      <label className="sm:min-w-40">
         <span className="label">Rang</span>
         <select className="input" value={rank} onChange={(e) => set("rank", e.target.value)}>
           {RANKS.map((r) => (
@@ -53,7 +53,7 @@ export function RankPeriodFilter({ available, page }: { available: { rank: strin
           ))}
         </select>
       </label>
-      <label className="min-w-32">
+      <label className="sm:min-w-32">
         <span className="label">Période</span>
         <select className="input" value={period} onChange={(e) => set("period", e.target.value)}>
           {PERIODS.map((p) => (
@@ -65,10 +65,10 @@ export function RankPeriodFilter({ available, page }: { available: { rank: strin
         </select>
       </label>
       <button className="btn-ghost" onClick={save} title="Sauvegarder ce filtre">
-        <Bookmark size={16} /> Sauver
+        <Bookmark size={16} /> <span className="hidden sm:inline">Sauver</span>
       </button>
       {saved.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
+        <div className="col-span-3 flex flex-wrap gap-1.5">
           {saved.map((s) => (
             <span key={s.id} className="chip">
               <button onClick={() => router.push(`${path}?${new URLSearchParams(s.params).toString()}`)} className="hover:text-ink">

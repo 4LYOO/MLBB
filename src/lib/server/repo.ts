@@ -87,6 +87,13 @@ export interface HeroDetails {
   baseStats: Record<string, number> | null;
   specialities: string[] | null;
   lore: string | null;
+  extras: {
+    emblemConsensus?: { main?: { name: string; count: number; sampleSize: number; share?: number }; talents?: { section: number; name: string; count: number; sampleSize: number }[]; sampleSize?: number; smallSample?: boolean } | null;
+    battleSpellConsensus?: { primary?: { name: string; count: number; share: number }; alternative?: { name: string; count: number; share: number }; sampleSize?: number; smallSample?: boolean } | null;
+    ratings?: Record<string, number>;
+    sourceTier?: string | null;
+    statisticsUpdatedAt?: string | null;
+  } | null;
   sourceId: string;
   capturedAt: string;
 }
@@ -98,6 +105,7 @@ export function getHeroDetails(slug: string): HeroDetails | null {
     baseStats: pj(r.base_stats, null),
     specialities: pj(r.specialities, null),
     lore: r.lore,
+    extras: pj(r.extras, null),
     sourceId: r.source_id,
     capturedAt: r.captured_at,
   };
@@ -521,4 +529,9 @@ export function addRecent(kind: string, ref: string, label: string) {
 }
 export function getRecent(limit = 12) {
   return db().prepare("SELECT kind, ref, label, at FROM recent ORDER BY id DESC LIMIT ?").all(limit) as { kind: string; ref: string; label: string; at: string }[];
+}
+
+// ---------------------------------------------------------------- Catalogue importé (talents, emblèmes…)
+export function getCatalog(kind: string) {
+  return (getDb().prepare("SELECT * FROM catalog WHERE kind = ? ORDER BY slug").all(kind) as any[]).map((r) => ({ slug: r.slug as string, data: pj<Record<string, any>>(r.data, {}), sourceId: r.source_id as string, capturedAt: r.captured_at as string }));
 }

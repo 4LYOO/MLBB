@@ -5,7 +5,7 @@ import { Card, HeroAvatar, Notice, PageHeader, Provenance, RoleBadge } from "@/c
 import { LinkTabs } from "@/components/filters/LinkTabs";
 import { ItemRow } from "@/components/hero/ItemRow";
 import { BuildLab } from "@/components/builds/BuildLab";
-import { getBuilds, getHero, getHeroes, getItems, getSourceMap } from "@/lib/server/repo";
+import { getBuilds, getCatalog, getHero, getHeroes, getItems, getSourceMap } from "@/lib/server/repo";
 import { ARCHETYPE_FR, EMBLEM_BY_ARCHETYPE, archetypeOf, editorialVariants, type Archetype } from "@/lib/engine/builds";
 import { EDITORIAL_EMBLEMS, EDITORIAL_SPELLS, EDITORIAL_TALENTS, ITEM_CATEGORY_FR, ITEM_TAGS, type ItemCategory, type ItemTag } from "@/data/reference/items";
 import { DAMAGE_FR, LANE_FR } from "@/lib/domain";
@@ -30,6 +30,8 @@ export default async function BuildsPage({ searchParams }: { searchParams: Promi
   const cat = sp.cat as ItemCategory | undefined;
   const tag = sp.tagf as ItemTag | undefined;
   const editorialItems = items.every((i) => i.sourceId === "editorial");
+  const talents = getCatalog("talent");
+  const emblemCat = getCatalog("emblem");
 
   return (
     <>
@@ -153,8 +155,18 @@ export default async function BuildsPage({ searchParams }: { searchParams: Promi
 
       {tab === "emblems" && (
         <div className="grid gap-4 lg:grid-cols-2">
-          <Card title="Emblèmes principaux" subtitle="Les 7 emblèmes du système actuel">
-            <ul className="space-y-2 text-sm">
+          <Card title="Emblèmes principaux" subtitle={emblemCat.length ? "Attributs importés de la source" : "Les 7 emblèmes du système actuel"}>
+            {emblemCat.length > 0 && (
+              <ul className="mb-3 space-y-2 text-sm">
+                {emblemCat.map((e) => (
+                  <li key={e.slug} className="glass-inset rounded-2xl p-2.5">
+                    <b>{e.data.name}</b>
+                    <span className="block text-xs text-ink-2">{(e.data.attributes ?? []).join(" · ")}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <ul className={emblemCat.length ? "hidden" : "space-y-2 text-sm"}>
               {EDITORIAL_EMBLEMS.map((e) => (
                 <li key={e.slug} className="flex justify-between rounded-lg border border-line p-2">
                   <span className="font-medium">
@@ -165,20 +177,40 @@ export default async function BuildsPage({ searchParams }: { searchParams: Promi
               ))}
             </ul>
           </Card>
-          <Card title="Talents" subtitle="Système connu 2023–2025 : à revérifier contre le patch actuel (refonte possible en 2026)">
-            {[1, 2, 3].map((tier) => (
-              <div key={tier} className="mb-3">
-                <p className="label">Palier {tier}</p>
-                <ul className="grid gap-1 text-sm sm:grid-cols-2">
-                  {EDITORIAL_TALENTS.filter((t) => t.tier === tier).map((t) => (
-                    <li key={t.name}>
-                      <b>{t.name}</b> <span className="text-ink-2">— {t.use}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </Card>
+          {talents.length ? (
+            <Card title="Talents" subtitle="Talents actuels importés de la source">
+              {[1, 2, 3].map((tier) => (
+                <div key={tier} className="mb-3">
+                  <p className="label">Palier {tier}</p>
+                  <ul className="grid gap-1 text-sm sm:grid-cols-2">
+                    {talents
+                      .filter((t) => t.data.tier === tier)
+                      .map((t) => (
+                        <li key={t.slug}>
+                          <b>{t.data.name}</b> {t.data.benefits && <span className="text-ink-2">— {t.data.benefits}</span>}
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              ))}
+              <Provenance source={sources[talents[0].sourceId]} capturedAt={talents[0].capturedAt} />
+            </Card>
+          ) : (
+            <Card title="Talents" subtitle="Système connu 2023–2025 : à revérifier contre le patch actuel (refonte possible en 2026)">
+              {[1, 2, 3].map((tier) => (
+                <div key={tier} className="mb-3">
+                  <p className="label">Palier {tier}</p>
+                  <ul className="grid gap-1 text-sm sm:grid-cols-2">
+                    {EDITORIAL_TALENTS.filter((t) => t.tier === tier).map((t) => (
+                      <li key={t.name}>
+                        <b>{t.name}</b> <span className="text-ink-2">— {t.use}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </Card>
+          )}
           <Card title="Configurations par archétype" className="lg:col-span-2" subtitle="Recommandations éditoriales + adaptations selon l'adversaire">
             <div className="overflow-x-auto">
               <table className="table-base">

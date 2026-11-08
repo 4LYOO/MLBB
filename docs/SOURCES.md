@@ -15,8 +15,8 @@ Le dossier ne contient **aucune donnée brute exploitable directement** (pas de 
 
 | Source | Usage | Note dossier | Accès vérifié | Conditions | Intégration |
 | --- | --- | --- | --- | --- | --- |
-| MLBBHub | Stats ranked, tier list, counters, matchups, builds, draft, MPL | 9 | ✅ HTTP 200 | **CGU §4 : extraction automatisée interdite sans autorisation écrite** ; `robots.txt` : `Disallow: /api/` | ❌ Aucune. Liens uniquement. |
-| mlbb.io | Stats par rang × période, builds avec échantillon, compétences, counters | 7–8 | ✅ HTTP 200 | `robots.txt` : `Allow: /` ; aucune CGU trouvée ; « Hero data sourced from the official MLBB website » | ⏸ Connecteur non activé (décision utilisateur) |
+| MLBBHub | Stats ranked, tier list, counters, matchups, builds, draft, MPL | 9 | ✅ HTTP 200 | **CGU §4 : extraction automatisée interdite sans autorisation écrite** ; `robots.txt` : `Disallow: /api/` | ❌ Pas d'extraction automatique (revérifié le 8 nov. 2026). ✅ Import manuel par copier-coller. |
+| mlbb.io | Stats par rang × période, builds avec échantillon, compétences, counters | 7–8 | ✅ HTTP 200 | `robots.txt` : `Allow: /` ; aucune CGU trouvée ; « Hero data sourced from the official MLBB website » | ✅ Connecteur actif (activé à la demande de l'utilisateur, 8 nov. 2026) |
 | mobilelegends.com | Source primaire officielle | 7 | ↪ redirige vers www.mobilelegends.com (non testé) | Aucune API publique documentée | 🔧 Connecteur préparé (`MOONTON_API_BASE`) |
 | Liquipedia | E-sport : picks, bans, WR, présence | 9 | ✅ (API : User-Agent + gzip requis, sinon 406) | CC BY-SA, règles d'API (débit) | 🔧 Préparé (`LIQUIPEDIA_USER_AGENT`), parsing à faire |
 | TitoSenpai | Builds avec taux d'utilisation et WR | 7 | ✅ HTTP 200 | `robots.txt` permissif ; CGU non vérifiées | — |
@@ -45,6 +45,6 @@ Le dossier ne contient **aucune donnée brute exploitable directement** (pas de 
 
 | Besoin | Ce qu'il faut |
 | --- | --- |
-| Stats ranked automatiques | Ta décision sur mlbb.io (idéalement avec l'accord de l'éditeur), ou une autorisation écrite de MLBBHub, ou un accès officiel Moonton |
+| Stats ranked automatiques | ✅ mlbb.io branché. Pour MLBBHub : autorisation écrite de l'éditeur (contact via mlbbhub.com/contact) |
 | Stats e-sport | Implémenter l'extraction Liquipedia (User-Agent avec contact, 1 requête / 2 s, attribution CC BY-SA) |
 | Patch notes automatiques | Accès à une source structurée (aucune API officielle trouvée) ; en attendant, saisie ou import |

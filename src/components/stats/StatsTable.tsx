@@ -94,9 +94,63 @@ export function StatsTable({ rows, hasStats }: { rows: StatRow[]; hasStats: bool
       <p className="mb-2 text-xs text-muted">
         {list.length} héros affichés · les rôles et lanes proviennent du référentiel ou de la dernière source importée. Les statistiques ne sont pas séparées par lane dans les sources identifiées.
       </p>
-      <div className="max-h-[70vh] overflow-auto rounded-xl border border-line">
+      {/* iPhone : liste de cartes */}
+      <div className="mb-2 flex items-center gap-2 md:hidden">
+        <span className="label mb-0">Trier par</span>
+        <select
+          className="input min-h-9 flex-1 py-1"
+          value={`${sort.key}:${sort.dir}`}
+          onChange={(e) => {
+            const [key, dir] = e.target.value.split(":");
+            setSort({ key: key as SortKey, dir: Number(dir) as 1 | -1 });
+          }}
+        >
+          <option value="winRate:-1">Win rate ↓</option>
+          <option value="pickRate:-1">Pick rate ↓</option>
+          <option value="banRate:-1">Ban rate ↓</option>
+          <option value="trend:-1">Tendance ↓</option>
+          <option value="tier:-1">Tier ↓</option>
+          <option value="name:1">Nom A→Z</option>
+        </select>
+      </div>
+      <ul className="space-y-2 md:hidden">
+        {list.slice(0, 160).map((r) => (
+          <li key={r.hero.slug}>
+            <Link href={`/heros/${r.hero.slug}`} className="glass flex items-center gap-3 rounded-2xl p-2.5 active:scale-[0.99]">
+              <HeroAvatar hero={r.hero} size={44} />
+              <div className="min-w-0 flex-1">
+                <p className="flex items-center gap-1.5 truncate font-semibold text-ink">
+                  {r.hero.name} {r.tier && <TierBadge tier={r.tier} size="sm" />}
+                </p>
+                <p className="truncate text-[11px] text-muted">
+                  {r.hero.roles.map((ro) => ROLE_FR[ro]).join(" / ")} · {r.hero.lanes.map((l) => LANE_FR[l]).join(", ")}
+                </p>
+              </div>
+              {r.stat ? (
+                <div className="grid grid-cols-3 gap-2 text-right text-[11px] tabular-nums">
+                  <span>
+                    <span className="block text-muted">WR</span>
+                    <span className={clsx("font-semibold", r.stat.winRate >= 52 ? "text-good" : r.stat.winRate < 48 ? "text-bad" : "text-ink")}>{r.stat.winRate.toFixed(1)}</span>
+                  </span>
+                  <span>
+                    <span className="block text-muted">Pick</span>
+                    <span className="text-ink">{r.stat.pickRate.toFixed(2)}</span>
+                  </span>
+                  <span>
+                    <span className="block text-muted">Ban</span>
+                    <span className="text-ink">{r.stat.banRate.toFixed(1)}</span>
+                  </span>
+                </div>
+              ) : (
+                <span className="text-[11px] text-muted">—</span>
+              )}
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <div className="hidden max-h-[70vh] overflow-auto rounded-2xl border border-line md:block">
         <table className="table-base min-w-[760px]">
-          <thead className="sticky top-0 z-10 bg-surface-2">
+          <thead className="sticky top-0 z-10 bg-[#141831]/95 backdrop-blur">
             <tr>
               <Th k="name">Héros</Th>
               <th>Rôles</th>

@@ -36,9 +36,16 @@ export const DataPackageSchema = z.object({
           .optional(),
         baseStats: z.record(z.string(), z.number()).optional(),
         specialities: z.array(z.string()).optional(),
+        damage: z.enum(["P", "M", "H"]).optional(),
+        range: z.enum(["M", "R"]).optional(),
+        /** Notes 0–10 publiées par la source (durabilité, offense, contrôle, difficulté). */
+        ratings: z.object({ durability: z.number(), offense: z.number(), control: z.number(), difficulty: z.number() }).partial().optional(),
+        /** Recommandations agrégées par la source (emblème, talents, sort) avec taille d'échantillon. */
+        extras: z.record(z.string(), z.unknown()).optional(),
       }),
     )
     .optional(),
+  catalog: z.array(z.object({ kind: z.string(), slug, data: z.record(z.string(), z.unknown()) })).optional(),
   heroStats: z
     .array(
       z.object({
@@ -172,14 +179,41 @@ export function importPackage(input: unknown, connector = "file-import"): Import
         }
         if (h.portraitUrl) db.prepare("UPDATE heroes SET portrait_url = ? WHERE slug = ?").run(h.portraitUrl, h.slug);
       }
-      if (h.skills || h.baseStats || h.specialities) {
+      if (h.damage) db.prepare("UPDATE heroes SET damage = ? WHERE slug = ?").run(h.damage, h.slug);
+      if (h.range) db.prepare("UPDATE heroes SET range = ? WHERE slug = ?").run(h.range, h.slug);
+      if (h.ratings?.difficulty != null) {
+        // Difficulté de la source (0–10) → 1–3, seulement si le référentiel n'en fournit pas.
+        db.prepare("UPDATE heroes SET difficulty = COALESCE(difficulty, ?) WHERE slug = ?").run(h.ratings.difficulty <= 3 ? 1 : h.ratings.difficulty <= 6 ? 2 : 3, h.slug);
+      }
+      if (h.skills || h.baseStats || h.specialities || h.extras || h.ratings) {
+        const extras = h.extras || h.ratings ? j({ ...(h.extras ?? {}), ...(h.ratings ? { ratings: h.ratings } : {}) }) : null;
         db.prepare(
-          `INSERT INTO hero_details (slug, skills, base_stats, specialities, lore, source_id, captured_at) VALUES (?, ?, ?, ?, NULL, ?, ?)
+          `INSERT INTO hero_details (slug, skills, base_stats, specialities, lore, source_id, captured_at, extras) VALUES (?, ?, ?, ?, NULL, ?, ?, ?)
            ON CONFLICT(slug) DO UPDATE SET skills=COALESCE(excluded.skills, skills), base_stats=COALESCE(excluded.base_stats, base_stats),
-             specialities=COALESCE(excluded.specialities, specialities), source_id=excluded.source_id, captured_at=excluded.captured_at`,
-        ).run(h.slug, h.skills ? j(h.skills) : null, h.baseStats ? j(h.baseStats) : null, h.specialities ? j(h.specialities) : null, src, cap);
+             specialities=COALESCE(excluded.specialities, specialities), extras=COALESCE(excluded.extras, extras),
+             source_id=excluded.source_id, captured_at=excluded.captured_at`,
+        ).run(h.slug, h.skills ? j(h.skills) : null, h.baseStats ? j(h.baseStats) : null, h.specialities ? j(h.specialities) : null, src, cap, extras);
+      }
+      // Héros sans profil de draft (ex. sorti après le référentiel) : profil DÉRIVÉ des notes de la source.
+      const hasProfile = db.prepare("SELECT 1 FROM hero_profiles WHERE slug = ?").get(h.slug);
+      if (!hasProfile && h.ratings && h.roles?.length) {
+        const prof = deriveProfile(h.ratings, h.specialities ?? [], h.roles);
+        db.prepare(
+          `INSERT INTO hero_profiles (slug, cc, mobility, durability, engage, peel, burst, sustain, early, mid, late, tags, source_id, updated_at)
+           VALUES (@slug, @cc, @mobility, @durability, @engage, @peel, @burst, @sustain, 2, 2, 2, @tags, @src, @cap)`,
+        ).run({ slug: h.slug, ...prof, tags: j(prof.tags), src, cap });
+        db.prepare("UPDATE heroes SET incomplete = 0, confidence = 'low' WHERE slug = ?").run(h.slug);
+        warnings.push(`Profil de draft dérivé des notes de la source pour ${h.name} (faible confiance).`);
       }
       counts.heroes = (counts.heroes ?? 0) + 1;
+    }
+
+    for (const c of p.catalog ?? []) {
+      db.prepare(
+        `INSERT INTO catalog (kind, slug, data, source_id, captured_at) VALUES (?, ?, ?, ?, ?)
+         ON CONFLICT(kind, slug) DO UPDATE SET data=excluded.data, source_id=excluded.source_id, captured_at=excluded.captured_at`,
+      ).run(c.kind, c.slug, j(c.data), src, cap);
+      counts.catalog = (counts.catalog ?? 0) + 1;
     }
 
     const insStat = db.prepare(
@@ -274,6 +308,41 @@ export function importPackage(input: unknown, connector = "file-import"): Import
     warnings.slice(0, 20).join(" | ") || null,
   );
   return { ok: true, sourceId: src, counts, warnings, errors: [] };
+}
+
+const SPECIALITY_TAGS: Record<string, string> = {
+  "crowd control": "aoecc",
+  control: "aoecc",
+  burst: "burst",
+  chase: "dash",
+  charge: "dash",
+  regen: "selfheal",
+  guard: "protect",
+  support: "protect",
+  initiator: "engage",
+  poke: "poke",
+  push: "splitpush",
+  finisher: "execute",
+  reap: "execute",
+};
+
+/** Profil 0–3 dérivé des notes 0–10 d'une source + spécialités (pour héros sans profil éditorial). */
+export function deriveProfile(r: { durability?: number; offense?: number; control?: number; difficulty?: number }, specialities: string[], roles: string[]) {
+  const s3 = (v: number | undefined) => (v == null ? 1 : Math.max(0, Math.min(3, Math.round((v / 10) * 3))));
+  const tags = [...new Set(specialities.map((x) => SPECIALITY_TAGS[x.toLowerCase()]).filter(Boolean))];
+  const durability = s3(r.durability);
+  const cc = s3(r.control);
+  const burst = s3(r.offense);
+  return {
+    cc,
+    mobility: tags.includes("dash") ? 3 : roles.includes("Tank") ? 1 : 2,
+    durability,
+    engage: tags.includes("engage") || (roles.includes("Tank") && cc >= 2) ? 3 : cc >= 2 ? 2 : 1,
+    peel: tags.includes("protect") || roles.includes("Support") ? 2 : 0,
+    burst,
+    sustain: tags.includes("selfheal") ? 3 : 1,
+    tags,
+  };
 }
 
 /** Import CSV simple de statistiques : hero,rank,period,winRate,pickRate,banRate */

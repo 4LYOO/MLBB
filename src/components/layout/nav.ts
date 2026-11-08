@@ -14,4 +14,4 @@ export const NAV = [
   { href: "/sources", label: "Sources & données", icon: Database, short: "Sources" },
 ] as const;
 
-export const MOBILE_NAV = ["/", "/meta", "/draft", "/heros", "/profil"];
+export const MOBILE_NAV = ["/", "/meta", "/draft", "/profil"];

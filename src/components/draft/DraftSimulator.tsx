@@ -213,16 +213,16 @@ export function DraftSimulator(p: DraftProps) {
         onClick={() => !guided && setTarget(t)}
         onKeyDown={(e) => e.key === "Enter" && !guided && setTarget(t)}
         className={clsx(
-          "group relative flex items-center gap-2 rounded-xl border p-1.5 transition",
-          big ? "min-h-14" : "min-h-10",
-          isActive(t) ? "border-gold bg-gold/10 ring-2 ring-gold/40" : "border-line bg-surface-2/70",
+          "group relative flex items-center gap-2 rounded-2xl border p-1.5 transition active:scale-[0.98]",
+          big ? "min-h-[52px]" : "aspect-square min-h-9 justify-center sm:aspect-auto sm:min-h-10",
+          isActive(t) ? "border-gold/80 bg-gold/15 shadow-[0_0_0_3px_rgba(245,197,66,0.18),inset_0_1px_0_rgba(255,255,255,0.15)]" : "border-white/10 bg-black/20",
           !guided && "cursor-pointer hover:border-primary/60",
         )}
         aria-label={`${t.team === "ally" ? "Allié" : "Adversaire"} ${t.action === "pick" ? "pick" : "ban"} ${t.slot + 1}${h ? ` : ${h.name}` : " (vide)"}`}
       >
         {h ? (
           <>
-            <HeroAvatar hero={h} size={big ? 40 : 28} className={t.action === "ban" ? "grayscale" : ""} />
+            <HeroAvatar hero={h} size={big ? 38 : 26} className={t.action === "ban" ? "grayscale" : ""} />
             {big && (
               <span className="min-w-0 leading-tight">
                 <span className="block truncate text-sm font-medium">{h.name}</span>
@@ -231,7 +231,7 @@ export function DraftSimulator(p: DraftProps) {
             )}
             {t.action === "ban" && <Ban size={12} className="absolute left-1 top-1 text-bad" />}
             <button
-              className="absolute -right-1.5 -top-1.5 hidden rounded-full bg-surface-3 p-0.5 text-muted hover:text-bad group-hover:block"
+              className="absolute -right-1.5 -top-1.5 rounded-full bg-[#2a3158] p-1 text-ink-2 ring-1 ring-white/20 hover:text-bad sm:hidden sm:group-hover:block"
               onClick={(e) => {
                 e.stopPropagation();
                 removeAt(t);
@@ -242,7 +242,7 @@ export function DraftSimulator(p: DraftProps) {
             </button>
           </>
         ) : (
-          <span className="px-2 text-[11px] text-muted">{t.action === "ban" ? "Ban" : `Pick ${t.slot + 1}`}</span>
+          <span className="px-1 text-[11px] text-muted">{t.action === "ban" ? <Ban size={12} /> : `Pick ${t.slot + 1}`}</span>
         )}
       </div>
     );
@@ -253,9 +253,9 @@ export function DraftSimulator(p: DraftProps) {
     const tb = team === "ally" ? state.allyBans : state.enemyBans;
     const blue = (team === "ally") === (side === "blue");
     return (
-      <div className={clsx("rounded-2xl border p-3", blue ? "border-s1/40 bg-s1/5" : "border-bad/40 bg-bad/5")}>
+      <div className={clsx("glass rounded-3xl p-2.5 sm:p-3", blue ? "!border-s1/40 bg-s1/[0.07]" : "!border-bad/40 bg-bad/[0.07]", team === "ally" ? "order-1" : "order-2 xl:order-3")}>
         <p className={clsx("h-display mb-2 text-sm", blue ? "text-s1" : "text-bad")}>
-          {team === "ally" ? "Mon équipe" : "Adversaires"} · côté {blue ? "bleu" : "rouge"}
+          {team === "ally" ? "Mon équipe" : "Adversaires"} <span className="hidden text-xs font-normal opacity-80 sm:inline">· côté {blue ? "bleu" : "rouge"}</span>
         </p>
         <div className="space-y-1.5">
           {picks.map((s, i) => (
@@ -283,8 +283,18 @@ export function DraftSimulator(p: DraftProps) {
   return (
     <div className="space-y-4">
       {/* Barre d'outils */}
-      <div className="card card-pad flex flex-wrap items-end gap-3">
-        <label className="min-w-52">
+      <details className="card card-pad group/tb" open={false}>
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-2 [&::-webkit-details-marker]:hidden">
+          <span className="min-w-0">
+            <span className="block text-sm font-semibold text-ink">{mode.label}</span>
+            <span className="block truncate text-xs text-muted">
+              Côté {side === "blue" ? "bleu" : "rouge"} · stats {RANK_FR[rank]} · {training ? "entraînement" : "manuel"}
+            </span>
+          </span>
+          <span className="chip shrink-0">Réglages</span>
+        </summary>
+      <div className="mt-3 grid grid-cols-2 items-end gap-2 sm:flex sm:flex-wrap sm:gap-3">
+        <label className="col-span-2 sm:min-w-52">
           <span className="label">Mode de draft</span>
           <select className="input" value={modeId} onChange={(e) => changeMode(e.target.value)}>
             {DRAFT_MODES.map((m) => (
@@ -301,7 +311,7 @@ export function DraftSimulator(p: DraftProps) {
             <option value="red">Rouge</option>
           </select>
         </label>
-        <label className="min-w-40">
+        <label className="sm:min-w-40">
           <span className="label">Stats du rang</span>
           <select className="input" value={rank} onChange={(e) => setRank(e.target.value as Rank)}>
             {RANKS.map((r) => (
@@ -320,28 +330,30 @@ export function DraftSimulator(p: DraftProps) {
             <option value={2}>Moyenne</option>
           </select>
         </label>
-        <label className="flex items-center gap-2 pb-2 text-xs text-ink-2">
-          <input type="checkbox" checked={useMastery} onChange={(e) => setUseMastery(e.target.checked)} /> Tenir compte de mes parties
+        <label className="col-span-2 flex min-h-11 items-center gap-2 text-sm text-ink-2 sm:col-span-1 sm:text-xs">
+          <input type="checkbox" className="h-5 w-5 accent-[#5b8cff]" checked={useMastery} onChange={(e) => setUseMastery(e.target.checked)} /> Tenir compte de mes parties
         </label>
-        <label className={clsx("flex items-center gap-2 pb-2 text-xs", guided ? "text-ink-2" : "text-muted")} title={guided ? "" : "Disponible dans les modes guidés"}>
-          <input type="checkbox" checked={training} disabled={!guided} onChange={(e) => setTraining(e.target.checked)} />
+        <label className={clsx("col-span-2 flex min-h-11 items-center gap-2 text-sm sm:col-span-1 sm:text-xs", guided ? "text-ink-2" : "text-muted")} title={guided ? "" : "Disponible dans les modes guidés"}>
+          <input type="checkbox" className="h-5 w-5 accent-[#5b8cff]" checked={training} disabled={!guided} onChange={(e) => setTraining(e.target.checked)} />
           <Bot size={14} /> Entraînement (l&apos;adversaire joue seul)
         </label>
-        <div className="ml-auto flex flex-wrap gap-2">
-          <button className="btn-ghost" onClick={undo} disabled={!log.length}>
-            <Undo2 size={16} /> Annuler
-          </button>
-          <button className="btn-ghost" onClick={reset} disabled={!log.length}>
-            <RotateCcw size={16} /> Réinitialiser
-          </button>
-          <button className="btn-gold" onClick={save} disabled={!log.length}>
-            <Save size={16} /> Sauvegarder
-          </button>
-        </div>
-        <p className="w-full text-xs text-muted">
-          {mode.description} {msg && <span className="ml-2 text-good">{msg}</span>}
-        </p>
+        <p className="col-span-2 w-full text-xs text-muted">{mode.description}</p>
       </div>
+      </details>
+
+      {/* Actions : toujours visibles */}
+      <div className="flex gap-2">
+        <button className="btn-ghost flex-1 sm:flex-none" onClick={undo} disabled={!log.length}>
+          <Undo2 size={16} /> <span className="hidden sm:inline">Annuler</span>
+        </button>
+        <button className="btn-ghost flex-1 sm:flex-none" onClick={reset} disabled={!log.length}>
+          <RotateCcw size={16} /> <span className="hidden sm:inline">Réinitialiser</span>
+        </button>
+        <button className="btn-gold flex-[2] sm:ml-auto sm:flex-none" onClick={save} disabled={!log.length}>
+          <Save size={16} /> Sauvegarder
+        </button>
+      </div>
+      {msg && <p className="text-sm text-good">{msg}</p>}
 
       {!stats.length && (
         <Notice tone="warn">
@@ -349,11 +361,11 @@ export function DraftSimulator(p: DraftProps) {
         </Notice>
       )}
 
-      <div className="grid gap-4 xl:grid-cols-[260px_1fr_260px]">
+      <div className="grid grid-cols-2 gap-2 sm:gap-4 xl:grid-cols-[260px_1fr_260px]">
         <TeamCol team="ally" />
-        <div className="card card-pad">
+        <div className="card card-pad order-3 col-span-2 xl:order-2 xl:col-span-1">
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-            <p className="h-display text-lg">{stepLabel || "Sélection des héros"}</p>
+            <p className={clsx("h-display text-lg", activeTarget?.team === "enemy" ? "text-bad" : "text-gold")}>{stepLabel || "Sélection des héros"}</p>
             {!guided && <p className="text-xs text-muted">Clique un emplacement pour le cibler, puis un héros.</p>}
           </div>
           <HeroPicker heroes={p.heroes} taken={taken} onPick={(s) => place(s)} disabled={!activeTarget || (training && activeTarget.team === "enemy")} favorites={new Set(p.favorites)} />
@@ -363,7 +375,7 @@ export function DraftSimulator(p: DraftProps) {
 
       {/* Onglets d'analyse */}
       <div className="card card-pad">
-        <div className="mb-4 flex flex-wrap gap-1 border-b border-line pb-2" role="tablist">
+        <div className="no-scrollbar -mx-1 mb-4 flex gap-1 overflow-x-auto border-b border-line px-1 pb-2" role="tablist">
           {(
             [
               ["picks", "Picks recommandés"],
@@ -373,7 +385,7 @@ export function DraftSimulator(p: DraftProps) {
               ["history", `Historique & comparaison (${saved.length})`],
             ] as [Tab, string][]
           ).map(([k, l]) => (
-            <button key={k} role="tab" aria-selected={tab === k} onClick={() => setTab(k)} className={clsx("rounded-lg px-3 py-1.5 text-sm", tab === k ? "bg-primary/20 text-ink" : "text-ink-2 hover:bg-surface-2")}>
+            <button key={k} role="tab" aria-selected={tab === k} onClick={() => setTab(k)} className={clsx("shrink-0 rounded-full px-3.5 py-2 text-sm whitespace-nowrap", tab === k ? "bg-white/12 text-ink shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]" : "text-ink-2 hover:bg-white/5")}>
               {l}
             </button>
           ))}

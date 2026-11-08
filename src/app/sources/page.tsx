@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import clsx from "clsx";
 import { Card, Notice, PageHeader, ReliabilityDots, fmtDate } from "@/components/ui";
 import { ImportPanel, RunConnector } from "@/components/sources/ImportPanel";
+import { SyncPanel } from "@/components/sources/SyncPanel";
+import { PasteImport } from "@/components/sources/PasteImport";
+import { getHeroes } from "@/lib/server/repo";
 import { getAvailableStatKeys, getSources, getSyncRuns, isStale, staleAfterHours } from "@/lib/server/repo";
 import { connectorInfos } from "@/lib/server/connectors";
 import { getDb } from "@/lib/server/db";
@@ -51,16 +54,25 @@ export default function SourcesPage() {
         </Notice>
       </div>
 
+      <div className="mb-4 grid gap-4 lg:grid-cols-2">
+        <Card title="Synchronisation mlbb.io">
+          <SyncPanel lastSync={sources.find((s) => s.id === "mlbbio")?.lastSyncAt ?? null} />
+        </Card>
+        <Card title="Import manuel par collage" subtitle="MLBBHub et toute source sans connecteur">
+          <PasteImport heroes={getHeroes().map((h) => ({ slug: h.slug, name: h.name }))} />
+        </Card>
+      </div>
+
       <div className="grid gap-4 lg:grid-cols-[1.3fr_1fr]">
         <Card title="Connecteurs de synchronisation">
           <ul className="space-y-3">
             {connectors.map((c) => (
-              <li key={c.id} className="rounded-xl border border-line p-3">
+              <li key={c.id} className="glass-inset rounded-2xl p-3">
                 <div className="flex flex-wrap items-center gap-2">
                   <p className="font-medium">{c.name}</p>
                   <span className={clsx("chip", STATUS[c.status].cls)}>{STATUS[c.status].label}</span>
                   <span className="ml-auto">
-                    <RunConnector id={c.id} disabled={c.status !== "ready"} />
+                    {c.id !== "mlbbio" && <RunConnector id={c.id} disabled={c.status !== "ready"} />}
                   </span>
                 </div>
                 <p className="mt-1 text-sm text-ink-2">{c.explanation}</p>

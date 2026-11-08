@@ -61,7 +61,7 @@ export const SOURCES: S[] = [
     reliability: 5,
     access: "Accessible (HTTP 200) une fois l'hôte autorisé dans l'environnement.",
     terms:
-      "CGU §4 : « Automated scraping, data mining, or extraction of content from the site without written permission is strictly prohibited ». robots.txt : Disallow /api/. → Aucun connecteur automatique. Consultation manuelle uniquement (liens), ou autorisation écrite à obtenir.",
+      "CGU §4 : « Automated scraping, data mining, or extraction of content from the site without written permission is strictly prohibited ». robots.txt : Disallow /api/. → Aucun connecteur automatique (revérifié le 8 nov. 2026 à la demande de l'utilisateur : conditions inchangées). Import manuel par copier-coller depuis la page Sources, ou autorisation écrite à obtenir.",
     notes:
       "Meilleure source ranked selon le rapport (9/10) : WR/PR/BR, tendance 7 j, filtres Epic → Mythical Glory, counters, matchups. Données annoncées issues des API officielles Moonton (GMS/MAPI). Pas de Mythical Immortal, pas de séparation par lane ni par serveur.",
   },
@@ -73,7 +73,7 @@ export const SOURCES: S[] = [
     reliability: 4,
     access: "Accessible (HTTP 200). robots.txt : Allow /.",
     terms:
-      "Aucune page de CGU trouvée (seule une politique de confidentialité). Le site indique « Hero data sourced from the official Mobile Legends Bang Bang website ». Connecteur NON activé : décision d'utilisation en attente (voir README).",
+      "Aucune page de CGU trouvée (seule une politique de confidentialité). Le site indique « Hero data sourced from the official Mobile Legends Bang Bang website ». Connecteur activé à la demande de l'utilisateur (8 nov. 2026) : pages publiques, requêtes espacées, User-Agent identifiable.",
     notes:
       "Stats par rang × période (1/3/7/15/30 j), compétences, statistiques de base, counters/synergies, consensus emblème/sort avec taille d'échantillon. Builds communautaires datées.",
   },

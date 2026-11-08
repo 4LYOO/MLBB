@@ -72,7 +72,7 @@ export default async function StatsPage({ searchParams }: { searchParams: Promis
             Aucune statistique importée pour <b>{RANK_FR[rank]}</b> · <b>{PERIOD_FR[period]}</b>. Les rôles et lanes ci-dessous viennent du référentiel éditorial ; win rate, pick rate,
             ban rate, tiers et tendances s&apos;afficheront dès qu&apos;un paquet de données sera importé depuis la page <Link className="underline" href="/sources">Sources</Link>. Aucune valeur n&apos;est
             inventée.
-            {rank === "mythical_immortal" && " Aucune source vérifiée ne publie de statistiques Mythical Immortal."}
+            {rank === "mythical_immortal" && " Aucune source ne publie Mythical Immortal séparément : chez mlbb.io, il est inclus dans « Mythical Glory+ »."}
           </Notice>
         </div>
       )}

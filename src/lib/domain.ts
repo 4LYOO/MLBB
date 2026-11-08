@@ -51,7 +51,7 @@ export const RANK_FR: Record<Rank, string> = {
   legend: "Legend",
   mythic: "Mythic",
   mythical_honor: "Mythical Honor",
-  mythical_glory: "Mythical Glory",
+  mythical_glory: "Mythical Glory+",
   mythical_immortal: "Mythical Immortal",
 };
 

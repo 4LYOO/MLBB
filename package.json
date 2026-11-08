@@ -12,7 +12,9 @@
     "db:init": "tsx scripts/db-init.ts",
     "db:reset": "tsx scripts/db-init.ts --reset",
     "data:import": "tsx scripts/import.ts",
-    "data:status": "tsx scripts/status.ts"
+    "data:status": "tsx scripts/status.ts",
+    "data:sync": "tsx scripts/sync.ts",
+    "start:lan": "next start -H 0.0.0.0 -p 3000"
   },
   "dependencies": {
     "better-sqlite3": "^13.0.3",

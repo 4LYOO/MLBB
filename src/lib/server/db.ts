@@ -8,7 +8,7 @@ import { seedReference } from "./seed";
  * capture), et quand c'est pertinent data_as_of (date des données côté source),
  * rank, period et patch.
  */
-export const SCHEMA_VERSION = 1;
+export const SCHEMA_VERSION = 2;
 
 const DDL = `
 CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);
@@ -111,6 +111,11 @@ CREATE TABLE IF NOT EXISTS saved_filters (
   id INTEGER PRIMARY KEY AUTOINCREMENT, page TEXT NOT NULL, name TEXT NOT NULL, params TEXT NOT NULL, created_at TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS catalog (
+  kind TEXT NOT NULL, slug TEXT NOT NULL, data TEXT NOT NULL, source_id TEXT NOT NULL, captured_at TEXT NOT NULL,
+  PRIMARY KEY (kind, slug)
+);
+
 CREATE TABLE IF NOT EXISTS recent (
   id INTEGER PRIMARY KEY AUTOINCREMENT, kind TEXT NOT NULL, ref TEXT NOT NULL, label TEXT NOT NULL, at TEXT NOT NULL
 );
@@ -133,9 +138,16 @@ export function openDb(file = dbPath()): DB {
   db.pragma("journal_mode = WAL");
   db.pragma("foreign_keys = ON");
   db.exec(DDL);
+  migrate(db);
   seedReference(db);
   db.prepare("INSERT OR REPLACE INTO meta (key, value) VALUES ('schema_version', ?)").run(String(SCHEMA_VERSION));
   return db;
+}
+
+/** Migrations additives (bases créées par une version antérieure). */
+function migrate(db: DB) {
+  const cols = (t: string) => new Set((db.prepare(`PRAGMA table_info(${t})`).all() as { name: string }[]).map((c) => c.name));
+  if (!cols("hero_details").has("extras")) db.exec("ALTER TABLE hero_details ADD COLUMN extras TEXT");
 }
 
 /** Connexion partagée (réutilisée entre rechargements en développement). */

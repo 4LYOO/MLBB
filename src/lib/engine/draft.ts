@@ -62,6 +62,7 @@ export interface DraftContext {
   weights?: Partial<Weights>;
 }
 
+const fr = (v: number, d: number) => v.toFixed(d).replace(".", ",");
 const clamp = (v: number, lo = -1, hi = 1) => Math.max(lo, Math.min(hi, v));
 const has = (h: Hero, t: Tag) => !!h.profile?.tags.includes(t);
 const P = (h: Hero) => h.profile!;
@@ -100,12 +101,27 @@ export function ruleAdvantage(x: Hero, y: Hero): Reason[] {
   return out;
 }
 
+/**
+ * Normalisation des scores de matchup importés vers [-1, 1].
+ *  - « pp » : écart en points de pourcentage (±4 pp ⇒ ±1)
+ *  - « indice mlbb.io » : indice relatif positif publié par mlbb.io (échelle calibrée sur leurs valeurs)
+ */
+export const UNIT_SCALE: Record<string, { counter: number; synergy: number }> = {
+  pp: { counter: 4, synergy: 4 },
+  "indice mlbb.io": { counter: 8, synergy: 5 }, // ≈ 95e centile observé (8 nov. 2026)
+};
+export const normScore = (score: number, unit: string, kind: "counter" | "synergy") => clamp(score / (UNIT_SCALE[unit]?.[kind] ?? 10));
+const fmtData = (score: number, unit: string, kind: "counter" | "synergy", sourceId: string) =>
+  unit === "pp"
+    ? `Données (${sourceId}) : ${score > 0 ? "+" : ""}${score.toFixed(1)} pp ${kind === "counter" ? "sur ce matchup" : "de synergie"}.`
+    : `Données (${sourceId}) : indice de ${kind === "counter" ? "counter" : "synergie"} ${Math.abs(score).toFixed(1)} ${score >= 0 ? "en sa faveur" : "en sa défaveur"}.`;
+
 function dataMatchup(h: string, e: string, data: MatchupDatum[] | undefined): Reason | null {
   if (!data?.length) return null;
   const d = data.find((m) => m.kind === "counter" && m.slug === h && m.other === e);
-  if (d) return { value: clamp(d.score / 4), text: `Données (${d.sourceId}) : ${d.score > 0 ? "+" : ""}${d.score.toFixed(1)} ${d.unit} sur ce matchup.`, source: "data" };
+  if (d) return { value: normScore(d.score, d.unit, "counter"), text: fmtData(d.score, d.unit, "counter", d.sourceId), source: "data" };
   const r = data.find((m) => m.kind === "counter" && m.slug === e && m.other === h);
-  if (r) return { value: clamp(-r.score / 4), text: `Données (${r.sourceId}) : ${(-r.score) > 0 ? "+" : ""}${(-r.score).toFixed(1)} ${r.unit} sur ce matchup.`, source: "data" };
+  if (r) return { value: -normScore(r.score, r.unit, "counter"), text: fmtData(-r.score, r.unit, "counter", r.sourceId), source: "data" };
   return null;
 }
 
@@ -125,7 +141,7 @@ export const COMBO_KEY = (a: string, b: string) => [a, b].sort().join("+");
 export function synergy(h: Hero, a: Hero, combos: Map<string, string>, data?: MatchupDatum[]): { value: number; reasons: Reason[] } {
   const reasons: Reason[] = [];
   const d = data?.find((m) => m.kind === "synergy" && ((m.slug === h.slug && m.other === a.slug) || (m.slug === a.slug && m.other === h.slug)));
-  if (d) reasons.push({ value: clamp(d.score / 4), text: `Données (${d.sourceId}) : synergie ${d.score > 0 ? "+" : ""}${d.score.toFixed(1)} ${d.unit}.`, source: "data" });
+  if (d) reasons.push({ value: normScore(d.score, d.unit, "synergy"), text: fmtData(d.score, d.unit, "synergy", d.sourceId), source: "data" });
   const combo = combos.get(COMBO_KEY(h.slug, a.slug));
   if (combo) reasons.push({ value: 0.7, text: combo, source: "rules" });
   if (h.profile && a.profile) {
@@ -295,7 +311,7 @@ export function recommend(ctx: DraftContext, combos: Map<string, string>, limit 
     comp.needs = nf.value;
 
     const st = ctx.stats?.[h.slug];
-    if (st) comp.stats = clamp((heroScore(st).adjWinRate - 50) / 3);
+    if (st) comp.stats = clamp((heroScore(st).adjWinRate - 50) / 4);
     else if (hasStats) notes.push("Pas de statistique pour ce héros dans le rang choisi.");
     if (hasTiers && ctx.tiers![h.slug]) comp.meta = tierValue(ctx.tiers![h.slug]);
     const me = ctx.personal?.[h.slug];
@@ -324,13 +340,16 @@ export function recommend(ctx: DraftContext, combos: Map<string, string>, limit 
     if (x.early <= 1) weaknesses.push("Faible en début de partie.");
     if (x.late <= 1) weaknesses.push("Perd en impact en fin de partie.");
     if (h.difficulty === 3) weaknesses.push("Difficile à maîtriser.");
-    for (const u of unfavorable.slice(0, 2)) weaknesses.push(u.reasons.find((r) => r.value < 0)?.text ?? `Matchup défavorable contre ${u.hero.name}.`);
 
     const explanation: string[] = [];
     if (favorable.length) explanation.push(`Avantagé contre ${favorable.map((f) => f.hero.name).join(", ")}.`);
     explanation.push(...nf.reasons.filter((r) => r.value > 0).map((r) => r.text));
     if (goodSyn.length) explanation.push(`Bonne synergie avec ${goodSyn.map((s) => s.hero.name).join(", ")}.`);
-    if (st) explanation.push(`Win rate ${st.winRate.toFixed(1)} % (pick ${st.pickRate.toFixed(2)} %, ban ${st.banRate.toFixed(1)} %) dans le rang sélectionné.`);
+    if (st) {
+      explanation.push(`Win rate ${fr(st.winRate, 1)} % (pick ${fr(st.pickRate, 2)} %, ban ${fr(st.banRate, 1)} %) dans le rang sélectionné.`);
+      const conf = heroScore(st).confidence;
+      if (conf < 0.7) notes.push(`Pick rate faible (${fr(st.pickRate, 2)} %) : le win rate reflète surtout des spécialistes ; il est déjà ramené vers 50 % dans le score (WR ajusté ${fr(heroScore(st).adjWinRate, 1)} %).`);
+    }
     if (comp.mastery != null) explanation.push(`Tu as joué ${me!.games} parties avec ce héros (${Math.round((me!.wins / me!.games) * 100)} % de victoires).`);
     if (!hasStats) notes.push("Statistiques indisponibles : score fondé uniquement sur l'analyse de composition.");
     if (!ctx.matchups?.length) notes.push("Matchups estimés par règles de mécaniques (aucune donnée de matchup importée).");
@@ -384,7 +403,7 @@ export function suggestBans(ctx: DraftContext, limit = 6): BanSuggestion[] {
       const { adjWinRate } = heroScore(st);
       score += clamp((adjWinRate - 50) / 3) * 0.3 + clamp(st.banRate / 50, 0, 1) * 0.2;
       parts += 0.5;
-      reasons.push(`WR ${st.winRate.toFixed(1)} %, ban ${st.banRate.toFixed(1)} % dans le rang choisi.`);
+      reasons.push(`WR ${fr(st.winRate, 1)} %, ban ${fr(st.banRate, 1)} % dans le rang choisi.`);
     }
     if (!parts) continue;
     res.push({ hero: h, score: score / parts, reasons });
@@ -415,7 +434,7 @@ export function suggestFirstPicks(ctx: DraftContext, limit = 6) {
         hardCounters === 0 ? "Aucun counter évident dans le pool restant." : `${hardCounters} counter(s) potentiel(s) dans le pool.`,
         h.lanes.length > 1 ? `Flexible : ${h.lanes.map((l) => LANE_FR[l as Lane]).join(" / ")}.` : `Lane : ${LANE_FR[h.lanes[0] as Lane]}.`,
       ];
-      if (st) reasons.push(`WR ${st.winRate.toFixed(1)} % dans le rang choisi.`);
+      if (st) reasons.push(`WR ${fr(st.winRate, 1)} % dans le rang choisi.`);
       return { hero: h, score, reasons, hardCounters };
     })
     .sort((a, b) => b.score - a.score)

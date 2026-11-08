@@ -22,11 +22,11 @@ export function openSearch() {
 
 export function SearchButton({ compact = false }: { compact?: boolean }) {
   return compact ? (
-    <button className="btn-ghost px-2.5" aria-label="Rechercher" onClick={openSearch}>
+    <button className="btn-ghost min-h-10 px-3" aria-label="Rechercher" onClick={openSearch}>
       <Search size={18} />
     </button>
   ) : (
-    <button onClick={openSearch} className="flex w-full items-center gap-2 rounded-xl border border-line bg-surface-2 px-3 py-2 text-sm text-muted hover:text-ink">
+    <button onClick={openSearch} className="glass-inset flex min-h-11 w-full items-center gap-2 rounded-2xl px-3 py-2 text-sm text-muted hover:text-ink">
       <Search size={16} /> Rechercher…
       <kbd className="ml-auto rounded border border-line px-1.5 text-[10px]">Ctrl K</kbd>
     </button>
@@ -97,9 +97,9 @@ export function CommandPalette() {
 
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-[60] flex items-start justify-center p-4 pt-[10vh]" role="dialog" aria-modal="true" aria-label="Recherche globale">
+    <div className="fixed inset-0 z-[60] flex items-start justify-center p-4 pt-[calc(env(safe-area-inset-top)+4vh)] sm:pt-[10vh]" role="dialog" aria-modal="true" aria-label="Recherche globale">
       <div className="absolute inset-0 bg-black/60" onClick={() => setOpen(false)} />
-      <div className="card relative w-full max-w-xl animate-fade-in overflow-hidden shadow-2xl shadow-black/50">
+      <div className="glass-strong relative w-full max-w-xl animate-fade-in overflow-hidden rounded-3xl">
         <div className="flex items-center gap-2 border-b border-line px-4">
           <Search size={18} className="text-muted" />
           <input
@@ -116,7 +116,7 @@ export function CommandPalette() {
               if (e.key === "Enter" && results[sel]) go(results[sel]);
             }}
             placeholder="Héros, objet, sort, guide, page…"
-            className="w-full bg-transparent py-3.5 text-sm outline-none placeholder:text-muted"
+            className="w-full bg-transparent py-3.5 text-base outline-none placeholder:text-muted sm:text-sm"
           />
         </div>
         <ul className="max-h-[60vh] overflow-y-auto p-2">

@@ -12,9 +12,9 @@ const scoreColor = (s: number) => (s >= 70 ? "var(--color-gold)" : s >= 60 ? "va
 export function RecommendationCard({ rec, rank, onPick, canPick }: { rec: Recommendation; rank: number; onPick: () => void; canPick: boolean }) {
   const [open, setOpen] = useState(rank === 1);
   return (
-    <article className="rounded-xl border border-line bg-surface-2/60 p-3">
+    <article className="glass rounded-3xl p-3">
       <div className="flex items-center gap-3">
-        <span className="h-display w-5 text-center text-muted">{rank}</span>
+        <span className="h-display hidden w-5 text-center text-muted sm:block">{rank}</span>
         <HeroAvatar hero={rec.hero} size={44} />
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-1.5">
@@ -25,7 +25,7 @@ export function RecommendationCard({ rec, rank, onPick, canPick }: { rec: Recomm
             {rec.lane && <span className="chip">{LANE_FR[rec.lane]}</span>}
           </div>
           <div className="mt-1.5 flex items-center gap-2">
-            <div className="w-28">
+            <div className="w-20 sm:w-28">
               <Bar value={rec.score} color={scoreColor(rec.score)} />
             </div>
             <span className="text-xs tabular-nums text-ink-2" title="Score de pertinence (0–100), estimation stratégique">
@@ -33,10 +33,10 @@ export function RecommendationCard({ rec, rank, onPick, canPick }: { rec: Recomm
             </span>
           </div>
         </div>
-        <button className="btn-primary px-2.5 py-1.5 text-xs" onClick={onPick} disabled={!canPick} title="Ajouter à mon équipe">
-          <Check size={14} /> Choisir
+        <button className="btn-primary min-h-10 px-3 text-xs" onClick={onPick} aria-label={`Choisir ${rec.hero.name}`} disabled={!canPick} title="Ajouter à mon équipe">
+          <Check size={14} /> <span className="hidden sm:inline">Choisir</span>
         </button>
-        <button className="btn-ghost px-2 py-1.5" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-label="Détails">
+        <button className="btn-ghost min-h-10 px-2.5" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-label="Détails">
           {open ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
         </button>
       </div>

@@ -24,10 +24,10 @@ Pour chaque héros disponible (non pris, non banni, profil complet), sept critè
 
 | Critère | Poids | Calcul |
 | --- | --- | --- |
-| Counter adverse | 0,24 | Moyenne des matchups contre chaque adversaire. Données importées (`pp / 4`) prioritaires ; sinon règles de mécaniques symétriques : anti-dash vs mobilité, contrôle ciblé vs cible fragile mobile, réduction de soins vs sustain, anti-tank vs résistance, burst vs cible fragile immobile, poke vs mêlée immobile, anti-plongée vs assassins, immunités vs contrôles |
+| Counter adverse | 0,24 | Moyenne des matchups contre chaque adversaire. Données importées prioritaires (`pp / 4`, ou indice mlbb.io / 8 pour les counters et / 5 pour les synergies, calibré sur le 95e centile) ; sinon règles de mécaniques symétriques : anti-dash vs mobilité, contrôle ciblé vs cible fragile mobile, réduction de soins vs sustain, anti-tank vs résistance, burst vs cible fragile immobile, poke vs mêlée immobile, anti-plongée vs assassins, immunités vs contrôles |
 | Synergie alliée | 0,16 | Moyenne des synergies : combos connus, engage + dégâts de zone, protection d'un carry fragile, soins + plongeurs, contrôle + burst ; pénalités : duo fragile et immobile, même lane unique |
 | Besoins de composition | 0,28 | Lane manquante (affectation optimale exhaustive), dégâts magiques/physiques manquants, frontline, engage, chaîne de contrôle, protection du carry ; pénalités : lane déjà prise, déséquilibre de dégâts |
-| Performance statistique | 0,14 | `(WRa − 50) / 3` dans le rang choisi |
+| Performance statistique | 0,14 | `(WRa − 50) / 4` dans le rang choisi |
 | Méta | 0,06 | Tier calculé (S+ = 1 … C = −0,4) |
 | Maîtrise personnelle | 0,06 | ≥ 3 parties : `0,2 + (WR perso − 0,5) × 2` |
 | Prise en main | 0,06 | −0,6 si la difficulté dépasse le maximum choisi |

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PortraitImg } from "./PortraitImg";
 import clsx from "clsx";
 import { AlertTriangle, Clock, Database, Info } from "lucide-react";
 import { RANK_FR, PERIOD_FR, ROLE_COLOR, ROLE_FR, SOURCE_KIND_FR, TIER_COLOR, UNAVAILABLE, type Hero, type Period, type Rank, type Role, type Source, type Tier } from "@/lib/domain";
@@ -16,8 +17,8 @@ export function PageHeader({ title, subtitle, actions, kicker }: { title: string
     <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
       <div>
         {kicker && <p className="mb-1 text-xs font-semibold uppercase tracking-[0.25em] text-gold">{kicker}</p>}
-        <h1 className="h-display text-3xl text-ink sm:text-4xl">{title}</h1>
-        {subtitle && <div className="mt-1 max-w-3xl text-sm text-ink-2">{subtitle}</div>}
+        <h1 className="h-display text-[28px] leading-tight text-ink sm:text-4xl">{title}</h1>
+        {subtitle && <div className="mt-1 line-clamp-2 max-w-3xl text-sm text-ink-2 sm:line-clamp-none">{subtitle}</div>}
       </div>
       {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
     </div>
@@ -56,7 +57,7 @@ export function StatTile({ label, value, hint, accent = "primary" }: { label: st
 export function Unavailable({ reason, compact = false, action = true }: { reason?: React.ReactNode; compact?: boolean; action?: boolean }) {
   if (compact) return <span className="text-xs italic text-muted" title={typeof reason === "string" ? reason : undefined}>{UNAVAILABLE}</span>;
   return (
-    <div className="flex items-start gap-3 rounded-xl border border-dashed border-line bg-surface-2/50 p-4 text-sm">
+    <div className="glass-inset flex items-start gap-3 rounded-2xl p-4 text-sm">
       <Database size={18} className="mt-0.5 shrink-0 text-muted" />
       <div>
         <p className="font-semibold text-ink-2">{UNAVAILABLE}</p>
@@ -140,16 +141,12 @@ export function HeroAvatar({ hero, size = 40, className }: { hero: Pick<Hero, "n
     .toUpperCase();
   return (
     <span
-      className={clsx("relative inline-grid shrink-0 place-items-center overflow-hidden rounded-xl font-bold text-white", className)}
+      className={clsx("relative inline-grid shrink-0 place-items-center overflow-hidden rounded-2xl font-bold text-white", className)}
       style={{ width: size, height: size, fontSize: size * 0.36, background: `linear-gradient(135deg, ${c}, #1f2545)`, boxShadow: `inset 0 0 0 1px ${c}88` }}
       aria-hidden
     >
-      {hero.portraitUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={hero.portraitUrl} alt="" className="h-full w-full object-cover" loading="lazy" />
-      ) : (
-        initials
-      )}
+      {initials}
+      {hero.portraitUrl && <PortraitImg src={hero.portraitUrl} />}
     </span>
   );
 }
@@ -176,7 +173,7 @@ export function HeroChip({ hero, href = true, sub }: { hero: Hero; href?: boolea
 export function Bar({ value, max = 100, color = "var(--color-primary)" }: { value: number | null; max?: number; color?: string }) {
   if (value == null) return <span className="text-xs text-muted">—</span>;
   return (
-    <span className="block h-1.5 w-full overflow-hidden rounded-full bg-surface-3">
+    <span className="block h-1.5 w-full overflow-hidden rounded-full bg-white/10">
       <span className="block h-full rounded-full" style={{ width: `${Math.max(0, Math.min(100, (value / max) * 100))}%`, background: color }} />
     </span>
   );
@@ -184,7 +181,7 @@ export function Bar({ value, max = 100, color = "var(--color-primary)" }: { valu
 
 export function Notice({ children, tone = "info" }: { children: React.ReactNode; tone?: "info" | "warn" }) {
   return (
-    <div className={clsx("flex gap-2 rounded-xl border p-3 text-xs leading-relaxed", tone === "warn" ? "border-warn/40 bg-warn/10 text-amber-200" : "border-primary/30 bg-primary/10 text-ink-2")}>
+    <div className={clsx("flex gap-2 rounded-xl border p-3 text-xs leading-relaxed", tone === "warn" ? "border-warn/30 bg-warn/10 text-amber-100" : "border-primary/25 bg-primary/10 text-ink-2", "rounded-2xl backdrop-blur-xl")}>
       {tone === "warn" ? <AlertTriangle size={14} className="mt-0.5 shrink-0" /> : <Info size={14} className="mt-0.5 shrink-0" />}
       <div>{children}</div>
     </div>
