@@ -1,6 +1,6 @@
 "use client";
 import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { personal } from "@/lib/client/store";
 import { ClipboardPaste, Check } from "lucide-react";
 import { parsePastedStats, type Col } from "@/lib/engine/paste";
 import { PERIODS, PERIOD_FR, RANKS, RANK_FR } from "@/lib/domain";
@@ -22,7 +22,6 @@ const localNow = () => {
 };
 
 export function PasteImport({ heroes }: { heroes: { slug: string; name: string }[] }) {
-  const router = useRouter();
   const [text, setText] = useState("");
   const [src, setSrc] = useState(SOURCES[0].id);
   const [customName, setCustomName] = useState("");
@@ -44,7 +43,7 @@ export function PasteImport({ heroes }: { heroes: { slug: string; name: string }
     }
   };
 
-  const submit = async () => {
+  const submit = () => {
     const pkg = {
       format: "mlbb-companion/v1",
       source: { id: src === "other-manual" && customName ? `manual-${customName.toLowerCase().replace(/[^a-z0-9]+/g, "-")}` : src, name: src === "other-manual" && customName ? customName : source.name, kind: "manual", url: url || null, reliability: 3 },
@@ -52,13 +51,11 @@ export function PasteImport({ heroes }: { heroes: { slug: string; name: string }
       patch: patch || null,
       heroStats: parsed.rows.map((r) => ({ hero: r.hero, rank, period, winRate: r.winRate, pickRate: r.pickRate, banRate: r.banRate })),
     };
-    const r = await fetch("/api/import", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(pkg) });
-    const j = await r.json();
+    const j = personal.addPackage(pkg, `${pkg.source.name} · ${RANK_FR[rank as keyof typeof RANK_FR]} · ${PERIOD_FR[period as keyof typeof PERIOD_FR]}`);
     if (j.ok) {
-      setMsg({ ok: true, text: `${j.counts.heroStats ?? 0} statistiques importées (${RANK_FR[rank as keyof typeof RANK_FR]}, ${PERIOD_FR[period as keyof typeof PERIOD_FR]}).` });
+      setMsg({ ok: true, text: `${j.counts.heroStats ?? 0} statistiques importées sur cet appareil (${RANK_FR[rank as keyof typeof RANK_FR]}, ${PERIOD_FR[period as keyof typeof PERIOD_FR]}).` });
       setText("");
-      router.refresh();
-    } else setMsg({ ok: false, text: [].concat(j.errors ?? j.error).join(" · ") });
+    } else setMsg({ ok: false, text: j.errors.join(" · ") });
   };
 
   return (

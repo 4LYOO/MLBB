@@ -4,9 +4,12 @@ import { notFound } from "next/navigation";
 import { Card, HeroChip, PageHeader, RoleBadge } from "@/components/ui";
 import { FavoriteButton, TrackRecent } from "@/components/hero/FavoriteButton";
 import { GUIDES } from "@/data/reference/guides";
-import { getFavorites, getHeroes } from "@/lib/server/repo";
+import { editorialHeroes } from "@/lib/engine/editorial";
 
-export const dynamic = "force-dynamic";
+export const dynamicParams = false;
+export function generateStaticParams() {
+  return GUIDES.map((g) => ({ slug: g.slug }));
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
@@ -17,12 +20,11 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
   const { slug } = await params;
   const g = GUIDES.find((x) => x.slug === slug);
   if (!g) notFound();
-  const heroes = getHeroes().filter((h) => g.heroes.includes(h.slug));
-  const fav = getFavorites().some((f) => f.kind === "guide" && f.ref === slug);
+  const heroes = editorialHeroes().filter((h) => g.heroes.includes(h.slug));
   return (
     <>
       <TrackRecent kind="guide" refId={slug} label={g.title} />
-      <PageHeader kicker={g.category} title={g.title} subtitle={g.summary} actions={<FavoriteButton kind="guide" refId={slug} initial={fav} />} />
+      <PageHeader kicker={g.category} title={g.title} subtitle={g.summary} actions={<FavoriteButton kind="guide" refId={slug} />} />
       <div className="grid gap-4 lg:grid-cols-[1fr_320px]">
         <Card>
           <ul className="space-y-3 text-ink-2">

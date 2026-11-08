@@ -1,13 +1,12 @@
 "use client";
-import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Camera, Loader2, Plus, Trash2, Trophy } from "lucide-react";
 import clsx from "clsx";
 import { aggregate, byWeek, coach, summarize, winRateSeries, type Agg } from "@/lib/engine/coach";
 import { parseResultText, type OcrGuess } from "@/lib/engine/ocr";
 import { RANKS, RANK_FR, ROLES, ROLE_FR, type Hero } from "@/lib/domain";
-import type { Match, Profile } from "@/lib/server/repo";
+import { personal, type Match, type Profile } from "@/lib/client/store";
 import { HeroAvatar, Notice, StatTile, Unavailable } from "@/components/ui";
 import { GroupedBarChart, HBarChart, LineSeriesChart } from "@/components/charts/Charts";
 
@@ -15,16 +14,18 @@ const today = () => new Date().toISOString().slice(0, 10);
 const pct = (v: number) => `${v.toFixed(1).replace(".", ",")} %`;
 
 export function PersonalStats({ heroes, profile, matches }: { heroes: Hero[]; profile: Profile; matches: Match[] }) {
-  const router = useRouter();
   const heroMap = useMemo(() => new Map(heroes.map((h) => [h.slug, h])), [heroes]);
   const name = (s: string) => heroMap.get(s)?.name ?? s;
 
   // ---------------- Profil
   const [p, setP] = useState(profile);
+  // Le stockage local est lu après l'hydratation : on resynchronise le formulaire.
+  useEffect(() => setP(profile), [profile]);
   const [pMsg, setPMsg] = useState("");
-  const saveProfile = async () => {
-    const r = await fetch("/api/profile", { method: "PUT", headers: { "content-type": "application/json" }, body: JSON.stringify(p) });
-    setPMsg(r.ok ? "Profil enregistré." : "Erreur d'enregistrement.");
+  const saveProfile = () => {
+    const { updatedAt: _u, ...rest } = p;
+    personal.saveProfile({ ...rest, nickname: rest.nickname || null, playerId: rest.playerId || null, server: rest.server || null, rank: rest.rank || null, mainRole: rest.mainRole || null, secondRole: rest.secondRole || null });
+    setPMsg("Profil enregistré sur cet appareil.");
     setTimeout(() => setPMsg(""), 2500);
   };
 
@@ -34,23 +35,30 @@ export function PersonalStats({ heroes, profile, matches }: { heroes: Hero[]; pr
   const [err, setErr] = useState("");
   const [ocr, setOcr] = useState<{ busy: boolean; guess: OcrGuess | null; error: string; progress: number }>({ busy: false, guess: null, error: "", progress: 0 });
 
-  const submit = async () => {
+  const submit = () => {
     setErr("");
-    if (!f.hero) return setErr("Choisis un héros.");
-    const r = await fetch("/api/matches", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ ...f, role: f.role || null, rank: f.rank || null, notes: f.notes || null, durationMin: f.durationMin === "" ? null : Number(f.durationMin), kills: Number(f.kills), deaths: Number(f.deaths), assists: Number(f.assists) }),
+    if (!f.hero || !heroMap.has(f.hero)) return setErr("Choisis un héros.");
+    const n = (v: unknown) => Math.max(0, Math.min(99, Math.round(Number(v) || 0)));
+    if (!/^\d{4}-\d{2}-\d{2}/.test(f.playedAt)) return setErr("Date invalide.");
+    personal.addMatch({
+      playedAt: f.playedAt,
+      hero: f.hero,
+      role: f.role || null,
+      result: f.result === "loss" ? "loss" : "win",
+      kills: n(f.kills),
+      deaths: n(f.deaths),
+      assists: n(f.assists),
+      durationMin: f.durationMin === "" ? null : Math.max(0, Math.min(90, Number(f.durationMin))),
+      mvp: !!f.mvp,
+      rank: f.rank || null,
+      notes: f.notes ? f.notes.slice(0, 1000) : null,
+      entry: f.entry,
     });
-    if (!r.ok) return setErr(JSON.stringify((await r.json()).error));
     setF({ ...empty, rank: f.rank, role: f.role });
     setOcr({ busy: false, guess: null, error: "", progress: 0 });
-    router.refresh();
   };
-  const del = async (id: number) => {
-    if (!confirm("Supprimer cette partie ?")) return;
-    await fetch(`/api/matches?id=${id}`, { method: "DELETE" });
-    router.refresh();
+  const del = (id: number) => {
+    if (confirm("Supprimer cette partie ?")) personal.deleteMatch(id);
   };
 
   const runOcr = async (file: File) => {

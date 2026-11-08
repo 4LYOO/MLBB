@@ -3,6 +3,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import clsx from "clsx";
+import { useData } from "@/lib/client/data";
+import { catalogOf } from "@/lib/data/model";
+import { NAV } from "./nav";
+import { GUIDES } from "@/data/reference/guides";
+import { EDITORIAL_EMBLEMS, EDITORIAL_SPELLS } from "@/data/reference/items";
+import { LANE_FR, ROLE_FR } from "@/lib/domain";
 
 interface Entry {
   kind: string;
@@ -14,7 +20,6 @@ interface Entry {
 
 const norm = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 
-let cache: Entry[] | null = null;
 const listeners = new Set<() => void>();
 export function openSearch() {
   listeners.forEach((l) => l());
@@ -36,23 +41,34 @@ export function SearchButton({ compact = false }: { compact?: boolean }) {
 export function CommandPalette() {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
-  const [entries, setEntries] = useState<Entry[]>(cache ?? []);
   const [sel, setSel] = useState(0);
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
+  const { model } = useData();
+  const entries = useMemo<Entry[]>(
+    () => [
+      ...NAV.map((n) => ({ kind: "Page", label: n.label, sub: "", href: n.href, keywords: n.short })),
+      ...model.heroes.map((h) => ({
+        kind: "Héros",
+        label: h.name,
+        sub: [h.roles.map((r) => ROLE_FR[r]).join(" / "), h.lanes.map((l) => LANE_FR[l]).join(", ")].filter(Boolean).join(" · "),
+        href: `/heros/${h.slug}`,
+        keywords: `${h.slug} ${h.roles.join(" ")} ${h.lanes.join(" ")}`,
+      })),
+      ...model.heroes.map((h) => ({ kind: "Build", label: `Build ${h.name}`, sub: "Équipements & emblèmes", href: `/builds?hero=${h.slug}`, keywords: h.slug })),
+      ...model.items.map((i) => ({ kind: "Objet", label: i.name, sub: i.use ?? (i.price ? `${i.price} or` : ""), href: `/builds?tab=items&item=${i.slug}`, keywords: `${i.slug} ${i.tags.join(" ")}` })),
+      ...EDITORIAL_SPELLS.map((s) => ({ kind: "Sort", label: s.name, sub: s.nameFr, href: `/builds?tab=spells`, keywords: `${s.nameFr} ${s.use}` })),
+      ...EDITORIAL_EMBLEMS.map((e) => ({ kind: "Emblème", label: `Emblème ${e.nameFr}`, sub: e.name, href: `/builds?tab=emblems`, keywords: e.name })),
+      ...catalogOf(model, "talent").map((t) => ({ kind: "Talent", label: String(t.data.name), sub: `Palier ${t.data.tier ?? "?"}`, href: `/builds?tab=emblems`, keywords: String(t.data.benefits ?? "") })),
+      ...GUIDES.map((g) => ({ kind: "Guide", label: g.title, sub: g.category, href: `/guides/${g.slug}`, keywords: `${g.summary} ${g.roles.join(" ")}` })),
+    ],
+    [model],
+  );
 
   const show = useCallback(() => {
     setOpen(true);
     setQ("");
     setSel(0);
-    if (!cache)
-      fetch("/api/search")
-        .then((r) => r.json())
-        .then((d: Entry[]) => {
-          cache = d;
-          setEntries(d);
-        })
-        .catch(() => setEntries([]));
   }, []);
 
   useEffect(() => {

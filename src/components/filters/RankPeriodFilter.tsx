@@ -1,44 +1,29 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
 import { Bookmark, X } from "lucide-react";
 import { PERIODS, PERIOD_FR, RANKS, RANK_FR } from "@/lib/domain";
+import { personal, usePersonal } from "@/lib/client/store";
 
-interface Saved {
-  id: number;
-  name: string;
-  params: Record<string, string>;
-}
-
-/** Filtres rang / période synchronisés avec l'URL + préréglages sauvegardés. */
+/** Filtres rang / période synchronisés avec l'URL + préréglages sauvegardés (stockés sur l'appareil). */
 export function RankPeriodFilter({ available, page }: { available: { rank: string; period: string }[]; page: string }) {
   const router = useRouter();
   const path = usePathname();
   const sp = useSearchParams();
   const rank = sp.get("rank") ?? "all";
   const period = sp.get("period") ?? "7d";
-  const [saved, setSaved] = useState<Saved[]>([]);
+  const saved = usePersonal().filters.filter((f) => f.page === page);
   const has = (r: string, p: string) => available.some((a) => a.rank === r && a.period === p);
-
-  useEffect(() => {
-    fetch(`/api/filters?page=${page}`).then((r) => r.json()).then(setSaved).catch(() => {});
-  }, [page]);
 
   const set = (k: string, v: string) => {
     const q = new URLSearchParams(sp.toString());
     q.set(k, v);
-    router.push(`${path}?${q.toString()}`);
+    router.push(`${path}?${q.toString()}`, { scroll: false });
   };
-  const save = async () => {
+  const save = () => {
     const name = prompt("Nom du filtre :", `${RANK_FR[rank as keyof typeof RANK_FR] ?? rank} · ${PERIOD_FR[period as keyof typeof PERIOD_FR] ?? period}`);
-    if (!name) return;
-    await fetch("/api/filters", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ page, name, params: Object.fromEntries(sp.entries()) }) });
-    setSaved(await (await fetch(`/api/filters?page=${page}`)).json());
+    if (name) personal.saveFilter(page, name, Object.fromEntries(sp.entries()));
   };
-  const remove = async (id: number) => {
-    await fetch(`/api/filters?id=${id}`, { method: "DELETE" });
-    setSaved((s) => s.filter((x) => x.id !== id));
-  };
+  const remove = (id: number) => personal.deleteFilter(id);
 
   return (
     <div className="grid grid-cols-[1fr_1fr_auto] items-end gap-2 sm:flex sm:flex-wrap">
@@ -71,7 +56,7 @@ export function RankPeriodFilter({ available, page }: { available: { rank: strin
         <div className="col-span-3 flex flex-wrap gap-1.5">
           {saved.map((s) => (
             <span key={s.id} className="chip">
-              <button onClick={() => router.push(`${path}?${new URLSearchParams(s.params).toString()}`)} className="hover:text-ink">
+              <button onClick={() => router.push(`${path}?${new URLSearchParams(s.params).toString()}`, { scroll: false })} className="hover:text-ink">
                 {s.name}
               </button>
               <button onClick={() => remove(s.id)} aria-label={`Supprimer ${s.name}`}>

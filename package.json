@@ -6,18 +6,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "preview": "node scripts/preview.mjs",
     "lint": "tsc --noEmit",
     "test": "vitest run",
-    "db:init": "tsx scripts/db-init.ts",
-    "db:reset": "tsx scripts/db-init.ts --reset",
-    "data:import": "tsx scripts/import.ts",
-    "data:status": "tsx scripts/status.ts",
-    "data:sync": "tsx scripts/sync.ts",
-    "start:lan": "next start -H 0.0.0.0 -p 3000"
+    "data:publish": "tsx scripts/publish-data.ts"
   },
   "dependencies": {
-    "better-sqlite3": "^13.0.3",
     "clsx": "^2.1.1",
     "lucide-react": "^1.70.0",
     "next": "^16.4.5",
@@ -29,7 +23,6 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.5",
-    "@types/better-sqlite3": "^9.6.0",
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

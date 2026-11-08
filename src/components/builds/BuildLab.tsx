@@ -5,7 +5,8 @@ import clsx from "clsx";
 import { adaptBuild, ARCHETYPE_FR, type EditorialBuild } from "@/lib/engine/builds";
 import { ITEM_TAGS, type ItemTag } from "@/data/reference/items";
 import { LANES, LANE_FR, UNAVAILABLE, type Hero, type Lane } from "@/lib/domain";
-import type { Build, Item } from "@/lib/server/repo";
+import type { Build, Item } from "@/lib/data/model";
+import { personal } from "@/lib/client/store";
 import { HeroAvatar } from "@/components/ui";
 import { ItemIcon } from "@/components/hero/ItemRow";
 
@@ -22,7 +23,7 @@ interface AnyBuild {
   title: string;
   items: string[];
   origin: string;
-  id?: number;
+  id?: string;
   user?: boolean;
 }
 
@@ -32,10 +33,10 @@ export function BuildLab({ hero, heroes, items, imported, editorial }: Props) {
   const [lane, setLane] = useState<Lane | "">((hero.lanes[0] as Lane) ?? "");
   const [heavyArmor, setHeavyArmor] = useState(false);
   const [heavyMagicDef, setHeavyMagicDef] = useState(false);
-  const [userBuilds, setUserBuilds] = useState<Build[]>(imported.filter((b) => b.isUser));
+  const userBuilds: Build[] = imported.filter((b) => b.isUser);
   const all: AnyBuild[] = [
     ...imported.filter((b) => !b.isUser).map((b) => ({ key: `i${b.id}`, title: b.title, items: b.items, origin: `${b.sourceId}${b.sampleSize ? ` · n=${b.sampleSize}` : ""}` })),
-    ...userBuilds.map((b) => ({ key: `u${b.id}`, title: b.title, items: b.items, origin: "Mon build", id: b.id, user: true })),
+    ...userBuilds.map((b) => ({ key: `${b.id}`, title: b.title, items: b.items, origin: "Mon build", id: b.id, user: true })),
     ...editorial.map((b) => ({ key: `e${b.type}`, title: b.title, items: b.items, origin: "Éditorial" })),
   ];
   const [baseKey, setBaseKey] = useState(all[0]?.key ?? "");
@@ -52,18 +53,12 @@ export function BuildLab({ hero, heroes, items, imported, editorial }: Props) {
   const [customTitle, setCustomTitle] = useState("");
   const [msg, setMsg] = useState("");
 
-  const saveCustom = async (list: string[], title: string) => {
-    const r = await fetch("/api/builds", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ hero: hero.slug, title, type: "personal", items: list }) });
-    if (r.ok) {
-      setUserBuilds(await (await fetch(`/api/builds?hero=${hero.slug}`)).json().then((x: Build[]) => x.filter((b) => b.isUser)));
-      setMsg("Build sauvegardé.");
-      setTimeout(() => setMsg(""), 2000);
-    }
+  const saveCustom = (list: string[], title: string) => {
+    personal.saveBuild({ hero: hero.slug, title, type: "personal", items: list });
+    setMsg("Build sauvegardé sur cet appareil.");
+    setTimeout(() => setMsg(""), 2000);
   };
-  const removeUser = async (id: number) => {
-    await fetch(`/api/builds?id=${id}`, { method: "DELETE" });
-    setUserBuilds((u) => u.filter((b) => b.id !== id));
-  };
+  const removeUser = (id: string) => personal.deleteBuild(id);
 
   const tagCount = (list: string[]) => {
     const c = new Map<string, number>();

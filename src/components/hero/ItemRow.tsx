@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { ITEM_CATEGORY_FR, ITEM_TAGS, type ItemCategory, type ItemTag } from "@/data/reference/items";
-import type { Item } from "@/lib/server/repo";
+import type { Item } from "@/lib/data/model";
 import { UNAVAILABLE } from "@/lib/domain";
 
 const CAT_COLOR: Record<string, string> = { attack: "#d95926", magic: "#9085e9", defense: "#3987e5", movement: "#199e70", jungle: "#c98500", roam: "#c98500" };

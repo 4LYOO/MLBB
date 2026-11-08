@@ -1,24 +1,17 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { personal } from "@/lib/client/store";
 import { parseChangeLines } from "@/lib/engine/patch";
 
 export function PatchForm() {
-  const router = useRouter();
   const [v, setV] = useState({ version: "", date: "", server: "official", title: "", url: "", lines: "" });
   const [msg, setMsg] = useState("");
   const changes = parseChangeLines(v.lines);
-  const submit = async () => {
-    const r = await fetch("/api/patches", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ version: v.version, date: v.date || null, server: v.server, title: v.title || null, url: v.url || null, changes }),
-    });
-    if (r.ok) {
-      setMsg("Patch enregistré.");
-      setV({ version: "", date: "", server: "official", title: "", url: "", lines: "" });
-      router.refresh();
-    } else setMsg(`Erreur : ${JSON.stringify((await r.json()).error)}`);
+  const submit = () => {
+    if (v.url && !/^https?:\/\//.test(v.url)) return setMsg("Le lien doit commencer par https://");
+    personal.savePatch({ version: v.version.slice(0, 30), date: v.date || null, server: v.server, title: v.title || null, url: v.url || null, changes: changes.slice(0, 300) });
+    setMsg("Patch enregistré sur cet appareil.");
+    setV({ version: "", date: "", server: "official", title: "", url: "", lines: "" });
   };
   return (
     <div className="space-y-2">
@@ -52,14 +45,11 @@ export function PatchForm() {
 }
 
 export function DeletePatch({ version }: { version: string }) {
-  const router = useRouter();
   return (
     <button
       className="text-xs text-muted hover:text-bad"
-      onClick={async () => {
-        if (!confirm(`Supprimer le patch ${version} ?`)) return;
-        await fetch(`/api/patches?version=${encodeURIComponent(version)}`, { method: "DELETE" });
-        router.refresh();
+      onClick={() => {
+        if (confirm(`Supprimer le patch ${version} ?`)) personal.deletePatch(version);
       }}
     >
       Supprimer

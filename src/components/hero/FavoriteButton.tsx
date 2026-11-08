@@ -1,16 +1,14 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Heart } from "lucide-react";
 import clsx from "clsx";
+import { personal, usePersonal } from "@/lib/client/store";
 
-export function FavoriteButton({ kind, refId, initial, label }: { kind: "hero" | "build" | "guide"; refId: string; initial: boolean; label?: string }) {
-  const [fav, setFav] = useState(initial);
-  const toggle = async () => {
-    const r = await fetch("/api/favorites", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ kind, ref: refId }) });
-    if (r.ok) setFav((await r.json()).favorite);
-  };
+export function FavoriteButton({ kind, refId, label }: { kind: "hero" | "build" | "guide"; refId: string; initial?: boolean; label?: string }) {
+  const me = usePersonal();
+  const fav = me.favorites.some((f) => f.kind === kind && f.ref === refId);
   return (
-    <button onClick={toggle} className={clsx("btn-ghost", fav && "border-gold/60 text-gold")} aria-pressed={fav}>
+    <button onClick={() => personal.toggleFavorite(kind, refId)} className={clsx("btn-ghost", fav && "!border-gold/60 text-gold")} aria-pressed={fav}>
       <Heart size={16} fill={fav ? "currentColor" : "none"} /> {label ?? (fav ? "Favori" : "Ajouter aux favoris")}
     </button>
   );
@@ -19,7 +17,7 @@ export function FavoriteButton({ kind, refId, initial, label }: { kind: "hero" |
 /** Enregistre la consultation dans « Dernières analyses ». */
 export function TrackRecent({ kind, refId, label }: { kind: string; refId: string; label: string }) {
   useEffect(() => {
-    fetch("/api/recent", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ kind, ref: refId, label }) }).catch(() => {});
+    if (label) personal.addRecent(kind, refId, label);
   }, [kind, refId, label]);
   return null;
 }

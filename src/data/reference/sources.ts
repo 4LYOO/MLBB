@@ -49,7 +49,7 @@ export const SOURCES: S[] = [
     kind: "statistical",
     url: null,
     reliability: 3,
-    access: "Page Sources ou `npm run data:import`.",
+    access: "Page Sources & données (fichier, collage) ou dossier data/imports/ du dépôt.",
     terms: "Tu es responsable du respect des conditions de la source d'origine indiquée dans le fichier.",
     notes: "Chaque enregistrement importé conserve la source d'origine, la date de capture et la période déclarées dans le fichier.",
   },
@@ -73,7 +73,7 @@ export const SOURCES: S[] = [
     reliability: 4,
     access: "Accessible (HTTP 200). robots.txt : Allow /.",
     terms:
-      "Aucune page de CGU trouvée (seule une politique de confidentialité). Le site indique « Hero data sourced from the official Mobile Legends Bang Bang website ». Connecteur activé à la demande de l'utilisateur (8 nov. 2026) : pages publiques, requêtes espacées, User-Agent identifiable.",
+      "Aucune page de CGU trouvée (seule une politique de confidentialité). Le site indique « Hero data sourced from the official Mobile Legends Bang Bang website ». Connecteur activé à la demande de l'utilisateur (8 nov. 2026) : synchronisé par GitHub Actions toutes les 12 h (pages publiques, requêtes espacées, User-Agent identifiable).",
     notes:
       "Stats par rang × période (1/3/7/15/30 j), compétences, statistiques de base, counters/synergies, consensus emblème/sort avec taille d'échantillon. Builds communautaires datées.",
   },

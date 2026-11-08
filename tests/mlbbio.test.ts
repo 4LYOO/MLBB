@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cleanSkill, extractHeroPage, ioSlug, mapHeroPage, mapItems, ourSlug } from "@/lib/server/mlbbio";
+import { cleanSkill, extractHeroPage, ioSlug, mapHeroPage, mapItems, ourSlug } from "@/lib/sync/mlbbio";
 
 const page = {
   heroName: "Alpha",

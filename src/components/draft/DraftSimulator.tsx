@@ -16,6 +16,7 @@ import {
 import { computeTiers } from "@/lib/engine/tier";
 import { LANE_FR, RANKS, RANK_FR, type Hero, type HeroStat, type Rank, type Tier } from "@/lib/domain";
 import { HeroAvatar, Notice } from "@/components/ui";
+import { personal, usePersonal } from "@/lib/client/store";
 import { HeroPicker } from "./HeroPicker";
 import { RecommendationCard } from "./RecommendationCard";
 import { CompPanel } from "./CompPanel";
@@ -64,7 +65,7 @@ export function DraftSimulator(p: DraftProps) {
   const [useMastery, setUseMastery] = useState(true);
   const [training, setTraining] = useState(false);
   const [tab, setTab] = useState<Tab>("picks");
-  const [saved, setSaved] = useState<Saved[]>([]);
+  const saved = usePersonal().drafts as unknown as Saved[];
   const [currentId, setCurrentId] = useState<number | undefined>();
   const [compare, setCompare] = useState<number[]>([]);
   const [msg, setMsg] = useState("");
@@ -161,24 +162,13 @@ export function DraftSimulator(p: DraftProps) {
   const undo = () => setLog((l) => l.slice(0, -1));
   const removeAt = (t: Target) => setLog((l) => l.filter((a) => !(a.team === t.team && a.action === t.action && a.slot === t.slot)));
 
-  const loadSaved = useCallback(() => fetch("/api/drafts").then((r) => r.json()).then(setSaved).catch(() => {}), []);
-  useEffect(() => {
-    loadSaved();
-  }, [loadSaved]);
-
-  const save = async () => {
+  const save = () => {
     const name = prompt("Nom de la draft :", currentId ? saved.find((s) => s.id === currentId)?.name : `Draft du ${new Date().toLocaleString("fr-FR")}`);
     if (!name) return;
-    const r = await fetch("/api/drafts", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ id: currentId, name, mode: modeId, state: { log, side, modeId }, summary: { overall: analysis.overall, allies, enemies, bans } }),
-    });
-    const { id } = await r.json();
+    const id = personal.saveDraft({ id: currentId, name, mode: modeId, state: { log, side, modeId }, summary: { overall: analysis.overall, allies, enemies, bans } });
     setCurrentId(id);
-    setMsg("Draft sauvegardée.");
+    setMsg("Draft sauvegardée sur cet appareil.");
     setTimeout(() => setMsg(""), 2500);
-    loadSaved();
   };
   const open = (s: Saved) => {
     if (!s.state) return;
@@ -188,10 +178,9 @@ export function DraftSimulator(p: DraftProps) {
     setCurrentId(s.id);
     setTab("analysis");
   };
-  const del = async (id: number) => {
-    await fetch(`/api/drafts?id=${id}`, { method: "DELETE" });
+  const del = (id: number) => {
+    personal.deleteDraft(id);
     setCompare((c) => c.filter((x) => x !== id));
-    loadSaved();
   };
 
   const changeMode = (id: string) => {

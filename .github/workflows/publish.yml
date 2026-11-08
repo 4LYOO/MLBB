@@ -1,0 +1,64 @@
+# Synchronise les données (mlbb.io + data/imports/) puis publie l'application sur GitHub Pages.
+# Déclenché : à chaque push sur main, toutes les 12 heures, ou à la main (« Run workflow »).
+name: Synchroniser et publier
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 3,15 * * *" # 03:17 et 15:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Tests
+        run: npm test
+
+      - id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Synchroniser les données (mlbb.io + data/imports)
+        run: npm run data:publish
+        env:
+          PAGES_URL: ${{ steps.pages.outputs.base_url }}
+
+      - name: Construire le site statique
+        run: npm run build
+        env:
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          NEXT_PUBLIC_REPO_URL: ${{ github.server_url }}/${{ github.repository }}
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

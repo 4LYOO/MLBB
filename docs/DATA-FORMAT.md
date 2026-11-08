@@ -1,6 +1,6 @@
 # Format d'import `mlbb-companion/v1`
 
-Un paquet JSON regroupe des données d'**une seule source**, capturées à **une date**. Tous les blocs sont optionnels sauf `format`, `source` et `capturedAt`. Le schéma de validation fait foi : `src/lib/server/importer.ts` (zod).
+Un paquet JSON regroupe des données d'**une seule source**, capturées à **une date**. Il s'importe dans l'application (Sources & données → Importer un fichier, conservé sur l'appareil) ou se dépose dans `data/imports/` du dépôt pour être publié à chaque synchronisation. Tous les blocs sont optionnels sauf `format`, `source` et `capturedAt`. Le schéma de validation fait foi : `src/lib/server/importer.ts` (zod).
 
 ```jsonc
 {
@@ -42,6 +42,7 @@ Valeurs à 0 ci-dessus : **structure seulement**, ne pas importer telle quelle.
 - Build avec échantillon < 20 : signalé comme petit échantillon.
 - Une donnée importée n'est jamais écrasée par le référentiel éditorial.
 - Réimporter le même paquet est sans effet (idempotent). Une nouvelle `capturedAt` crée une nouvelle capture → historique et tendances.
+- Les règles de fusion sont implémentées dans `src/lib/data/model.ts` (testées dans `tests/model.test.ts`).
 
 ## CSV de statistiques
 
@@ -50,4 +51,4 @@ hero;rank;period;winRate;pickRate;banRate
 alpha;all;7d;…;…;…
 ```
 
-Séparateur `;` ou `,`, décimales `.` ou `,`, symbole `%` toléré. Source et date de capture obligatoires (CLI : `--source-id`, `--captured-at` ; interface : champs dédiés).
+Séparateur `;` ou `,`, décimales `.` ou `,`, symbole `%` toléré. Source et date de capture obligatoires (champs dédiés de l'interface).

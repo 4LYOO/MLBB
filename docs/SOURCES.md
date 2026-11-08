@@ -16,7 +16,7 @@ Le dossier ne contient **aucune donnée brute exploitable directement** (pas de 
 | Source | Usage | Note dossier | Accès vérifié | Conditions | Intégration |
 | --- | --- | --- | --- | --- | --- |
 | MLBBHub | Stats ranked, tier list, counters, matchups, builds, draft, MPL | 9 | ✅ HTTP 200 | **CGU §4 : extraction automatisée interdite sans autorisation écrite** ; `robots.txt` : `Disallow: /api/` | ❌ Pas d'extraction automatique (revérifié le 8 nov. 2026). ✅ Import manuel par copier-coller. |
-| mlbb.io | Stats par rang × période, builds avec échantillon, compétences, counters | 7–8 | ✅ HTTP 200 | `robots.txt` : `Allow: /` ; aucune CGU trouvée ; « Hero data sourced from the official MLBB website » | ✅ Connecteur actif (activé à la demande de l'utilisateur, 8 nov. 2026) |
+| mlbb.io | Stats par rang × période, builds avec échantillon, compétences, counters | 7–8 | ✅ HTTP 200 | `robots.txt` : `Allow: /` ; aucune CGU trouvée ; « Hero data sourced from the official MLBB website » | ✅ Connecteur actif : synchronisé par GitHub Actions toutes les 12 h (activé à la demande de l'utilisateur, 8 nov. 2026) |
 | mobilelegends.com | Source primaire officielle | 7 | ↪ redirige vers www.mobilelegends.com (non testé) | Aucune API publique documentée | 🔧 Connecteur préparé (`MOONTON_API_BASE`) |
 | Liquipedia | E-sport : picks, bans, WR, présence | 9 | ✅ (API : User-Agent + gzip requis, sinon 406) | CC BY-SA, règles d'API (débit) | 🔧 Préparé (`LIQUIPEDIA_USER_AGENT`), parsing à faire |
 | TitoSenpai | Builds avec taux d'utilisation et WR | 7 | ✅ HTTP 200 | `robots.txt` permissif ; CGU non vérifiées | — |
@@ -37,7 +37,7 @@ Le dossier ne contient **aucune donnée brute exploitable directement** (pas de 
 ## 4. Solutions de remplacement mises en place
 
 - **Référentiel éditorial** (rôles, lanes, profils qualitatifs, objets sans chiffres) pour que le draft, les builds adaptatifs et les fiches fonctionnent sans statistiques — clairement étiqueté et jamais présenté comme statistique.
-- **Import universel** (JSON `mlbb-companion/v1` ou CSV) avec provenance obligatoire, pour brancher n'importe quelle source autorisée.
+- **Import universel** (JSON `mlbb-companion/v1`, CSV, ou copier-coller d'un tableau) avec provenance obligatoire ; conservé sur l'appareil, ou publié pour tous via `data/imports/`.
 - **Matchups par règles de mécaniques** (anti-dash, réduction de soins, anti-tank…) remplacés automatiquement par des données réelles dès leur import.
 - **Tier lists calculées** à partir des données importées uniquement ; jamais d'opinion présentée comme statistique.
 
