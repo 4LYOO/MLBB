@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   MLBB Companion — thème sombre « Liquid Glass »
+   Surfaces translucides (flou + saturation), liserés lumineux,
+   fond sombre animé de halos bleu / violet / or.
+   ------------------------------------------------------------------ */
+@theme {
+  --color-bg: #05060d;
+  --color-surface: #111528;
+  --color-surface-2: #171c35;
+  --color-surface-3: #1f2545;
+  --color-line: rgba(255, 255, 255, 0.1);
+  --color-ink: #f2f4ff;
+  --color-ink-2: #c2c8e6;
+  --color-muted: #8f98c0;
+  --color-primary: #5b8cff;
+  --color-primary-2: #4774f0;
+  --color-violet: #9b6bff;
+  --color-gold: #f5c542;
+  --color-good: #34d399;
+  --color-warn: #fbbf24;
+  --color-bad: #f87171;
+  /* Palette catégorielle des graphiques (validée sur la surface #111528, mode sombre) */
+  --color-s1: #3987e5;
+  --color-s2: #d95926;
+  --color-s3: #199e70;
+  --color-s4: #c98500;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Roboto, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", Roboto, sans-serif;
+  --animate-fade-in: fade-in 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  --animate-sheet: sheet-up 0.35s cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.995); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes sheet-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(3%, -2%, 0) scale(1.06); }
+}
+
+:root {
+  color-scheme: dark;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --glass-bg: rgba(255, 255, 255, 0.055);
+  --glass-bg-strong: rgba(22, 26, 48, 0.62);
+  --glass-border: rgba(255, 255, 255, 0.11);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 -1px 0 rgba(255, 255, 255, 0.03);
+  --glass-shadow: 0 10px 40px -12px rgba(0, 0, 0, 0.65);
+}
+
+html {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+body {
+  min-height: 100dvh;
+  overscroll-behavior-y: none;
+}
+
+/* Fond : halos flous fixes derrière les surfaces en verre */
+.liquid-bg {
+  position: fixed;
+  inset: -10%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 35% at 15% 10%, rgba(91, 140, 255, 0.28), transparent 70%),
+    radial-gradient(35% 30% at 90% 5%, rgba(155, 107, 255, 0.26), transparent 70%),
+    radial-gradient(30% 30% at 75% 85%, rgba(245, 197, 66, 0.12), transparent 70%),
+    radial-gradient(45% 40% at 10% 90%, rgba(56, 189, 248, 0.12), transparent 70%),
+    var(--color-bg);
+  animation: drift 26s ease-in-out infinite;
+}
+
+@utility glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-highlight), var(--glass-shadow);
+  -webkit-backdrop-filter: blur(24px) saturate(170%);
+  backdrop-filter: blur(24px) saturate(170%);
+}
+@utility glass-strong {
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-highlight), 0 18px 50px -10px rgba(0, 0, 0, 0.7);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  backdrop-filter: blur(30px) saturate(180%);
+}
+@utility glass-inset {
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+@utility card { @apply glass rounded-3xl; }
+@utility card-pad { @apply p-4 sm:p-5; }
+@utility btn {
+  @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition active:scale-[0.97] cursor-pointer select-none disabled:cursor-not-allowed disabled:opacity-40;
+}
+@utility btn-primary {
+  @apply btn text-white;
+  background: linear-gradient(135deg, #5b8cff, #8b5cf6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 8px 24px -8px rgba(91, 140, 255, 0.7);
+}
+@utility btn-ghost {
+  @apply btn glass text-ink-2 hover:text-ink;
+}
+@utility btn-gold {
+  @apply btn text-[#1b1400];
+  background: linear-gradient(135deg, #ffd86b, #f5b942);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), 0 8px 24px -10px rgba(245, 197, 66, 0.7);
+}
+/* 16 px sur mobile : évite le zoom automatique de Safari iOS au focus */
+@utility input {
+  @apply glass-inset w-full min-h-11 rounded-2xl px-3.5 py-2 text-base text-ink outline-none placeholder:text-muted focus:border-primary/70 focus:ring-2 focus:ring-primary/30 sm:text-sm;
+}
+@utility label { @apply mb-1 block text-[11px] font-semibold tracking-wider text-muted uppercase; }
+@utility chip { @apply glass inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs text-ink-2; }
+@utility h-display { font-family: var(--font-display); @apply font-bold tracking-tight; }
+@utility table-base {
+  @apply w-full text-sm;
+  & th { @apply px-3 py-2 text-left text-[11px] font-semibold tracking-wider text-muted uppercase; }
+  & td { @apply border-t border-line px-3 py-2.5; }
+  & tbody tr { @apply transition-colors; }
+  & tbody tr:hover { background: rgba(255, 255, 255, 0.04); }
+}
+@utility pt-safe { padding-top: var(--safe-top); }
+@utility pb-safe { padding-bottom: var(--safe-bottom); }
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+select.input {
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238f98c0' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  padding-right: 2.2rem;
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); border-radius: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, .liquid-bg { animation: none !important; transition: none !important; }
+}
