@@ -8,7 +8,7 @@ import clsx from "clsx";
 import { AVerifier, HeroAvatar } from "@/components/ui";
 import { personal, usePersonal, type Player } from "@/lib/client/store";
 import { aggregate } from "@/lib/engine/coach";
-import { currentStreak, duoPairs, sessionSummary } from "@/lib/engine/rush";
+import { currentStreak, duoPairs, sessionSummary, starsEstimate } from "@/lib/engine/rush";
 import { ROLE_COLOR, ROLE_FR, type Hero, type Role } from "@/lib/domain";
 
 const wrColor = (wr: number) => (wr >= 55 ? "text-good" : wr < 45 ? "text-bad" : "text-ink");
@@ -21,6 +21,58 @@ function Big({ label, value, tone, extra }: { label: string; value: React.ReactN
         {label} {extra}
       </p>
     </div>
+  );
+}
+
+/** Total d'étoiles (Mythique Immortel) : saisi une fois, puis estimé avec les parties du journal. */
+function StarsCard() {
+  const me = usePersonal();
+  const est = starsEstimate(me.matches, me.prefs.etoiles);
+  const goal = me.prefs.objectifEtoiles ?? null;
+  const [edit, setEdit] = useState(false);
+  const [val, setVal] = useState(String(est?.total ?? ""));
+  const [obj, setObj] = useState(String(goal ?? ""));
+  if (edit || !est)
+    return (
+      <section className="card space-y-2 p-3">
+        <p className="font-semibold">Tes étoiles Mythique Immortel</p>
+        <p className="text-xs text-muted">Saisis ton total actuel (visible dans le jeu) : l&apos;appli l&apos;estime ensuite avec ton journal. Corrige-le de temps en temps.</p>
+        <div className="grid grid-cols-2 gap-2">
+          <label>
+            <span className="label">Étoiles actuelles</span>
+            <input className="input" inputMode="numeric" value={val} onChange={(e) => setVal(e.target.value.replace(/\D/g, ""))} placeholder="100" />
+          </label>
+          <label>
+            <span className="label">Objectif</span>
+            <input className="input" inputMode="numeric" value={obj} onChange={(e) => setObj(e.target.value.replace(/\D/g, ""))} placeholder="150" />
+          </label>
+        </div>
+        <button
+          className="btn-primary w-full"
+          disabled={!val}
+          onClick={() => {
+            personal.setEtoiles(Number(val), obj ? Number(obj) : null);
+            setEdit(false);
+          }}
+        >
+          Enregistrer
+        </button>
+      </section>
+    );
+  return (
+    <button className="card flex w-full items-center gap-4 p-3 text-left" onClick={() => setEdit(true)}>
+      <p className="text-[40px] font-bold leading-none tabular-nums text-gold">{est.total}★</p>
+      <span className="min-w-0 flex-1">
+        <span className="block text-sm font-semibold">
+          Étoiles estimées <AVerifier title="Estimation : +1 / −1 par partie du journal depuis ta dernière saisie ; protections et bonus non comptés" />
+        </span>
+        <span className="block text-xs text-muted">
+          {est.delta >= 0 ? `+${est.delta}` : est.delta} sur {est.games} partie(s) depuis ta saisie
+          {goal ? ` · objectif ${goal}★ : ${goal - est.total > 0 ? `encore ${goal - est.total}` : "atteint 🎉"}` : ""}
+        </span>
+        <span className="block text-[11px] text-primary">Toucher pour corriger</span>
+      </span>
+    </button>
   );
 }
 
@@ -38,6 +90,7 @@ export function RushStats({ heroes }: { heroes: Hero[] }) {
 
   return (
     <div className="space-y-3">
+      <StarsCard />
       {/* Session en cours */}
       <div className="grid grid-cols-3 gap-2">
         <Big label="Session" value={`${s.wins}-${s.losses}`} />
@@ -65,7 +118,7 @@ export function RushStats({ heroes }: { heroes: Hero[] }) {
                   {h && <HeroAvatar hero={h} size={36} />}
                   <span className="min-w-0 flex-1 truncate font-medium">{h?.name ?? a.key}</span>
                   <span className="text-xs text-muted">{a.games} p.</span>
-                  <span className={clsx("w-14 text-right text-lg font-bold tabular-nums", wrColor(a.winRate))}>{Math.round(a.winRate)} %</span>
+                  <span className={clsx("w-16 shrink-0 whitespace-nowrap text-right text-lg font-bold tabular-nums", wrColor(a.winRate))}>{Math.round(a.winRate)} %</span>
                 </li>
               );
             })}
@@ -84,7 +137,7 @@ export function RushStats({ heroes }: { heroes: Hero[] }) {
                 <span className="h-3 w-3 rounded-full" style={{ background: ROLE_COLOR[a.key as Role] ?? "#71717a" }} />
                 <span className="flex-1 font-medium">{ROLE_FR[a.key as Role] ?? a.key}</span>
                 <span className="text-xs text-muted">{a.games} p.</span>
-                <span className={clsx("w-14 text-right text-lg font-bold tabular-nums", wrColor(a.winRate))}>{Math.round(a.winRate)} %</span>
+                <span className={clsx("w-16 shrink-0 whitespace-nowrap text-right text-lg font-bold tabular-nums", wrColor(a.winRate))}>{Math.round(a.winRate)} %</span>
               </li>
             ))}
           </ul>
@@ -103,7 +156,7 @@ export function RushStats({ heroes }: { heroes: Hero[] }) {
                   {idx.get(p.moi)?.name} + {idx.get(p.elle)?.name}
                 </span>
                 <span className="text-xs text-muted">{p.games} p.</span>
-                <span className={clsx("w-14 text-right text-lg font-bold tabular-nums", wrColor(p.winRate))}>{Math.round(p.winRate)} %</span>
+                <span className={clsx("w-16 shrink-0 whitespace-nowrap text-right text-lg font-bold tabular-nums", wrColor(p.winRate))}>{Math.round(p.winRate)} %</span>
               </li>
             ))}
           </ul>

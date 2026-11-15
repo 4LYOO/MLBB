@@ -97,3 +97,15 @@ export function duoPairs(matches: RushMatch[]): Pair[] {
   const smooth = (p: Pair) => (p.wins + 1) / (p.games + 2);
   return [...pairs.values()].sort((a, b) => smooth(b) - smooth(a) || b.games - a.games);
 }
+
+/**
+ * Étoiles estimées : total saisi à la main (ex. 100) + étoiles des parties enregistrées depuis.
+ * Estimation (+1 / −1 par défaut) : les protections et bonus d'étoiles du jeu ne sont pas comptés.
+ */
+export function starsEstimate(matches: RushMatch[], base: { valeur: number; at: string } | null | undefined) {
+  if (!base) return null;
+  const since = new Date(base.at).getTime();
+  const games = uniqueGames(matches).filter((m) => timeOf(m) >= since);
+  const delta = games.reduce((s, m) => s + (m.result === "win" ? R.etoilesVictoire : R.etoilesDefaite), 0);
+  return { total: Math.max(0, base.valeur + delta), delta, games: games.length };
+}
