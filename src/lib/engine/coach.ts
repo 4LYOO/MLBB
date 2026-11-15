@@ -13,6 +13,8 @@ export interface MatchLike {
   assists: number;
   durationMin: number | null;
   mvp: boolean;
+  /** Partie sans K/D/A saisis : comptée pour le win rate, pas pour le KDA. */
+  sansKda?: boolean;
 }
 
 export interface Agg {
@@ -44,17 +46,19 @@ export function aggregate(matches: MatchLike[], keyOf: (m: MatchLike) => string 
 export function summarize(key: string, ms: MatchLike[]): Agg {
   const games = ms.length;
   const wins = ms.filter((m) => m.result === "win").length;
-  const k = ms.reduce((s, m) => s + m.kills, 0);
-  const d = ms.reduce((s, m) => s + m.deaths, 0);
-  const a = ms.reduce((s, m) => s + m.assists, 0);
+  const withKda = ms.filter((m) => !m.sansKda); // les parties sans K/D/A ne faussent pas les moyennes
+  const n = withKda.length;
+  const k = withKda.reduce((s, m) => s + m.kills, 0);
+  const d = withKda.reduce((s, m) => s + m.deaths, 0);
+  const a = withKda.reduce((s, m) => s + m.assists, 0);
   return {
     key,
     games,
     wins,
     winRate: games ? (wins / games) * 100 : 0,
-    kills: games ? k / games : 0,
-    deaths: games ? d / games : 0,
-    assists: games ? a / games : 0,
+    kills: n ? k / n : 0,
+    deaths: n ? d / n : 0,
+    assists: n ? a / n : 0,
     kda: kdaOf(k, d, a),
     mvp: ms.filter((m) => m.mvp).length,
   };

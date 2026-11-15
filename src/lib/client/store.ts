@@ -35,6 +35,15 @@ export interface Match {
   rank: string | null;
   notes: string | null;
   entry: string;
+  /** Joueur concerné (duo) — facultatif pour les anciennes parties. */
+  player?: "moi" | "elle";
+  /** Composition de la partie, enregistrée depuis le draft. */
+  allies?: string[];
+  enemies?: string[];
+  /** Identifiant commun aux lignes d'une même partie jouée en duo. */
+  gameId?: string | null;
+  /** Partie enregistrée sans K/D/A (depuis le draft) : exclue des moyennes de KDA. */
+  sansKda?: boolean;
 }
 export interface SavedDraft {
   id: number;
