@@ -7,10 +7,11 @@
  */
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { AlarmClock, GraduationCap, Trophy, X, XCircle } from "lucide-react";
+import { AlarmClock, GraduationCap, PencilLine, Trophy, X, XCircle } from "lucide-react";
 import { AVerifier, HeroAvatar } from "@/components/ui";
 import { useData } from "@/lib/client/data";
-import { personal, type Player } from "@/lib/client/store";
+import { personal, usePersonal, type Player } from "@/lib/client/store";
+import { AnnotateSheet } from "@/components/rush/RecentGames";
 import { adaptBuild, archetypeOf, EMBLEM_BY_ARCHETYPE } from "@/lib/engine/builds";
 import { analyzeComposition, matchup, type MatchupDatum } from "@/lib/engine/draft";
 import { EDITORIAL_EMBLEMS, EDITORIAL_SPELLS } from "@/data/reference/items";
@@ -44,6 +45,9 @@ interface Props {
 export function PregameSheet({ heroes, idx, allies, enemies, owners, players, matchups, combos, laneOf, onClose }: Props) {
   const { model } = useData();
   const [saved, setSaved] = useState<string | null>(null);
+  const [savedGame, setSavedGame] = useState<string | null>(null);
+  const [annotate, setAnnotate] = useState(false);
+  const me = usePersonal();
   const enemyHeroes = enemies.map((s) => idx.get(s)!).filter(Boolean);
   const allySlugs = allies.filter(Boolean) as string[];
   const analysis = useMemo(() => analyzeComposition(allySlugs, enemies, heroes, combos, matchups), [allySlugs, enemies, heroes, combos, matchups]);
@@ -96,6 +100,7 @@ export function PregameSheet({ heroes, idx, allies, enemies, owners, players, ma
         gameId,
       });
     setSaved(result === "win" ? "Victoire enregistrée" : "Défaite enregistrée");
+    setSavedGame(gameId);
   };
 
   return (
@@ -186,7 +191,12 @@ export function PregameSheet({ heroes, idx, allies, enemies, owners, players, ma
           <section className="card p-3">
             <p className="mb-2 text-sm font-semibold">Résultat de la partie</p>
             {saved ? (
-              <p className="text-center font-semibold text-good">{saved} dans le journal.</p>
+              <div className="space-y-2">
+                <p className="text-center font-semibold text-good">{saved} dans le journal.</p>
+                <button className="btn-ghost min-h-11 w-full text-sm" onClick={() => setAnnotate(true)}>
+                  <PencilLine size={16} /> Annoter (lane gagnée, détruit en early…)
+                </button>
+              </div>
             ) : (
               <div className="grid grid-cols-2 gap-2">
                 <button className="btn-good min-h-14" onClick={() => record("win")}>
@@ -201,6 +211,7 @@ export function PregameSheet({ heroes, idx, allies, enemies, owners, players, ma
           </section>
         )}
       </div>
+      {annotate && savedGame && <AnnotateSheet game={me.matches.filter((m) => m.gameId === savedGame)} onClose={() => setAnnotate(false)} />}
     </div>
   );
 }

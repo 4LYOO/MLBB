@@ -7,6 +7,8 @@ import { PersonalStats } from "@/components/profile/PersonalStats";
 import { AntiTiltBanner } from "@/components/rush/AntiTilt";
 import { RushJournal } from "@/components/rush/RushJournal";
 import { RushStats } from "@/components/rush/RushStats";
+import { CaptureImport } from "@/components/rush/CaptureImport";
+import { RecentGames } from "@/components/rush/RecentGames";
 import { useData } from "@/lib/client/data";
 import { usePersonal } from "@/lib/client/store";
 import { DataGate } from "./Loading";
@@ -25,6 +27,8 @@ function Inner() {
     <div className="space-y-3">
       <AntiTiltBanner />
       <RushJournal heroes={model.heroes} />
+      <CaptureImport heroes={model.heroes} />
+      <RecentGames heroes={model.heroes} />
       <RushStats heroes={model.heroes} />
       <details className="card">
         <summary className="flex min-h-14 cursor-pointer list-none items-center px-4 font-bold [&::-webkit-details-marker]:hidden">Suivi détaillé (KDA, graphiques, coach) ›</summary>

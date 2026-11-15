@@ -7,7 +7,8 @@
  */
 import { useMemo, useState } from "react";
 import clsx from "clsx";
-import { Search, Trophy, XCircle } from "lucide-react";
+import { PencilLine, Search, Trophy, XCircle } from "lucide-react";
+import { AnnotateSheet } from "./RecentGames";
 import { HeroAvatar } from "@/components/ui";
 import { personal, usePersonal, type Player } from "@/lib/client/store";
 import { LANES, type Hero, type Lane, type Role } from "@/lib/domain";
@@ -23,7 +24,7 @@ function roleFor(p: Player | undefined, h: Hero, chosen?: Lane | null): string |
 }
 
 /** Choix du héros d'un joueur : héros récents + pool, et une recherche pour les autres. */
-function HeroPicker({ player, heroes, value, onChange }: { player: Player; heroes: Hero[]; value: string | null; onChange: (s: string) => void }) {
+export function HeroPicker({ player, heroes, value, onChange }: { player: Player; heroes: Hero[]; value: string | null; onChange: (s: string) => void }) {
   const me = usePersonal();
   const [q, setQ] = useState("");
   const idx = useMemo(() => new Map(heroes.map((h) => [h.slug, h])), [heroes]);
@@ -71,6 +72,9 @@ export function RushJournal({ heroes }: { heroes: Hero[] }) {
   const [duo, setDuo] = useState(me.prefs.duo && (!!lastOf("elle") || Object.values(elle?.pool ?? {}).flat().length > 0));
   const [pick, setPick] = useState<Record<Player["id"], string | null>>({ moi: lastOf("moi"), elle: lastOf("elle") });
   const [flash, setFlash] = useState<string | null>(null);
+  // Dernière partie enregistrée : proposée à l'annotation (« lane gagnée », « gagné en late »…).
+  const [lastGame, setLastGame] = useState<string | null>(null);
+  const [annotate, setAnnotate] = useState(false);
   const who: Player["id"][] = duo ? ["moi", "elle"] : ["moi"];
   const ready = who.every((id) => pick[id] && idx.get(pick[id]!));
 
@@ -97,6 +101,7 @@ export function RushJournal({ heroes }: { heroes: Hero[] }) {
       });
     }
     setFlash(result === "win" ? "Victoire enregistrée ✓" : "Défaite enregistrée");
+    setLastGame(gameId);
     setTimeout(() => setFlash(null), 1500);
   };
 
@@ -126,6 +131,20 @@ export function RushJournal({ heroes }: { heroes: Hero[] }) {
             <XCircle size={20} /> Défaite
           </button>
         </div>
+      )}
+      {lastGame && !flash && (
+        <button className="btn-ghost min-h-11 w-full text-sm" onClick={() => setAnnotate(true)}>
+          <PencilLine size={16} /> Annoter la dernière partie (lane, early, late…)
+        </button>
+      )}
+      {annotate && lastGame && (
+        <AnnotateSheet
+          game={me.matches.filter((m) => m.gameId === lastGame)}
+          onClose={() => {
+            setAnnotate(false);
+            setLastGame(null);
+          }}
+        />
       )}
     </section>
   );
