@@ -67,3 +67,12 @@ describe("patch notes", () => {
     expect(r2.indirect.has("aurora")).toBe(true);
   });
 });
+
+import { counterItems } from "@/lib/engine/builds";
+describe("items de contre (aide-mémoire)", () => {
+  it("propose réduction de soins et défense magique selon la compo ennemie", () => {
+    const needs = counterItems(["estes", "eudora", "aurora", "kagura"].map((s) => idx.get(s)!));
+    expect(needs.map((n) => n.besoin)).toEqual(expect.arrayContaining(["Réduction de soins", "Défense magique"]));
+    expect(counterItems([])).toEqual([]);
+  });
+});

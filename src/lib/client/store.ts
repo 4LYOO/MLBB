@@ -44,6 +44,8 @@ export interface Match {
   gameId?: string | null;
   /** Partie enregistrée sans K/D/A (depuis le draft) : exclue des moyennes de KDA. */
   sansKda?: boolean;
+  /** Date et heure d'enregistrement (sert à découper les sessions de rush). */
+  createdAt?: string;
 }
 export interface SavedDraft {
   id: number;
@@ -87,8 +89,10 @@ export interface PersonalData {
   packages: LocalPackage[];
   /** Les deux joueurs du duo (pools de héros). */
   players: Player[];
-  /** Préférences : anti-tilt, etc. */
-  prefs: { duo: boolean };
+  /** Préférences : mode duo, anti-tilt, dernière bannière anti-tilt masquée. */
+  prefs: { duo: boolean; antiTilt: boolean; antiTiltMasqueA?: string | null };
+  /** Dernière draft (pour l'aide-mémoire en partie). */
+  derniereDraft?: { allies: string[]; enemies: string[]; at: string } | null;
   /** Checklists du coaching, par rôle : cases cochées + réussites cumulées. */
   checklists: Record<string, { coches: number[]; reussites: number[]; parties: number }>;
 }
@@ -112,7 +116,8 @@ export const EMPTY: PersonalData = {
     { id: "moi", nom: "Moi", pool: { exp: [], jungle: [], mid: [], roam: [], gold: [] } },
     { id: "elle", nom: "Ma conjointe", pool: { exp: [], jungle: [], mid: [], roam: [], gold: [] } },
   ],
-  prefs: { duo: true },
+  prefs: { duo: true, antiTilt: true, antiTiltMasqueA: null },
+  derniereDraft: null,
   checklists: {},
 };
 
@@ -186,7 +191,7 @@ export const personal = {
     update((s) => ({ ...s, profile: { ...p, updatedAt: now() } }));
   },
   addMatch(m: Omit<Match, "id">) {
-    update((s) => ({ ...s, matches: [{ ...m, id: newId() }, ...s.matches].sort((a, b) => b.playedAt.localeCompare(a.playedAt) || b.id - a.id) }));
+    update((s) => ({ ...s, matches: [{ createdAt: now(), ...m, id: newId() }, ...s.matches].sort((a, b) => b.playedAt.localeCompare(a.playedAt) || b.id - a.id) }));
   },
   deleteMatch(id: number) {
     update((s) => ({ ...s, matches: s.matches.filter((m) => m.id !== id) }));
@@ -303,6 +308,13 @@ export const personal = {
       const reussites = Array.from({ length: nbPoints }, (_, i) => (c.reussites[i] ?? 0) + (c.coches.includes(i) ? 1 : 0));
       return { ...s, checklists: { ...s.checklists, [role]: { coches: [], reussites, parties: c.parties + 1 } } };
     });
+  },
+  /** Mémorise la dernière draft (compo alliée et ennemie). */
+  setDerniereDraft(allies: string[], enemies: string[]) {
+    load();
+    const d = state.derniereDraft;
+    if (d && d.allies.join() === allies.join() && d.enemies.join() === enemies.join()) return;
+    update((s) => ({ ...s, derniereDraft: { allies, enemies, at: now() } }));
   },
   setPref<K extends keyof PersonalData["prefs"]>(key: K, value: PersonalData["prefs"][K]) {
     update((s) => ({ ...s, prefs: { ...s.prefs, [key]: value } }));

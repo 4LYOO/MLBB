@@ -33,5 +33,13 @@
       "meta": "Tier calculé du patch",
       "difficulte": "Pénalité si le héros dépasse la difficulté maximale choisie"
     }
+  },
+  "rush": {
+    "_explication": "Journal de rush. Étoiles gagnées/perdues par partie (approximation : le jeu ajoute protections et bonus selon le rang), seuil de l'anti-tilt.",
+    "etoilesVictoire": 1,
+    "etoilesDefaite": -1,
+    "etoilesAVerifier": true,
+    "antiTiltDefaitesDAffilee": 2,
+    "sessionNouvelleApresHeures": 4
   }
 }

@@ -151,6 +151,37 @@ export function adaptBuild(hero: Hero, enemies: Hero[], lane: Lane | null, flags
   return { archetype, base: baseItems, adapted, changes, spell, enemySummary: s };
 }
 
+export interface CounterNeed {
+  besoin: string;
+  items: string[];
+  pourquoi: string;
+}
+
+/**
+ * Items de contre selon la compo ennemie (aide-mémoire en partie).
+ * Règles simples et transparentes ; les noms d'objets sont à vérifier à chaque patch.
+ */
+export function counterItems(enemies: Hero[]): CounterNeed[] {
+  const prof = enemies.filter((e) => e.profile);
+  const names = (list: Hero[]) => list.map((e) => e.name).join(", ");
+  const healers = prof.filter((e) => e.profile!.tags.includes("heal") || e.profile!.tags.includes("selfheal") || e.profile!.sustain >= 3);
+  const shields = prof.filter((e) => e.profile!.tags.includes("shield"));
+  const magic = enemies.filter((e) => e.damage === "M" || e.damage === "H");
+  const physical = enemies.filter((e) => e.damage === "P" || e.damage === "H");
+  const tanks = prof.filter((e) => e.profile!.durability >= 3);
+  const burst = prof.filter((e) => e.profile!.burst >= 3);
+  const ccTotal = prof.reduce((s, e) => s + e.profile!.cc, 0);
+  const out: CounterNeed[] = [];
+  if (healers.length) out.push({ besoin: "Réduction de soins", items: ["Sea Halberd", "Glowing Wand", "Dominance Ice"], pourquoi: `Soins / sustain : ${names(healers)}` });
+  if (shields.length) out.push({ besoin: "Anti-bouclier", items: ["Dominance Ice"], pourquoi: `Boucliers : ${names(shields)}` });
+  if (magic.length >= 3) out.push({ besoin: "Défense magique", items: ["Athena's Shield", "Radiant Armor", "Tough Boots"], pourquoi: `${magic.length} sources magiques : ${names(magic)}` });
+  if (physical.length >= 3) out.push({ besoin: "Défense physique", items: ["Antique Cuirass", "Blade Armor", "Twilight Armor", "Warrior Boots"], pourquoi: `${physical.length} sources physiques : ${names(physical)}` });
+  if (tanks.length >= 2) out.push({ besoin: "Pénétration / % PV", items: ["Malefic Roar", "Divine Glaive", "Demon Hunter Sword"], pourquoi: `Héros très résistants : ${names(tanks)}` });
+  if (burst.length >= 2) out.push({ besoin: "Survie contre le burst", items: ["Immortality", "Wind of Nature", "Winter Crown", "Sort Aegis"], pourquoi: `Gros burst : ${names(burst)}` });
+  if (ccTotal >= 10) out.push({ besoin: "Contre les contrôles", items: ["Tough Boots", "Sort Purify"], pourquoi: `Beaucoup de contrôles (total ${ccTotal})` });
+  return out;
+}
+
 export const EMBLEM_BY_ARCHETYPE: Record<Archetype, { emblem: string; talents: [string, string, string]; why: string }> = {
   "mm-crit": { emblem: "marksman", talents: ["Swift", "Weapons Master", "Weakness Finder"], why: "Vitesse d'attaque et contrôle à l'impact." },
   "mm-onhit": { emblem: "marksman", talents: ["Swift", "Weapons Master", "Quantum Charge"], why: "Sustain et mobilité en combat soutenu." },
