@@ -90,7 +90,7 @@ export interface PersonalData {
   /** Les deux joueurs du duo (pools de héros). */
   players: Player[];
   /** Préférences : mode duo, anti-tilt, dernière bannière anti-tilt masquée. */
-  prefs: { duo: boolean; antiTilt: boolean; antiTiltMasqueA?: string | null };
+  prefs: { duo: boolean; antiTilt: boolean; antiTiltMasqueA?: string | null; etoiles?: { valeur: number; at: string } | null; objectifEtoiles?: number | null; rolesDraft?: Partial<Record<"moi" | "elle", Lane | null>> };
   /** Dernière draft (pour l'aide-mémoire en partie). */
   derniereDraft?: { allies: string[]; enemies: string[]; at: string } | null;
   /** Checklists du coaching, par rôle : cases cochées + réussites cumulées. */
@@ -116,7 +116,7 @@ export const EMPTY: PersonalData = {
     { id: "moi", nom: "Moi", pool: { exp: [], jungle: [], mid: [], roam: [], gold: [] } },
     { id: "elle", nom: "Ma conjointe", pool: { exp: [], jungle: [], mid: [], roam: [], gold: [] } },
   ],
-  prefs: { duo: true, antiTilt: true, antiTiltMasqueA: null },
+  prefs: { duo: true, antiTilt: true, antiTiltMasqueA: null, rolesDraft: { moi: null, elle: null } },
   derniereDraft: null,
   checklists: {},
 };
@@ -308,6 +308,14 @@ export const personal = {
       const reussites = Array.from({ length: nbPoints }, (_, i) => (c.reussites[i] ?? 0) + (c.coches.includes(i) ? 1 : 0));
       return { ...s, checklists: { ...s.checklists, [role]: { coches: [], reussites, parties: c.parties + 1 } } };
     });
+  },
+  /** Total d'étoiles actuel saisi à la main (point de départ de l'estimation). */
+  setEtoiles(valeur: number | null, objectif?: number | null) {
+    update((s) => ({ ...s, prefs: { ...s.prefs, etoiles: valeur == null ? null : { valeur, at: now() }, objectifEtoiles: objectif ?? s.prefs.objectifEtoiles ?? null } }));
+  },
+  /** Rôle choisi pour la draft (toi / ta conjointe) ; null = pas de rôle fixé. */
+  setRoleDraft(id: "moi" | "elle", lane: Lane | null) {
+    update((s) => ({ ...s, prefs: { ...s.prefs, rolesDraft: { ...(s.prefs.rolesDraft ?? {}), [id]: lane } } }));
   },
   /** Mémorise la dernière draft (compo alliée et ennemie). */
   setDerniereDraft(allies: string[], enemies: string[]) {

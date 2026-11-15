@@ -150,7 +150,7 @@ export function StatsTable({ rows, hasStats }: { rows: StatRow[]; hasStats: bool
       </ul>
       <div className="hidden max-h-[70vh] overflow-auto rounded-2xl border border-line md:block">
         <table className="table-base min-w-[760px]">
-          <thead className="sticky top-0 z-10 bg-[#141831]/95 backdrop-blur">
+          <thead className="sticky top-0 z-10 bg-[#11131c]/85 backdrop-blur-xl">
             <tr>
               <Th k="name">Héros</Th>
               <th>Rôles</th>

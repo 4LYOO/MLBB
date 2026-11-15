@@ -307,7 +307,7 @@ export function PersonalStats({ heroes, profile, matches }: { heroes: Hero[]; pr
             </h2>
             <ul className="grid gap-2 md:grid-cols-2">
               {tips.map((t, i) => (
-                <li key={i} className={clsx("rounded-xl border p-3 text-sm", t.level === "positive" ? "border-good/40 bg-good/5" : t.level === "warning" ? "border-warn/40 bg-warn/5" : "border-line bg-surface-2/50")}>
+                <li key={i} className={clsx("rounded-2xl border p-3 text-sm", t.level === "positive" ? "border-good/40 bg-good/5" : t.level === "warning" ? "border-warn/40 bg-warn/5" : "border-line bg-surface-2/50")}>
                   <p className="font-semibold">{t.title}</p>
                   <p className="text-ink-2">{t.detail}</p>
                 </li>

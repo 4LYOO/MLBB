@@ -16,7 +16,7 @@ interface Series {
 function TooltipBox({ active, payload, label, unit }: any) {
   if (!active || !payload?.length) return null;
   return (
-    <div className="rounded-lg border border-line bg-surface-2 px-3 py-2 text-xs shadow-xl">
+    <div className="rounded-xl border border-line bg-surface-2 px-3 py-2 text-xs shadow-xl">
       <p className="mb-1 font-medium text-ink">{label}</p>
       {payload.map((p: any) => (
         <p key={p.dataKey} className="flex items-center gap-2 text-ink-2">

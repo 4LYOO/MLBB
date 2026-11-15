@@ -5,7 +5,7 @@ import { FavoriteButton, TrackRecent } from "@/components/hero/FavoriteButton";
 import { ItemRow } from "@/components/hero/ItemRow";
 import { LineSeriesChart } from "@/components/charts/Charts";
 import { heroStatMatrix, matchupsOf, statHistory } from "@/lib/data/model";
-import { statsContext } from "@/lib/data/views";
+import { DEFAULT_RANK, statsContext } from "@/lib/data/views";
 import { useData } from "@/lib/client/data";
 import { DataGate } from "./Loading";
 import { profileTraits, explainHero } from "@/lib/engine/meta";
@@ -64,10 +64,10 @@ function Inner({ slug }: { slug: string }) {
   const sources = Object.fromEntries(model.sourceById);
   const details = model.details.get(slug) ?? null;
   const matrix = heroStatMatrix(model, slug);
-  const ctx = statsContext(model, "all", "7d");
+  const ctx = statsContext(model, DEFAULT_RANK, "7d");
   const stat = ctx.statMap[slug] ?? null;
   const tier = ctx.tierMap[slug] ?? null;
-  const history = statHistory(model, slug, "all", "7d");
+  const history = statHistory(model, slug, DEFAULT_RANK, "7d");
   const items = new Map(model.items.map((i) => [i.slug, i]));
   const builds = model.builds.filter((b) => b.hero === slug);
   const traits = profileTraits(hero);
@@ -133,7 +133,7 @@ function Inner({ slug }: { slug: string }) {
       )}
 
       <div className="grid gap-4 lg:grid-cols-3">
-        <Card title="Statistiques" subtitle="Tous rangs · 7 jours" className="lg:col-span-1">
+        <Card title="Statistiques" subtitle={`${RANK_FR[DEFAULT_RANK]} · 7 jours`} className="lg:col-span-1">
           {stat ? (
             <div className="space-y-3">
               {(
@@ -151,7 +151,7 @@ function Inner({ slug }: { slug: string }) {
               <Provenance source={sources[stat.sourceId]} capturedAt={stat.capturedAt} patch={stat.patch} />
             </div>
           ) : (
-            <Unavailable reason="Aucune statistique importée pour ce héros (tous rangs, 7 jours)." />
+            <Unavailable reason={`Aucune statistique importée pour ce héros (${RANK_FR[DEFAULT_RANK]}, 7 jours).`} />
           )}
         </Card>
         <Card title={<span className="inline-flex items-center gap-2">Profil de jeu {hero.aVerifier && <AVerifier />}</span>} subtitle={`Référentiel éditorial (0–3) · confiance ${hero.confidence === "high" ? "élevée" : hero.confidence === "medium" ? "moyenne" : "faible"}`} className="lg:col-span-2">
@@ -437,7 +437,7 @@ function Inner({ slug }: { slug: string }) {
             <Unavailable />
           )}
         </Card>
-        <Card title="Évolution (tous rangs, 7 jours)" subtitle="Une valeur par capture importée">
+        <Card title={`Évolution (${RANK_FR[DEFAULT_RANK]}, 7 jours)`} subtitle="Une valeur par capture importée">
           {history.length >= 2 ? (
             <LineSeriesChart data={history.map((h) => ({ x: new Date(h.capturedAt).toLocaleDateString("fr-FR"), wr: h.winRate }))} series={[{ key: "wr", label: "Win rate" }]} unit=" %" reference={50} />
           ) : (

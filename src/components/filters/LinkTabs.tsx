@@ -14,7 +14,7 @@ export function LinkTabs({ param, options, defaultValue }: { param: string; opti
         const q = new URLSearchParams(sp.toString());
         q.set(param, o.value);
         return (
-          <Link key={o.value} role="tab" aria-selected={cur === o.value} href={`${path}?${q.toString()}`} scroll={false} className={clsx("rounded-lg px-3 py-1.5 text-sm", cur === o.value ? "bg-primary/20 text-ink ring-1 ring-primary/40" : "text-ink-2 hover:bg-surface-2")}>
+          <Link key={o.value} role="tab" aria-selected={cur === o.value} href={`${path}?${q.toString()}`} scroll={false} className={clsx("rounded-xl px-3 py-1.5 text-sm", cur === o.value ? "bg-primary/20 text-ink ring-1 ring-primary/40" : "text-ink-2 hover:bg-surface-2")}>
             {o.label}
           </Link>
         );

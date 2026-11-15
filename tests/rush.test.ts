@@ -38,3 +38,18 @@ describe("journal de rush", () => {
     expect(pairs[0]).toMatchObject({ moi: "tigreal", elle: "pharsa", games: 1, wins: 1 });
   });
 });
+
+import { starsEstimate } from "@/lib/engine/rush";
+describe("étoiles estimées", () => {
+  it("ajoute les parties enregistrées après la saisie du total", () => {
+    const base = { valeur: 100, at: "2026-11-15T10:00:00Z" };
+    const ms = [
+      { id: 1, playedAt: "2026-11-15", createdAt: "2026-11-15T09:00:00Z", hero: "a", role: null, result: "win" as const },
+      { id: 2, playedAt: "2026-11-15", createdAt: "2026-11-15T11:00:00Z", hero: "a", role: null, result: "win" as const },
+      { id: 3, playedAt: "2026-11-15", createdAt: "2026-11-15T12:00:00Z", hero: "a", role: null, result: "win" as const },
+      { id: 4, playedAt: "2026-11-15", createdAt: "2026-11-15T13:00:00Z", hero: "a", role: null, result: "loss" as const },
+    ];
+    expect(starsEstimate(ms, base)).toEqual({ total: 101, delta: 1, games: 3 });
+    expect(starsEstimate(ms, null)).toBeNull();
+  });
+});

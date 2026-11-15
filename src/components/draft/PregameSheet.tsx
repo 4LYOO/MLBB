@@ -99,7 +99,7 @@ export function PregameSheet({ heroes, idx, allies, enemies, owners, players, ma
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-black" role="dialog" aria-modal="true" aria-label="Fiche d'avant-partie">
+    <div className="fixed inset-0 z-50 flex flex-col animate-sheet bg-[#05060a]/90 backdrop-blur-2xl" role="dialog" aria-modal="true" aria-label="Fiche d'avant-partie">
       <div className="pt-safe flex items-center gap-2 border-b border-line px-3 py-2">
         <p className="h-display flex-1 text-lg">Fiche d&apos;avant-partie</p>
         <button className="btn-ghost min-h-11 min-w-11 px-0" onClick={onClose} aria-label="Fermer">
@@ -164,7 +164,7 @@ export function PregameSheet({ heroes, idx, allies, enemies, owners, players, ma
             </ol>
 
             {c.threat && (
-              <div className="mb-3 flex items-center gap-2 rounded-xl border border-bad/40 bg-bad/10 p-2 text-sm">
+              <div className="mb-3 flex items-center gap-2 rounded-2xl border border-bad/40 bg-bad/10 p-2 text-sm">
                 <HeroAvatar hero={c.threat.e} size={32} />
                 <span>
                   À surveiller : <b>{c.threat.e.name}</b>
@@ -189,10 +189,10 @@ export function PregameSheet({ heroes, idx, allies, enemies, owners, players, ma
               <p className="text-center font-semibold text-good">{saved} dans le journal.</p>
             ) : (
               <div className="grid grid-cols-2 gap-2">
-                <button className="btn min-h-14 bg-good/20 text-good" onClick={() => record("win")}>
+                <button className="btn-good min-h-14" onClick={() => record("win")}>
                   <Trophy size={18} /> Victoire
                 </button>
-                <button className="btn min-h-14 bg-bad/20 text-bad" onClick={() => record("loss")}>
+                <button className="btn-bad min-h-14" onClick={() => record("loss")}>
                   <XCircle size={18} /> Défaite
                 </button>
               </div>

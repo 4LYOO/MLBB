@@ -93,7 +93,7 @@ function PoolSheet({ heroes, player, lane, onClose }: { heroes: Hero[]; player: 
     return heroes.filter((h) => (all || h.lanes.includes(lane)) && (!n || h.name.toLowerCase().includes(n)));
   }, [heroes, q, all, lane]);
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-black" role="dialog" aria-modal="true" aria-label={`Pool ${LANE_FR[lane]}`}>
+    <div className="fixed inset-0 z-50 flex flex-col animate-sheet bg-[#05060a]/90 backdrop-blur-2xl" role="dialog" aria-modal="true" aria-label={`Pool ${LANE_FR[lane]}`}>
       <div className="pt-safe border-b border-line px-3 pb-2">
         <div className="flex items-center gap-2 py-2">
           <p className="h-display flex-1 text-lg">
