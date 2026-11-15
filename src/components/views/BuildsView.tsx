@@ -180,7 +180,7 @@ function Inner() {
             )}
             <ul className={emblemCat.length ? "hidden" : "space-y-2 text-sm"}>
               {EDITORIAL_EMBLEMS.map((e) => (
-                <li key={e.slug} className="flex justify-between rounded-lg border border-line p-2">
+                <li key={e.slug} className="flex justify-between rounded-xl border border-line p-2">
                   <span className="font-medium">
                     {e.nameFr} <span className="text-muted">({e.name})</span>
                   </span>
@@ -262,7 +262,7 @@ function Inner() {
         <Card title="Sorts de combat" subtitle="Recommandations par rôle et par situation (éditorial)">
           <ul className="grid gap-3 md:grid-cols-2">
             {EDITORIAL_SPELLS.map((s) => (
-              <li key={s.slug} className="rounded-xl border border-line bg-surface-2/50 p-3">
+              <li key={s.slug} className="rounded-2xl border border-line bg-surface-2/50 p-3">
                 <p className="font-medium">
                   {s.name} <span className="text-muted">· {s.nameFr}</span>
                 </p>

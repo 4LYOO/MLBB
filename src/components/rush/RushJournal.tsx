@@ -45,7 +45,7 @@ function HeroPicker({ player, heroes, value, onChange }: { player: Player; heroe
               onChange(h.slug);
               setQ("");
             }}
-            className={clsx("flex w-16 shrink-0 flex-col items-center gap-1 rounded-xl p-1 transition-colors duration-150", value === h.slug ? "bg-white/15 ring-2 ring-gold" : "opacity-70")}
+            className={clsx("flex w-16 shrink-0 flex-col items-center gap-1 rounded-2xl p-1 transition-colors duration-150", value === h.slug ? "bg-white/15 ring-2 ring-gold" : "opacity-70")}
             aria-pressed={value === h.slug}
           >
             <HeroAvatar hero={h} size={44} />
@@ -54,7 +54,7 @@ function HeroPicker({ player, heroes, value, onChange }: { player: Player; heroe
         ))}
         {!list.length && <p className="py-3 text-sm text-muted">Cherche ton héros ci-dessous.</p>}
       </div>
-      <label className="mt-1 flex items-center gap-2 rounded-xl bg-white/5 px-3">
+      <label className="mt-1 flex items-center gap-2 rounded-2xl bg-white/5 px-3">
         <Search size={16} className="text-muted" />
         <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Autre héros…" className="min-h-11 flex-1 bg-transparent text-[16px] outline-none" />
       </label>
@@ -106,7 +106,7 @@ export function RushJournal({ heroes }: { heroes: Hero[] }) {
         <p className="h-display flex-1 text-lg">Partie terminée</p>
         <div className="flex rounded-full bg-white/5 p-0.5 text-sm">
           {[false, true].map((v) => (
-            <button key={String(v)} onClick={() => setDuo(v)} className={clsx("min-h-9 rounded-full px-3 transition-colors duration-150", duo === v ? "bg-white/15 font-semibold" : "text-muted")}>
+            <button key={String(v)} onClick={() => setDuo(v)} className={clsx("min-h-9 rounded-full px-3 transition-colors duration-150", duo === v ? "glass-pill font-semibold" : "text-muted")}>
               {v ? "Duo" : "Solo"}
             </button>
           ))}
@@ -119,10 +119,10 @@ export function RushJournal({ heroes }: { heroes: Hero[] }) {
         <p className="grid min-h-16 place-items-center text-lg font-bold text-good">{flash}</p>
       ) : (
         <div className="grid grid-cols-2 gap-2">
-          <button disabled={!ready} className="btn min-h-16 bg-good/20 text-lg text-good disabled:opacity-40" onClick={() => record("win")}>
+          <button disabled={!ready} className="btn-good min-h-16 text-lg disabled:opacity-40" onClick={() => record("win")}>
             <Trophy size={20} /> Victoire
           </button>
-          <button disabled={!ready} className="btn min-h-16 bg-bad/20 text-lg text-bad disabled:opacity-40" onClick={() => record("loss")}>
+          <button disabled={!ready} className="btn-bad min-h-16 text-lg disabled:opacity-40" onClick={() => record("loss")}>
             <XCircle size={20} /> Défaite
           </button>
         </div>

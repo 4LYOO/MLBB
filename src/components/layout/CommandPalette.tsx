@@ -114,7 +114,7 @@ export function CommandPalette() {
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-[60] flex items-start justify-center p-4 pt-[calc(env(safe-area-inset-top)+4vh)] sm:pt-[10vh]" role="dialog" aria-modal="true" aria-label="Recherche globale">
-      <div className="absolute inset-0 bg-black/60" onClick={() => setOpen(false)} />
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setOpen(false)} />
       <div className="glass-strong relative w-full max-w-xl animate-fade-in overflow-hidden rounded-3xl">
         <div className="flex items-center gap-2 border-b border-line px-4">
           <Search size={18} className="text-muted" />
@@ -142,7 +142,7 @@ export function CommandPalette() {
               <button
                 onMouseEnter={() => setSel(i)}
                 onClick={() => go(r)}
-                className={clsx("flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm", i === sel ? "bg-primary/15 text-ink" : "text-ink-2")}
+                className={clsx("flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm", i === sel ? "bg-primary/15 text-ink" : "text-ink-2")}
               >
                 <span className="w-16 shrink-0 text-[10px] uppercase tracking-wider text-muted">{r.kind}</span>
                 <span className="font-medium">{r.label}</span>

@@ -9,9 +9,9 @@ export function ItemIcon({ item, size = 36 }: { item: Pick<Item, "name" | "categ
   const c = CAT_COLOR[item.category] ?? "#64748b";
   return item.imageUrl ? (
     // eslint-disable-next-line @next/next/no-img-element
-    <img src={item.imageUrl} alt="" width={size} height={size} className="rounded-lg" />
+    <img src={item.imageUrl} alt="" width={size} height={size} className="rounded-xl" />
   ) : (
-    <span className="grid shrink-0 place-items-center rounded-lg text-[10px] font-bold text-white" style={{ width: size, height: size, background: `linear-gradient(135deg, ${c}, #1f2545)`, boxShadow: `inset 0 0 0 1px ${c}88` }} aria-hidden>
+    <span className="grid shrink-0 place-items-center rounded-xl text-[10px] font-bold text-white" style={{ width: size, height: size, background: `linear-gradient(135deg, ${c}, #1f2545)`, boxShadow: `inset 0 0 0 1px ${c}88` }} aria-hidden>
       {item.name
         .split(/[\s']+/)
         .filter(Boolean)
@@ -25,7 +25,7 @@ export function ItemIcon({ item, size = 36 }: { item: Pick<Item, "name" | "categ
 export function ItemRow({ item, order, highlight, reason }: { item: Item | undefined; order?: number; highlight?: boolean; reason?: string }) {
   if (!item) return <li className="text-sm text-muted">Objet inconnu</li>;
   return (
-    <li className={clsx("flex items-start gap-3 rounded-xl border p-2", highlight ? "border-gold/60 bg-gold/5" : "border-line bg-surface-2/50")}>
+    <li className={clsx("flex items-start gap-3 rounded-2xl border p-2", highlight ? "border-gold/60 bg-gold/5" : "border-line bg-surface-2/50")}>
       {order != null && <span className="h-display mt-2 w-4 text-center text-muted">{order}</span>}
       <ItemIcon item={item} />
       <div className="min-w-0 flex-1 text-xs">

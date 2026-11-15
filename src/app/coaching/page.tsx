@@ -11,8 +11,8 @@ export default function CoachingPage() {
       <PageHeader kicker="Progresser" title="Coaching" subtitle={`Une page par rôle. Contenu du patch ${COACHING_META.patch}.`} />
       <div className="grid gap-2 sm:grid-cols-2">
         {COACHING_ROLES.map((r) => (
-          <Link key={r.id} href={`/coaching/${r.id}`} className="card flex min-h-20 min-w-0 items-center gap-3 p-4">
-            <span className="h-12 w-1.5 shrink-0 rounded-full" style={{ background: r.couleur }} />
+          <Link key={r.id} href={`/coaching/${r.id}`} className="card flex min-h-20 min-w-0 items-center gap-3 p-4" style={{ backgroundImage: `linear-gradient(120deg, ${r.couleur}26, transparent 55%)` }}>
+            <span className="h-12 w-1.5 shrink-0 rounded-full" style={{ background: r.couleur, boxShadow: `0 0 12px ${r.couleur}` }} />
             <span className="min-w-0">
               <span className="h-display block text-xl">{r.nom}</span>
               <span className="line-clamp-2 block text-sm text-ink-2">{r.resume}</span>

@@ -299,9 +299,9 @@ export function DraftScreen(p: DraftScreenProps) {
         onKeyDown={(e) => e.key === "Enter" && !guided && setTarget(t)}
         aria-label={`${t.team === "ally" ? "Nous" : "Eux"} ${pick ? "pick" : "ban"} ${t.slot + 1}${h ? ` : ${h.name}` : " (vide)"}`}
         className={clsx(
-          "relative flex items-center rounded-xl border transition-colors duration-100",
+          "relative flex items-center rounded-2xl border transition-colors duration-100",
           pick ? "min-h-12 gap-2 px-1.5" : "aspect-square justify-center",
-          isActive(t) ? "border-gold bg-gold/15" : "border-white/10 bg-[#0e0e11]",
+          isActive(t) ? "border-gold bg-gold/15" : "border-white/10 bg-white/[0.04] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]",
         )}
       >
         {h ? (
@@ -314,7 +314,7 @@ export function DraftScreen(p: DraftScreenProps) {
               </span>
             )}
             <button
-              className={clsx("grid place-items-center rounded-full bg-[#26262d] text-ink-2 active:bg-bad", pick ? "h-8 w-8 shrink-0" : "absolute -right-1.5 -top-1.5 h-6 w-6")}
+              className={clsx("grid place-items-center rounded-full bg-white/10 text-ink-2 active:bg-bad", pick ? "h-8 w-8 shrink-0" : "absolute -right-1.5 -top-1.5 h-6 w-6")}
               onClick={(e) => {
                 e.stopPropagation();
                 removeAt(t);
@@ -331,7 +331,7 @@ export function DraftScreen(p: DraftScreenProps) {
         )}
         {pick && t.team === "ally" && (
           <button
-            className={clsx("absolute -top-2 left-1 rounded-full px-1.5 text-[10px] font-bold leading-4", owner === "moi" ? "bg-primary text-white" : owner === "elle" ? "bg-[#e66767] text-white" : "bg-[#26262d] text-muted")}
+            className={clsx("absolute -top-2 left-1 rounded-full px-1.5 text-[10px] font-bold leading-4", owner === "moi" ? "bg-primary text-white" : owner === "elle" ? "bg-[#e66767] text-white" : "bg-white/10 text-muted")}
             onClick={(e) => {
               e.stopPropagation();
               cycleOwner(t.slot);
@@ -350,7 +350,11 @@ export function DraftScreen(p: DraftScreenProps) {
     const teamBans = team === "ally" ? state.allyBans : state.enemyBans;
     const blue = (team === "ally") === (side === "blue");
     return (
-      <div className={clsx("rounded-2xl border p-2", blue ? "border-s1/50" : "border-bad/50")}>
+      <div
+        className={clsx("rounded-[24px] border p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_12px_30px_-16px_rgba(0,0,0,0.9)]", blue ? "border-s1/40" : "border-bad/40")}
+        // Verre teinté : bleu pour le côté bleu, rouge pour le côté rouge
+        style={{ background: blue ? "linear-gradient(180deg, rgba(57,135,229,0.16), rgba(57,135,229,0.03))" : "linear-gradient(180deg, rgba(255,107,122,0.15), rgba(255,107,122,0.03))" }}
+      >
         <p className={clsx("mb-1.5 text-sm font-bold", blue ? "text-s1" : "text-bad")}>{team === "ally" ? "Nous" : "Eux"}</p>
         <div className="mb-2 grid grid-cols-5 gap-1">
           {teamBans.map((s, i) => (
@@ -377,7 +381,7 @@ export function DraftScreen(p: DraftScreenProps) {
               if (slot >= 0) place(s.hero.slug, { team: "ally", action: "pick", slot });
             } else place(s.hero.slug);
           }}
-          className="relative flex min-h-[124px] flex-col items-center gap-1 rounded-2xl border border-white/10 bg-[#0e0e11] p-2 text-center active:bg-white/10"
+          className="relative flex min-h-[124px] flex-col items-center gap-1 rounded-2xl border border-white/10 bg-white/[0.04] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] p-2 text-center active:bg-white/10"
           aria-label={`Choisir ${s.hero.name}, score ${s.score}, ${s.short}`}
         >
           {s.inPool && <Star size={14} className="absolute right-1.5 top-1.5 fill-gold text-gold" aria-label="dans le pool" />}
@@ -396,16 +400,16 @@ export function DraftScreen(p: DraftScreenProps) {
     <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
       <span className="w-9 font-bold text-ink-2">{label}</span>
       {LANES.map((l) => (
-        <span key={l} className={clsx("rounded-md px-1.5 py-0.5 font-semibold", live.covered.includes(l) ? "bg-good/20 text-good" : "bg-white/5 text-muted")}>
+        <span key={l} className={clsx("rounded-lg px-1.5 py-0.5 font-semibold", live.covered.includes(l) ? "bg-good/20 text-good" : "bg-white/5 text-muted")}>
           {LANE_SHORT[l]}
         </span>
       ))}
-      <span className="rounded-md bg-white/5 px-1.5 py-0.5 text-ink-2">
+      <span className="rounded-lg bg-white/5 px-1.5 py-0.5 text-ink-2">
         {live.physical}P · {live.magic}M
       </span>
-      <span className="rounded-md bg-white/5 px-1.5 py-0.5 text-ink-2">CC {live.cc}</span>
+      <span className="rounded-lg bg-white/5 px-1.5 py-0.5 text-ink-2">CC {live.cc}</span>
       {team.length >= 3 && live.weaknesses.map((w) => (
-        <span key={w} className="rounded-md bg-bad/20 px-1.5 py-0.5 text-bad">
+        <span key={w} className="rounded-lg bg-bad/20 px-1.5 py-0.5 text-bad">
           {w}
         </span>
       ))}
@@ -488,7 +492,7 @@ export function DraftScreen(p: DraftScreenProps) {
           <p className="flex-1 text-sm font-bold">Nos rôles</p>
           <div className="flex rounded-full bg-white/5 p-0.5 text-sm">
             {[false, true].map((v) => (
-              <button key={String(v)} onClick={() => personal.setPref("duo", v)} className={clsx("min-h-9 rounded-full px-3 transition-colors duration-150", duo === v ? "bg-white/15 font-semibold" : "text-muted")}>
+              <button key={String(v)} onClick={() => personal.setPref("duo", v)} className={clsx("min-h-9 rounded-full px-3 transition-colors duration-150", duo === v ? "glass-pill font-semibold" : "text-muted")}>
                 {v ? "Duo" : "Solo"}
               </button>
             ))}
@@ -510,7 +514,7 @@ export function DraftScreen(p: DraftScreenProps) {
                     if (!on && roles[other] === l) personal.setRoleDraft(other, null);
                   }}
                   aria-pressed={on}
-                  className="min-h-10 flex-1 rounded-xl border text-[11px] font-bold transition-colors duration-150"
+                  className="min-h-10 flex-1 rounded-2xl border text-[11px] font-bold transition-colors duration-150"
                   style={on ? { background: c, borderColor: c, color: "#000" } : { borderColor: `${c}66`, color: c }}
                 >
                   {LANE_SHORT[l]}
@@ -592,7 +596,7 @@ export function DraftScreen(p: DraftScreenProps) {
                   place(h.slug);
                   backToBoard();
                 }}
-                className={clsx("relative flex min-h-[64px] flex-col items-center justify-center gap-0.5 rounded-xl p-0.5", off ? "opacity-25" : "active:bg-white/15")}
+                className={clsx("relative flex min-h-[64px] flex-col items-center justify-center gap-0.5 rounded-2xl p-0.5", off ? "opacity-25" : "active:bg-white/15")}
                 title={h.name}
               >
                 {ownerPool.has(h.slug) && <Star size={11} className="absolute right-1 top-0.5 fill-gold text-gold" />}

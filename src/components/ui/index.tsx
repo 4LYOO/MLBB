@@ -122,7 +122,7 @@ export function TierBadge({ tier, size = "md" }: { tier: Tier | null | undefined
   const c = TIER_COLOR[tier];
   const s = { sm: "h-6 min-w-6 text-xs", md: "h-8 min-w-8 text-sm", lg: "h-14 min-w-14 text-2xl" }[size];
   return (
-    <span className={clsx("h-display inline-grid place-items-center rounded-lg px-1.5", s)} style={{ background: `${c}26`, color: c, boxShadow: `inset 0 0 0 1px ${c}66` }}>
+    <span className={clsx("h-display inline-grid place-items-center rounded-xl px-1.5", s)} style={{ background: `${c}26`, color: c, boxShadow: `inset 0 0 0 1px ${c}66` }}>
       {tier}
     </span>
   );
@@ -146,15 +146,24 @@ export function HeroAvatar({ hero, size = 40, className }: { hero: Pick<Hero, "n
   const dot = Math.max(8, Math.round(size * 0.24));
   return (
     <span
-      className={clsx("relative inline-grid shrink-0 place-items-center rounded-2xl font-bold text-white", className)}
-      style={{ width: size, height: size, fontSize: size * 0.36, background: "#16161b", boxShadow: `inset 0 0 0 2px ${c}` }}
+      className={clsx("relative inline-grid shrink-0 place-items-center font-bold text-white", className)}
+      style={{
+        width: size,
+        height: size,
+        borderRadius: Math.round(size * 0.32),
+        fontSize: size * 0.36,
+        textShadow: "0 1px 2px rgba(0,0,0,0.6)",
+        // Verre teinté de la couleur du rôle : reflet en haut, liseré coloré, ombre douce
+        background: `linear-gradient(160deg, ${c}66 0%, ${c}1f 55%, #0b0c12 100%)`,
+        boxShadow: `inset 0 0 0 1.5px ${c}cc, inset 0 1px 0 rgba(255,255,255,0.35), 0 6px 14px -6px ${c}99`,
+      }}
       aria-hidden
     >
       {initials}
       {/* Pastille du rôle principal (et du rôle secondaire s'il existe) */}
       <span className="absolute -bottom-0.5 -right-0.5 flex">
-        {c2 && <span className="-mr-1 rounded-full ring-2 ring-black" style={{ width: dot, height: dot, background: c2 }} />}
-        <span className="rounded-full ring-2 ring-black" style={{ width: dot, height: dot, background: c }} />
+        {c2 && <span className="-mr-1 rounded-full ring-2 ring-[#0b0c12]" style={{ width: dot, height: dot, background: c2 }} />}
+        <span className="rounded-full ring-2 ring-[#0b0c12]" style={{ width: dot, height: dot, background: c }} />
       </span>
     </span>
   );
@@ -163,7 +172,7 @@ export function HeroAvatar({ hero, size = 40, className }: { hero: Pick<Hero, "n
 /** Petite pastille « à vérifier » : donnée incertaine (estimation, dépend du patch). */
 export function AVerifier({ title = "Donnée incertaine ou dépendante du patch : à vérifier" }: { title?: string }) {
   return (
-    <span className="inline-flex shrink-0 items-center rounded-full border border-warn/60 bg-warn/15 px-1.5 py-px align-middle text-[10px] font-semibold text-warn" title={title}>
+    <span className="inline-flex shrink-0 items-center rounded-full border border-warn/50 bg-warn/15 px-1.5 py-px align-middle text-[10px] font-semibold text-warn" title={title}>
       à vérifier
     </span>
   );
@@ -192,14 +201,14 @@ export function Bar({ value, max = 100, color = "var(--color-primary)" }: { valu
   if (value == null) return <span className="text-xs text-muted">—</span>;
   return (
     <span className="block h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-      <span className="block h-full rounded-full" style={{ width: `${Math.max(0, Math.min(100, (value / max) * 100))}%`, background: color }} />
+      <span className="block h-full rounded-full transition-[width] duration-150" style={{ width: `${Math.max(0, Math.min(100, (value / max) * 100))}%`, background: color.startsWith("#") ? `linear-gradient(90deg, ${color}99, ${color})` : color, boxShadow: color.startsWith("#") ? `0 0 8px ${color}66` : undefined }} />
     </span>
   );
 }
 
 export function Notice({ children, tone = "info" }: { children: React.ReactNode; tone?: "info" | "warn" }) {
   return (
-    <div className={clsx("flex gap-2 rounded-xl border p-3 text-xs leading-relaxed", tone === "warn" ? "border-warn/30 bg-warn/10 text-amber-100" : "border-primary/25 bg-primary/10 text-ink-2", "rounded-2xl backdrop-blur-xl")}>
+    <div className={clsx("flex gap-2 rounded-2xl border p-3 text-xs leading-relaxed", tone === "warn" ? "border-warn/30 bg-warn/10 text-amber-100" : "border-primary/25 bg-primary/10 text-ink-2", "shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]")}>
       {tone === "warn" ? <AlertTriangle size={14} className="mt-0.5 shrink-0" /> : <Info size={14} className="mt-0.5 shrink-0" />}
       <div>{children}</div>
     </div>

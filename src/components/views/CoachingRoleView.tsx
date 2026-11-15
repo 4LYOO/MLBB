@@ -139,7 +139,7 @@ export function CoachingRoleView({ role }: { role: CoachingRole }) {
             const on = check.coches.includes(i);
             return (
               <li key={i}>
-                <button onClick={() => personal.toggleCheck(role.id, i)} className={clsx("flex min-h-12 w-full items-center gap-3 rounded-xl px-2 text-left text-[15px]", on ? "bg-good/10 text-ink" : "text-ink-2")} aria-pressed={on}>
+                <button onClick={() => personal.toggleCheck(role.id, i)} className={clsx("flex min-h-12 w-full items-center gap-3 rounded-2xl px-2 text-left text-[15px]", on ? "bg-good/10 text-ink" : "text-ink-2")} aria-pressed={on}>
                   {on ? <CheckCircle2 size={22} className="shrink-0 text-good" /> : <Circle size={22} className="shrink-0 text-muted" />}
                   <span className="flex-1">{c}</span>
                   {check.parties > 0 && (
@@ -207,7 +207,7 @@ export function CoachingRoleView({ role }: { role: CoachingRole }) {
         <p className="label">Items situationnels</p>
         <ul className="space-y-3">
           {s.builds.situationnels.map((x) => (
-            <li key={x.contre} className="rounded-xl border border-white/10 p-3 text-sm">
+            <li key={x.contre} className="rounded-2xl border border-white/10 p-3 text-sm">
               <p className="font-semibold">Contre : {x.contre}</p>
               <p className="text-gold">{x.items.join(" · ")}</p>
               <p className="text-xs text-muted">Quand : {x.quand}</p>

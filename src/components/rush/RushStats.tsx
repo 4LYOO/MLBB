@@ -101,7 +101,7 @@ export function RushStats({ heroes }: { heroes: Hero[] }) {
       {/* Choix du joueur */}
       <div className="flex gap-2">
         {(["moi", "elle"] as const).map((id) => (
-          <button key={id} onClick={() => setWho(id)} className={clsx("chip min-h-10 px-4", who === id && "bg-white/15 font-semibold text-ink")}>
+          <button key={id} onClick={() => setWho(id)} className={clsx("chip min-h-10 px-4", who === id && "glass-pill font-semibold text-ink")}>
             {nom(id)}
           </button>
         ))}

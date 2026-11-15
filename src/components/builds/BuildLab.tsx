@@ -92,7 +92,7 @@ export function BuildLab({ hero, heroes, items, imported, editorial }: Props) {
         )}
         <div className="grid gap-3 md:grid-cols-2">
           {all.map((b) => (
-            <div key={b.key} className={clsx("rounded-xl border p-3", b.key === baseKey ? "border-gold/60 bg-gold/5" : "border-line bg-surface-2/50")}>
+            <div key={b.key} className={clsx("rounded-2xl border p-3", b.key === baseKey ? "border-gold/60 bg-gold/5" : "border-line bg-surface-2/50")}>
               <div className="mb-2 flex items-center gap-2">
                 <p className="font-medium">{b.title}</p>
                 <span className="chip text-[10px]">{b.origin}</span>
@@ -112,7 +112,7 @@ export function BuildLab({ hero, heroes, items, imported, editorial }: Props) {
                   const it = itemMap.get(s);
                   return (
                     <li key={i} className="flex w-16 flex-col items-center gap-1 text-center" title={it?.use ?? s}>
-                      {it ? <ItemIcon item={it} size={40} /> : <span className="h-10 w-10 rounded-lg bg-surface-3" />}
+                      {it ? <ItemIcon item={it} size={40} /> : <span className="h-10 w-10 rounded-xl bg-surface-3" />}
                       <span className="text-[10px] leading-tight text-ink-2">
                         {i + 1}. {it?.name ?? s}
                       </span>
@@ -128,7 +128,7 @@ export function BuildLab({ hero, heroes, items, imported, editorial }: Props) {
             const type = ["meta", "solo", "competitive"][i];
             const has = imported.some((b) => b.type === type);
             return (
-              <p key={t} className="rounded-lg border border-dashed border-line p-2">
+              <p key={t} className="rounded-xl border border-dashed border-line p-2">
                 {t} : {has ? "voir ci-dessus (importé)" : `${UNAVAILABLE} — nécessite un import avec échantillon`}
               </p>
             );
@@ -194,7 +194,7 @@ export function BuildLab({ hero, heroes, items, imported, editorial }: Props) {
                 const it = itemMap.get(s);
                 const ch = res.changes.find((c) => c.add === s && c.replace);
                 return (
-                  <li key={i} className={clsx("flex items-center gap-2 rounded-lg border p-1.5 text-sm", ch ? "border-gold/60 bg-gold/5" : "border-line")}>
+                  <li key={i} className={clsx("flex items-center gap-2 rounded-xl border p-1.5 text-sm", ch ? "border-gold/60 bg-gold/5" : "border-line")}>
                     <span className="w-4 text-center text-muted">{i + 1}</span>
                     {it && <ItemIcon item={it} size={28} />}
                     <span>{it?.name ?? s}</span>

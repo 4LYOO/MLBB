@@ -150,7 +150,7 @@ function Inner() {
             {TIERS.map((t) => {
               const list = entries.filter((e) => e.tier === t);
               return (
-                <div key={t} className="flex gap-3 rounded-xl border border-line bg-surface-2/40 p-2">
+                <div key={t} className="flex gap-3 rounded-2xl border border-line bg-surface-2/40 p-2">
                   <div className="grid w-14 shrink-0 place-items-center">
                     <TierBadge tier={t} size="lg" />
                   </div>
