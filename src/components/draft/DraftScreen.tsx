@@ -36,6 +36,7 @@ import { personal, poolOf, usePersonal, type Player } from "@/lib/client/store";
 import { RecommendationCard } from "./RecommendationCard";
 import { CompPanel } from "./CompPanel";
 import { PregameSheet } from "./PregameSheet";
+import { AntiTiltBanner } from "@/components/rush/AntiTilt";
 
 interface Action {
   team: Team;
@@ -122,6 +123,10 @@ export function DraftScreen(p: DraftScreenProps) {
 
   const allies = useMemo(() => state.allyPicks.filter(Boolean) as string[], [state]);
   const enemies = useMemo(() => state.enemyPicks.filter(Boolean) as string[], [state]);
+  // Mémorise la dernière draft (compo ennemie) pour l'aide-mémoire en partie.
+  useEffect(() => {
+    if (allies.length || enemies.length) personal.setDerniereDraft(allies, enemies);
+  }, [allies, enemies]);
   const bans = useMemo(() => [...state.allyBans, ...state.enemyBans].filter(Boolean) as string[], [state]);
   const taken = useMemo(() => new Set([...allies, ...enemies, ...bans]), [allies, enemies, bans]);
 
@@ -397,6 +402,7 @@ export function DraftScreen(p: DraftScreenProps) {
 
   return (
     <div className="space-y-3">
+      <AntiTiltBanner />
       {/* 1. Barre d'actions */}
       <div className="flex items-stretch gap-2">
         <details className="card min-w-0 flex-1 px-3 py-2">
