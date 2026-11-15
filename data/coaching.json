@@ -1,0 +1,528 @@
+{
+  "meta": {
+    "patch": "2.2.16a",
+    "dateMaj": "2026-11-15",
+    "sources": ["Rédaction MLBB Companion (principes de jeu généraux)", "Liens de la base de connaissances (ONE Esports, MLBBHub guides, GuildOrder)"],
+    "note": "Les points marqués aVerifier dépendent du patch (timings d'objectifs, objets, emblèmes) : à revérifier à chaque mise à jour du jeu."
+  },
+  "roles": [
+    {
+      "id": "exp",
+      "nom": "EXP Lane",
+      "couleur": "#f97316",
+      "resume": "Tu tiens seul le côté de la Tortue, tu gagnes ton duel puis tu pèses sur les objectifs.",
+      "responsabilites": [
+        "Tenir ta lane sans mourir : chaque mort donne la Tortue à l'adversaire.",
+        "Arriver à temps sur les combats de Tortue avec ton jungler.",
+        "En fin de partie : encaisser, ouvrir les combats ou attirer du monde en split push."
+      ],
+      "sections": {
+        "early": [
+          "Prends le niveau 2 avant l'adversaire : c'est souvent là que se gagne le premier échange.",
+          "Pousse ta vague avant d'aller aider : une vague perdue = expérience et or perdus.",
+          "Échanges courts : tu touches, tu recules. Ne poursuis pas sous sa tour.",
+          {"texte": "Première Tortue vers 2:00 : sois en lane côté Tortue, vague poussée, prêt à rejoindre.", "aVerifier": true},
+          "Si ton adversaire disparaît, préviens tout de suite (« manquant ») : il va ganker le mid ou la jungle."
+        ],
+        "mid": [
+          "Après ta tour extérieure, rejoins les combats d'objectifs : tu es souvent le premier contact.",
+          "Ne split push que si tes 4 alliés peuvent tenir sans toi et que tu vois au moins 3 ennemis sur la carte.",
+          "En teamfight : entre APRÈS ton tank ou en même temps, jamais avant.",
+          "Garde ton sort de combat (Pétrification, Vengeance, Flicker) pour le vrai combat, pas pour un poke."
+        ],
+        "late": [
+          "Ton rôle : soit tu tiens la frontline, soit tu plonges sur leur carry. Décide AVANT le combat.",
+          "Vise le tireur ou le mage adverse s'ils sont accessibles ; sinon, protège ton carry des plongeurs.",
+          {"texte": "Seigneur vers 8:00 et ensuite : ne le lance que si un ou deux adversaires sont morts ou très loin.", "aVerifier": true},
+          "Si tu split push en fin de partie, recule dès que 2 ennemis disparaissent de la carte."
+        ],
+        "vision": [
+          "Regarde la mini-carte toutes les 5 secondes, surtout la rivière côté Tortue.",
+          "Recule quand le jungler adverse n'est pas visible et que ta vague est poussée chez lui.",
+          "Signaux utiles : « Ennemi manquant », « Rassemblement à la Tortue », « Reculer »."
+        ],
+        "erreurs": [
+          {
+            "erreur": "Poursuivre un adversaire à faibles PV sous sa tour.",
+            "correction": "Laisse-le partir : pousse ta vague et prends la plaque/tour à la place."
+          },
+          {
+            "erreur": "Arriver en retard sur la Tortue parce que tu farmais.",
+            "correction": "Pousse ta vague 30 secondes avant l'objectif, puis marche vers la rivière."
+          },
+          {"erreur": "Ouvrir un combat seul en fin de partie.", "correction": "Attends ton tank ou ton roamer ; entre juste après eux."},
+          {"erreur": "Split push alors que ton équipe se bat à 4 contre 5.", "correction": "Rejoins dès qu'un combat commence près d'un objectif."},
+          {
+            "erreur": "Ignorer le build : full dégâts contre une équipe qui te one-shot.",
+            "correction": "Un objet défensif tôt (voir items situationnels) te garde en vie et utile."
+          }
+        ],
+        "checklist": [
+          "Je n'ai pas perdu de duel évitable avant 4 min.",
+          "J'ai rejoint chaque Tortue avec ma vague poussée.",
+          "J'ai signalé chaque disparition de mon adversaire.",
+          "Je suis entré en teamfight après mon tank, pas avant.",
+          "Je n'ai pas split push pendant un combat à 4 contre 5."
+        ],
+        "rush": [
+          "Pour carry en solo : choisis un héros qui gagne sa lane et qui split push bien, puis transforme ton avance en tours.",
+          "Si l'équipe tilt : joue simple, regroupe-toi pour les objectifs, évite de te disputer dans le chat.",
+          "Adapte ton pick : contre une compo pleine de plongeurs, prends un héros résistant avec du contrôle ; contre du poke, un héros qui engage vite."
+        ],
+        "duo": [
+          "Meilleur duo : EXP + Jungle (Tortue ensemble dès le début) ou EXP + Roam (2 contre 1 en lane).",
+          "Annoncez les timings de Tortue à voix haute ; le jungler sécurise, toi tu bloques l'adversaire.",
+          "En fin de partie, l'un engage, l'autre suit dans la seconde : entraînez-vous à entrer ensemble."
+        ],
+        "meta": "Héros forts du patch en EXP Lane. Choisis-en un dans ton pool si possible.",
+        "builds": {
+          "aVerifier": true,
+          "emblemes": [
+            {
+              "nom": "Fighter (Combattant)",
+              "talents": "Résistance + vampirisme + soin sur dégâts de compétence",
+              "pourquoi": "Tu échanges souvent : la survie compte plus que le burst."
+            },
+            {"nom": "Tank", "talents": "PV + défenses", "pourquoi": "Si ton héros sert de frontline principale."}
+          ],
+          "base": [
+            "Bottes défensives (Warrior Boots ou Tough Boots selon l'adversaire)",
+            "Un objet de dégâts + vampirisme",
+            "Un objet hybride dégâts/PV",
+            "Puis défenses selon la compo adverse"
+          ],
+          "situationnels": [
+            {
+              "contre": "Beaucoup de soins (soigneurs, vampirisme, auto-soins)",
+              "items": ["Sea Halberd (physique)", "Glowing Wand (magique)", "Dominance Ice (tank/défense)"],
+              "quand": "Dès que l'équipe adverse a 2 sources de soins ou plus : en 2e ou 3e objet, pas en dernier."
+            },
+            {
+              "contre": "Dégâts surtout magiques",
+              "items": ["Athena's Shield", "Radiant Armor", "Tough Boots"],
+              "quand": "Quand 3 adversaires ou plus font des dégâts magiques, ou qu'un mage te tue en un combo."
+            },
+            {
+              "contre": "Dégâts surtout physiques",
+              "items": ["Antique Cuirass", "Blade Armor", "Twilight Armor (contre les critiques)", "Warrior Boots"],
+              "quand": "Quand 3 adversaires ou plus font des dégâts physiques, ou qu'un tireur fed te fait fondre."
+            },
+            {
+              "contre": "Tanks très résistants",
+              "items": ["Malefic Roar (physique)", "Divine Glaive (magique)", "Demon Hunter Sword (tireur)"],
+              "quand": "Quand tes dégâts ne passent plus sur la frontline adverse, en milieu de partie."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "jungle",
+      "nom": "Jungle",
+      "couleur": "#a855f7",
+      "resume": "Tu décides du rythme : farm, ganks et objectifs passent par toi.",
+      "responsabilites": [
+        "Farmer efficacement et rester au niveau ou devant le jungler adverse.",
+        "Sécuriser Tortue et Seigneur avec Châtiment.",
+        "Créer des avantages : ganks sur les lanes qui peuvent gagner un 2 contre 1."
+      ],
+      "sections": {
+        "early": [
+          "Planifie ton chemin avant 0:00 : quel buff en premier, quelle lane ganker ensuite.",
+          "Ne ganke que les lanes avec du contrôle ou un adversaire très avancé.",
+          {"texte": "Première Tortue vers 2:00 : sois là avec ton EXP ou ton roamer, Châtiment prêt.", "aVerifier": true},
+          "Si tu vois le jungler adverse d'un côté, va de l'autre côté : contre-jungle ou objectif.",
+          "Ne perds pas 30 secondes sur un gank raté : retourne farmer."
+        ],
+        "mid": [
+          "Chaque Tortue compte : arrive avant l'adversaire et prends la vision autour.",
+          "Après un kill, convertis immédiatement : Tortue, tour ou buff adverse.",
+          "En teamfight : attends que leurs contrôles soient utilisés, puis entre sur le carry.",
+          "Si ton équipe perd, farme et reviens au combat suivant plutôt que de mourir en retard."
+        ],
+        "late": [
+          "Ta cible : le tireur ou le mage adverse. Évite de taper le tank.",
+          {"texte": "Seigneur : lance-le seulement si 2 ennemis sont morts ou si tout leur camp est visible loin.", "aVerifier": true},
+          "Garde Châtiment pour le Seigneur ou un kill décisif, jamais pour un petit monstre en fin de partie.",
+          "Si le jungler adverse est mort, c'est le moment du Seigneur."
+        ],
+        "vision": [
+          "Suis le jungler adverse : à chaque apparition, déduis son prochain camp.",
+          "Recule si 3 ennemis manquent et que tu es dans leur jungle.",
+          "Signaux : « Rassemblement Tortue / Seigneur », « Ennemi manquant », « Attaquer »."
+        ],
+        "erreurs": [
+          {
+            "erreur": "Ganker une lane sans contrôle contre un adversaire en pleine vie.",
+            "correction": "Choisis la lane où l'allié a du CC ou où l'adversaire est trop avancé."
+          },
+          {
+            "erreur": "Rater un Châtiment sur un objectif.",
+            "correction": "Regarde les PV du monstre, pas les héros ; lance Châtiment au seuil, pas avant."
+          },
+          {"erreur": "Entrer en premier dans un combat.", "correction": "Attends l'engage du tank et les contrôles adverses, puis plonge."},
+          {
+            "erreur": "Farmer pendant que ton équipe se bat pour la Tortue.",
+            "correction": "L'objectif passe avant ton camp : un camp repousse, la Tortue non."
+          },
+          {"erreur": "Ne pas suivre le jungler adverse.", "correction": "Note où il apparaît et préviens les lanes qui vont se faire ganker."}
+        ],
+        "checklist": [
+          "J'ai planifié mon chemin avant le début de la partie.",
+          "J'étais présent sur chaque Tortue avec Châtiment prêt.",
+          "Après chaque kill, j'ai pris un objectif.",
+          "J'ai attendu les contrôles adverses avant de plonger.",
+          "Je n'ai pas raté de Châtiment."
+        ],
+        "rush": [
+          "Pour carry : prends un jungler qui farme vite et qui gagne les escarmouches ; contrôle la Tortue, c'est l'or de toute l'équipe.",
+          "Si l'équipe tilt : farm, contrôle la vision et joue les objectifs sûrs ; un jungler calme gagne beaucoup de parties.",
+          "Adapte ton pick : contre beaucoup de contrôles, un jungler qui les évite ; contre des carries fragiles, un assassin à burst."
+        ],
+        "duo": [
+          "Meilleur duo : Jungle + Roam (vision + gank ensemble) ou Jungle + EXP (Tortue).",
+          "Le roamer prend la vision devant toi ; tu entres quand il a posé son contrôle.",
+          "Annoncez vos sorts de combat disponibles avant chaque objectif."
+        ],
+        "meta": "Junglers forts du patch. Vérifie qu'ils correspondent à ton style (farm ou ganks).",
+        "builds": {
+          "aVerifier": true,
+          "emblemes": [
+            {
+              "nom": "Assassin",
+              "talents": "Pénétration + bonus contre cible isolée + soin/vitesse après un kill",
+              "pourquoi": "Tu cherches les cibles isolées et tu enchaînes les kills."
+            },
+            {"nom": "Fighter (Combattant)", "talents": "Résistance + vampirisme", "pourquoi": "Pour les junglers combattants qui restent dans le combat."}
+          ],
+          "base": ["Objet de jungle (Châtiment amélioré)", "Bottes", "Objet de dégâts principal", "Pénétration", "Objet de survie en fin de partie (Immortality)"],
+          "situationnels": [
+            {
+              "contre": "Beaucoup de soins (soigneurs, vampirisme, auto-soins)",
+              "items": ["Sea Halberd (physique)", "Glowing Wand (magique)", "Dominance Ice (tank/défense)"],
+              "quand": "Dès que l'équipe adverse a 2 sources de soins ou plus : en 2e ou 3e objet, pas en dernier."
+            },
+            {
+              "contre": "Dégâts surtout magiques",
+              "items": ["Athena's Shield", "Radiant Armor", "Tough Boots"],
+              "quand": "Quand 3 adversaires ou plus font des dégâts magiques, ou qu'un mage te tue en un combo."
+            },
+            {
+              "contre": "Dégâts surtout physiques",
+              "items": ["Antique Cuirass", "Blade Armor", "Twilight Armor (contre les critiques)", "Warrior Boots"],
+              "quand": "Quand 3 adversaires ou plus font des dégâts physiques, ou qu'un tireur fed te fait fondre."
+            },
+            {
+              "contre": "Tanks très résistants",
+              "items": ["Malefic Roar (physique)", "Divine Glaive (magique)", "Demon Hunter Sword (tireur)"],
+              "quand": "Quand tes dégâts ne passent plus sur la frontline adverse, en milieu de partie."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "mid",
+      "nom": "Mid Lane",
+      "couleur": "#6366f1",
+      "resume": "Tu pousses vite ta vague, tu tournes sur la carte et tu apportes les dégâts magiques.",
+      "responsabilites": [
+        "Nettoyer ta vague rapidement pour gagner du temps de rotation.",
+        "Aider le jungler sur la Tortue et contrôler la rivière.",
+        "En teamfight : dégâts de zone et contrôles depuis l'arrière."
+      ],
+      "sections": {
+        "early": [
+          "Nettoie ta vague, puis regarde la mini-carte : qui a besoin d'aide ?",
+          {"texte": "Va sur la Tortue vers 2:00 avec ton jungler si ta vague est poussée.", "aVerifier": true},
+          "Ne reste pas au milieu de la rivière sans vision : c'est là que les assassins t'attendent.",
+          "Garde ton contrôle principal pour un gank ou pour te défendre, pas pour harceler."
+        ],
+        "mid": [
+          "Tourne vers la lane qui va jouer un objectif : Tortue côté EXP, tours côté Gold.",
+          "Reste derrière ta frontline ; ta survie = la moitié des dégâts magiques de l'équipe.",
+          "Utilise ton ultime sur un groupe, pas sur une seule cible à moins qu'elle soit le carry.",
+          "Pousse la vague du milieu avant chaque rotation pour ne pas perdre ta tour."
+        ],
+        "late": [
+          "Place-toi à distance maximale de ton sort ; avance seulement quand les contrôles adverses sont utilisés.",
+          "Cible : ce que tu peux atteindre en sécurité. Ne plonge pas pour un kill.",
+          {"texte": "Seigneur : couvre l'entrée de la rivière avec tes contrôles pendant que l'équipe le tape.", "aVerifier": true},
+          "Si tu es mort, ton équipe ne doit pas engager : signale « Reculer »."
+        ],
+        "vision": [
+          "Surveille les deux côtés de la rivière : tu es le premier à voir les rotations.",
+          "Recule dès que l'assassin adverse n'est plus visible.",
+          "Signaux : « Ennemi manquant », « Aide », « Rassemblement »."
+        ],
+        "erreurs": [
+          {
+            "erreur": "Rester en lane alors que la Tortue se joue.",
+            "correction": "Pousse ta vague et rejoins : l'objectif vaut plus que quelques sbires."
+          },
+          {"erreur": "Gaspiller ton ultime sur un tank.", "correction": "Garde-le pour un groupe ou pour le carry adverse."},
+          {"erreur": "Te placer devant ton tank.", "correction": "Reste derrière ; tu dois survivre aux 5 premières secondes du combat."},
+          {"erreur": "Traverser la rivière sans vision.", "correction": "Passe par les zones déjà vues par un allié, ou attends ton roamer."},
+          {"erreur": "Construire full dégâts contre deux assassins.", "correction": "Un objet défensif tôt (bouclier anti-burst, Immortality) te sauve."}
+        ],
+        "checklist": [
+          "Ma vague était poussée avant chaque rotation.",
+          "J'étais sur chaque Tortue avec le jungler.",
+          "Mon ultime a touché au moins 2 ennemis en teamfight.",
+          "Je ne suis pas mort avant le début des combats.",
+          "J'ai signalé chaque disparition de l'assassin adverse."
+        ],
+        "rush": [
+          "Pour carry : un mage à gros dégâts de zone fait gagner les teamfights même si l'équipe est moyenne.",
+          "Si l'équipe tilt : joue en sécurité, défends les tours et attends les erreurs adverses en fin de partie.",
+          "Adapte ton pick : contre des assassins, un mage avec contrôle ou bouclier ; contre des tanks, un mage à dégâts continus."
+        ],
+        "duo": [
+          "Meilleur duo : Mid + Roam (le tank engage, tu enchaînes) ou Mid + Jungle (rotations rapides).",
+          "Combinez vos contrôles : l'un immobilise, l'autre place l'ultime.",
+          "Annoncez « ulti prêt » avant chaque objectif."
+        ],
+        "meta": "Mages forts du patch en Mid Lane.",
+        "builds": {
+          "aVerifier": true,
+          "emblemes": [
+            {"nom": "Mage", "talents": "Pénétration + bonus objets + brûlure burst", "pourquoi": "Maximise tes dégâts magiques."},
+            {
+              "nom": "Mage (variante survie)",
+              "talents": "Réduction de recharge + vampirisme de sort",
+              "pourquoi": "Pour les mages de mêlée ou les longs combats."
+            }
+          ],
+          "base": [
+            "Bottes de pénétration magique",
+            "Objet de mana/recharge",
+            "Gros objet de pouvoir magique",
+            "Pénétration magique",
+            "Objet défensif selon la menace"
+          ],
+          "situationnels": [
+            {
+              "contre": "Beaucoup de soins (soigneurs, vampirisme, auto-soins)",
+              "items": ["Sea Halberd (physique)", "Glowing Wand (magique)", "Dominance Ice (tank/défense)"],
+              "quand": "Dès que l'équipe adverse a 2 sources de soins ou plus : en 2e ou 3e objet, pas en dernier."
+            },
+            {
+              "contre": "Dégâts surtout magiques",
+              "items": ["Athena's Shield", "Radiant Armor", "Tough Boots"],
+              "quand": "Quand 3 adversaires ou plus font des dégâts magiques, ou qu'un mage te tue en un combo."
+            },
+            {
+              "contre": "Dégâts surtout physiques",
+              "items": ["Antique Cuirass", "Blade Armor", "Twilight Armor (contre les critiques)", "Warrior Boots"],
+              "quand": "Quand 3 adversaires ou plus font des dégâts physiques, ou qu'un tireur fed te fait fondre."
+            },
+            {
+              "contre": "Tanks très résistants",
+              "items": ["Malefic Roar (physique)", "Divine Glaive (magique)", "Demon Hunter Sword (tireur)"],
+              "quand": "Quand tes dégâts ne passent plus sur la frontline adverse, en milieu de partie."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "roam",
+      "nom": "Roam",
+      "couleur": "#22c55e",
+      "resume": "Tu fais gagner la carte : vision, engage, protection et rotations.",
+      "responsabilites": [
+        "Prendre la vision devant ton équipe avant chaque objectif.",
+        "Engager les combats au bon moment ou protéger ton carry.",
+        "Aider la lane qui en a besoin, au bon moment."
+      ],
+      "sections": {
+        "early": [
+          "Commence avec ton tireur ou ton jungler selon le plan de l'équipe.",
+          {"texte": "Sois sur la Tortue vers 2:00 avec le jungler : vision et contrôle des entrées.", "aVerifier": true},
+          "Ne reste pas inactif derrière ton tireur : quand il est en sécurité, tourne.",
+          "Vérifie les buissons avant ton équipe : c'est ton rôle de prendre les risques de vision."
+        ],
+        "mid": [
+          "Avant chaque objectif : vision dans la jungle adverse, puis signal de regroupement.",
+          "Choisis : engager sur une cible prioritaire OU protéger ton carry. Pas les deux à moitié.",
+          "Accompagne le jungler dans la jungle adverse pour l'aider à voler des camps.",
+          "Après un kill, pousse avec l'équipe vers la tour la plus proche."
+        ],
+        "late": [
+          "Ton engage ouvre le combat : attends que ton équipe soit en position.",
+          "Si tu protèges : reste collé à ton tireur et garde tes contrôles pour les plongeurs.",
+          {"texte": "Seigneur : bloque l'entrée de la rivière et garde ton contrôle pour l'interruption adverse.", "aVerifier": true},
+          "Ta mort coûte moins que celle du carry : sacrifie-toi pour le sauver si besoin."
+        ],
+        "vision": [
+          "Tu es les yeux de l'équipe : regarde la carte encore plus souvent que les autres.",
+          "Recule si 2 ennemis manquent et que tu es seul en avant.",
+          "Signaux : « Ennemi manquant », « Rassemblement », « Attaquer » sur la cible prioritaire."
+        ],
+        "erreurs": [
+          {"erreur": "Engager quand ton équipe est trop loin.", "correction": "Regarde où sont tes alliés avant d'utiliser ton engage."},
+          {"erreur": "Rester collé au tireur toute la partie.", "correction": "Quand il est en sécurité, tourne pour aider le mid ou la jungle."},
+          {"erreur": "Gaspiller ton contrôle sur le tank adverse.", "correction": "Garde-le pour le carry ou pour l'assassin qui plonge sur ton tireur."},
+          {"erreur": "Prendre la vision seul sans signaler.", "correction": "Signale avant d'entrer dans la jungle adverse."},
+          {
+            "erreur": "Ne pas acheter d'objet de soutien d'équipe.",
+            "correction": "Tes objets doivent aider les 5 : défenses de zone, réduction de soins, auras."
+          }
+        ],
+        "checklist": [
+          "J'ai pris la vision avant chaque objectif.",
+          "Mon engage a eu lieu quand mon équipe était à portée.",
+          "J'ai gardé mon contrôle pour la bonne cible.",
+          "J'ai tourné quand mon tireur était en sécurité.",
+          "J'ai signalé avant d'entrer dans la jungle adverse."
+        ],
+        "rush": [
+          "Pour carry : un tank qui engage bien gagne les parties en rush, même avec une équipe moyenne.",
+          "Si l'équipe tilt : sois la voix calme, signale les objectifs et protège celui qui est fed.",
+          "Adapte ton pick : contre des plongeurs, un support qui protège ; contre une compo fragile, un tank qui engage."
+        ],
+        "duo": [
+          "Meilleur duo : Roam + Gold (protection du carry) ou Roam + Jungle (vision et ganks).",
+          "Le roamer annonce l'engage, le partenaire suit dans la seconde.",
+          "Entraînez une combinaison de contrôles : l'un immobilise, l'autre achève."
+        ],
+        "meta": "Tanks et supports forts du patch.",
+        "builds": {
+          "aVerifier": true,
+          "emblemes": [
+            {"nom": "Tank", "talents": "PV + défenses + dégâts de zone", "pourquoi": "Tu encaisses et tu engages."},
+            {
+              "nom": "Support",
+              "talents": "Mobilité + recharge + amplification des dégâts alliés",
+              "pourquoi": "Pour les supports qui protègent et soignent."
+            }
+          ],
+          "base": ["Bottes avec bénédiction de roam", "Objet de défense d'équipe", "Défense contre la menace principale", "Immortality en fin de partie"],
+          "situationnels": [
+            {
+              "contre": "Beaucoup de soins (soigneurs, vampirisme, auto-soins)",
+              "items": ["Sea Halberd (physique)", "Glowing Wand (magique)", "Dominance Ice (tank/défense)"],
+              "quand": "Dès que l'équipe adverse a 2 sources de soins ou plus : en 2e ou 3e objet, pas en dernier."
+            },
+            {
+              "contre": "Dégâts surtout magiques",
+              "items": ["Athena's Shield", "Radiant Armor", "Tough Boots"],
+              "quand": "Quand 3 adversaires ou plus font des dégâts magiques, ou qu'un mage te tue en un combo."
+            },
+            {
+              "contre": "Dégâts surtout physiques",
+              "items": ["Antique Cuirass", "Blade Armor", "Twilight Armor (contre les critiques)", "Warrior Boots"],
+              "quand": "Quand 3 adversaires ou plus font des dégâts physiques, ou qu'un tireur fed te fait fondre."
+            },
+            {
+              "contre": "Tanks très résistants",
+              "items": ["Malefic Roar (physique)", "Divine Glaive (magique)", "Demon Hunter Sword (tireur)"],
+              "quand": "Quand tes dégâts ne passent plus sur la frontline adverse, en milieu de partie."
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "gold",
+      "nom": "Gold Lane",
+      "couleur": "#eab308",
+      "resume": "Tu es la source de dégâts continus de l'équipe : farm, survis et frappe en fin de partie.",
+      "responsabilites": [
+        "Farmer sans mourir : ton or est la ressource la plus précieuse de l'équipe.",
+        "Prendre les tours dès que possible.",
+        "En teamfight : frapper la cible la plus proche en sécurité."
+      ],
+      "sections": {
+        "early": [
+          "Last hit chaque sbire : c'est ta principale source d'or.",
+          "Ne prends pas de risque avant tes premiers objets ; ton pic arrive plus tard.",
+          "Recule quand le roamer et le jungler adverses manquent.",
+          "Si ton roamer part, joue sous ta tour et nettoie la vague à distance."
+        ],
+        "mid": [
+          "Pousse ta lane quand la Tortue se joue de l'autre côté : tu forces l'adversaire à choisir.",
+          "Rejoins les combats avec ton équipe, jamais seul par le milieu de la jungle.",
+          "Frappe ce qui est à portée en sécurité : souvent le tank ou le combattant au début.",
+          "Achète un objet défensif dès qu'un assassin te cible."
+        ],
+        "late": [
+          "Tu es la cible numéro 1 : reste derrière ton tank et ton roamer.",
+          "Frappe la cible la plus proche ; ne traverse pas le combat pour le carry adverse.",
+          {"texte": "Seigneur : tu le tapes vite, mais regarde la rivière toutes les 2 secondes.", "aVerifier": true},
+          "Mort en fin de partie = défaite possible : sois patient, laisse l'adversaire engager."
+        ],
+        "vision": [
+          "Regarde la mini-carte à chaque sbire tué.",
+          "Recule dès que l'assassin adverse n'est pas visible.",
+          "Signaux : « Aide », « Ennemi manquant », « Reculer »."
+        ],
+        "erreurs": [
+          {"erreur": "Mourir avant 5 minutes sur un gank prévisible.", "correction": "Quand 2 ennemis manquent, recule sous ta tour."},
+          {"erreur": "Plonger sur le carry adverse.", "correction": "Frappe ce qui est devant toi ; laisse l'assassin s'occuper du carry."},
+          {"erreur": "Arriver seul au combat par la jungle.", "correction": "Avance avec ton tank ou ton roamer."},
+          {
+            "erreur": "Construire uniquement des dégâts contre deux assassins.",
+            "correction": "Un objet défensif (Wind of Nature, Immortality) en 3e ou 4e position."
+          },
+          {
+            "erreur": "Laisser une vague mourir sous ta tour.",
+            "correction": "Une vague = de l'or : nettoie-la avant de rejoindre si tu le peux en sécurité."
+          }
+        ],
+        "checklist": [
+          "Je ne suis pas mort avant mes 2 premiers objets.",
+          "J'ai reculé à chaque disparition de 2 ennemis.",
+          "J'ai frappé la cible la plus proche en teamfight.",
+          "J'ai rejoint les combats avec un allié devant moi.",
+          "J'ai adapté un objet défensif à la menace adverse."
+        ],
+        "rush": [
+          "Pour carry : un tireur qui farme vite et frappe fort gagne la fin de partie ; ta patience fait ton score.",
+          "Si l'équipe tilt : farme, défends les tours ; les adversaires font souvent des erreurs en fin de partie.",
+          "Adapte ton pick : contre des assassins, un tireur mobile ou résistant ; contre des tanks, un tireur à dégâts en % PV."
+        ],
+        "duo": [
+          "Meilleur duo : Gold + Roam (protection) ou Gold + Mid (dégâts combinés derrière la frontline).",
+          "Le roamer protège, toi tu restes derrière lui : jouez en distance de sécurité.",
+          "Annoncez quand vos objets clés sont terminés : c'est le moment de forcer un combat."
+        ],
+        "meta": "Tireurs forts du patch en Gold Lane.",
+        "builds": {
+          "aVerifier": true,
+          "emblemes": [
+            {"nom": "Marksman (Tireur)", "talents": "Vitesse d'attaque + bonus objets + ralentissement", "pourquoi": "Maximise tes dégâts continus."},
+            {
+              "nom": "Marksman (variante survie)",
+              "talents": "Vitesse d'attaque + soin/vitesse sur attaques",
+              "pourquoi": "Contre des compos qui plongent sur toi."
+            }
+          ],
+          "base": ["Bottes de vitesse d'attaque", "Objet de critique ou de vitesse d'attaque", "Vol de vie", "Pénétration", "Objet défensif selon la menace"],
+          "situationnels": [
+            {
+              "contre": "Beaucoup de soins (soigneurs, vampirisme, auto-soins)",
+              "items": ["Sea Halberd (physique)", "Glowing Wand (magique)", "Dominance Ice (tank/défense)"],
+              "quand": "Dès que l'équipe adverse a 2 sources de soins ou plus : en 2e ou 3e objet, pas en dernier."
+            },
+            {
+              "contre": "Dégâts surtout magiques",
+              "items": ["Athena's Shield", "Radiant Armor", "Tough Boots"],
+              "quand": "Quand 3 adversaires ou plus font des dégâts magiques, ou qu'un mage te tue en un combo."
+            },
+            {
+              "contre": "Dégâts surtout physiques",
+              "items": ["Antique Cuirass", "Blade Armor", "Twilight Armor (contre les critiques)", "Warrior Boots"],
+              "quand": "Quand 3 adversaires ou plus font des dégâts physiques, ou qu'un tireur fed te fait fondre."
+            },
+            {
+              "contre": "Tanks très résistants",
+              "items": ["Malefic Roar (physique)", "Divine Glaive (magique)", "Demon Hunter Sword (tireur)"],
+              "quand": "Quand tes dégâts ne passent plus sur la frontline adverse, en milieu de partie."
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
