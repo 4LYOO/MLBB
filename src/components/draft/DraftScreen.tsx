@@ -11,7 +11,7 @@
  *  7. Détails repliables : classement complet, analyse, premier pick, historique
  *  8. Fiche d'avant-partie (voir PregameSheet)
  */
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import clsx from "clsx";
 import { Ban, Bot, ClipboardList, RotateCcw, Save, Search, Star, Trash2, FolderOpen, Undo2, X } from "lucide-react";
 import {
@@ -98,6 +98,9 @@ export function DraftScreen(p: DraftScreenProps) {
   const [compare, setCompare] = useState<number[]>([]);
   const [msg, setMsg] = useState("");
   const duo = me.prefs.duo;
+  // Plateau : on y revient après un choix dans la grille (évite de remonter à la main).
+  const boardRef = useRef<HTMLDivElement>(null);
+  const backToBoard = () => boardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   const players = me.players;
   const playerName = (id: Owner) => players.find((x) => x.id === id)?.nom ?? "";
 
@@ -464,7 +467,7 @@ export function DraftScreen(p: DraftScreenProps) {
       {!stats.length && <Notice tone="warn">Pas de statistiques pour {RANK_FR[rank]} : score fondé sur la composition, les counters et vos pools. {p.statsLabel}</Notice>}
 
       {/* 2. Plateau */}
-      <div className="grid grid-cols-2 gap-2">
+      <div ref={boardRef} className="grid scroll-mt-20 grid-cols-2 gap-2">
         <TeamColumn team="ally" />
         <TeamColumn team="enemy" />
       </div>
@@ -527,7 +530,10 @@ export function DraftScreen(p: DraftScreenProps) {
               <button
                 key={h.slug}
                 disabled={off}
-                onClick={() => place(h.slug)}
+                onClick={() => {
+                  place(h.slug);
+                  backToBoard();
+                }}
                 className={clsx("relative flex min-h-[64px] flex-col items-center justify-center gap-0.5 rounded-xl p-0.5", off ? "opacity-25" : "active:bg-white/15")}
                 title={h.name}
               >
