@@ -44,6 +44,10 @@ export interface Match {
   gameId?: string | null;
   /** Partie enregistrée sans K/D/A (depuis le draft) : exclue des moyennes de KDA. */
   sansKda?: boolean;
+  /** Annotations rapides (ex. « Lane gagnée », « Gagné en late ») : voir config.json → annotations. */
+  tags?: string[];
+  /** Note de performance affichée par le jeu (lue sur la capture de fin de partie). */
+  rating?: number | null;
   /** Date et heure d'enregistrement (sert à découper les sessions de rush). */
   createdAt?: string;
 }
@@ -74,6 +78,10 @@ export interface Player {
   id: "moi" | "elle";
   nom: string;
   pool: Record<Lane, string[]>;
+  /** Pseudo dans le jeu : sert à retrouver ta ligne sur la capture de fin de partie. */
+  pseudo?: string;
+  /** Statistiques de héros du profil du jeu (importées par capture). */
+  heroStats?: Record<string, { matches: number | null; winRate: number | null; at: string }>;
 }
 
 export interface PersonalData {
@@ -279,6 +287,25 @@ export const personal = {
     set(EMPTY);
   },
   /** Renomme un joueur du duo. */
+  /** Pseudo en jeu d'un joueur (pour lire les captures de fin de partie). */
+  setPseudo(id: Player["id"], pseudo: string) {
+    update((s) => ({ ...s, players: s.players.map((p) => (p.id === id ? { ...p, pseudo: pseudo.trim().slice(0, 32) } : p)) }));
+  },
+  /** Enregistre les statistiques de héros lues sur une capture (remplace les anciennes valeurs de ces héros). */
+  saveHeroStats(id: Player["id"], rows: { hero: string; matches: number | null; winRate: number | null }[]) {
+    const at = now();
+    update((s) => ({
+      ...s,
+      players: s.players.map((p) => (p.id === id ? { ...p, heroStats: { ...(p.heroStats ?? {}), ...Object.fromEntries(rows.map((r) => [r.hero, { matches: r.matches, winRate: r.winRate, at }])) } } : p)),
+    }));
+  },
+  removeHeroStat(id: Player["id"], hero: string) {
+    update((s) => ({ ...s, players: s.players.map((p) => (p.id === id ? { ...p, heroStats: Object.fromEntries(Object.entries(p.heroStats ?? {}).filter(([k]) => k !== hero)) } : p)) }));
+  },
+  /** Modifie une partie du journal (annotations, note, correction). */
+  updateMatch(id: number, patch: Partial<Omit<Match, "id">>) {
+    update((s) => ({ ...s, matches: s.matches.map((m) => (m.id === id ? { ...m, ...patch } : m)) }));
+  },
   renamePlayer(id: Player["id"], nom: string) {
     update((s) => ({ ...s, players: s.players.map((p) => (p.id === id ? { ...p, nom: nom.slice(0, 24) || p.nom } : p)) }));
   },

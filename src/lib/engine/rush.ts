@@ -109,3 +109,52 @@ export function starsEstimate(matches: RushMatch[], base: { valeur: number; at: 
   const delta = games.reduce((s, m) => s + (m.result === "win" ? R.etoilesVictoire : R.etoilesDefaite), 0);
   return { total: Math.max(0, base.valeur + delta), delta, games: games.length };
 }
+
+// ------------------------------------------------------------------ Annotations
+export interface TagDef {
+  id: string;
+  texte: string;
+  ton: "bon" | "mauvais" | "neutre" | string;
+}
+export const TAGS = config.annotations.etiquettes as TagDef[];
+export const tagById = new Map(TAGS.map((t) => [t.id, t]));
+
+export interface TagStat {
+  tag: TagDef;
+  games: number;
+  wins: number;
+  winRate: number;
+}
+
+/** Bilan par étiquette : nombre de parties annotées et taux de victoire associé. */
+export function tagStats(matches: (RushMatch & { tags?: string[] })[]): TagStat[] {
+  const map = new Map<string, TagStat>();
+  for (const m of matches)
+    for (const id of new Set(m.tags ?? [])) {
+      const tag = tagById.get(id) ?? { id, texte: id, ton: "neutre" };
+      const s = map.get(id) ?? { tag, games: 0, wins: 0, winRate: 0 };
+      s.games++;
+      if (m.result === "win") s.wins++;
+      s.winRate = (s.wins / s.games) * 100;
+      map.set(id, s);
+    }
+  return [...map.values()].sort((a, b) => b.games - a.games);
+}
+
+/** Enseignements tirés des annotations (règles simples et transparentes). */
+export function tagInsights(matches: (RushMatch & { tags?: string[] })[]): string[] {
+  const has = (m: { tags?: string[] }, id: string) => !!m.tags?.includes(id);
+  const out: string[] = [];
+  const laneWonLost = matches.filter((m) => has(m, "lane-gagnee") && m.result === "loss").length;
+  if (laneWonLost >= 2) out.push(`${laneWonLost} défaites malgré une lane gagnée : convertis ton avance en objectifs (Tortue, tours) et rejoins ton équipe plus tôt.`);
+  const throws = matches.filter((m) => has(m, "throw")).length;
+  if (throws >= 2) out.push(`${throws} parties avec une avance perdue : en fin de partie, ne combats qu'avec vision et objectif à la clé.`);
+  const earlyBad = matches.filter((m) => has(m, "early-detruit"));
+  const lateSaved = earlyBad.filter((m) => m.result === "win").length;
+  if (earlyBad.length >= 3) out.push(`Détruit en early ${earlyBad.length} fois (${lateSaved} victoire(s) quand même) : revois la phase de lane, ou choisis des héros plus solides en début de partie.`);
+  const tilt = matches.filter((m) => has(m, "moi-tilt"));
+  if (tilt.length >= 2) out.push(`${tilt.filter((m) => m.result === "loss").length}/${tilt.length} défaites quand tu as tilt : l'alerte anti-tilt est là pour ça.`);
+  const draft = matches.filter((m) => has(m, "draft-perdue")).length;
+  if (draft >= 3) out.push(`${draft} drafts jugées perdues : utilise les bans conseillés et le premier pick « sûr » du Draft.`);
+  return out;
+}

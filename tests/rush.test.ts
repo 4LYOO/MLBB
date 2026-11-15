@@ -53,3 +53,20 @@ describe("étoiles estimées", () => {
     expect(starsEstimate(ms, null)).toBeNull();
   });
 });
+
+import { tagInsights, tagStats } from "@/lib/engine/rush";
+describe("annotations", () => {
+  const ms = [
+    { id: 1, playedAt: "2026-11-15", hero: "a", role: null, result: "loss" as const, tags: ["lane-gagnee"] },
+    { id: 2, playedAt: "2026-11-15", hero: "a", role: null, result: "loss" as const, tags: ["lane-gagnee", "throw"] },
+    { id: 3, playedAt: "2026-11-15", hero: "a", role: null, result: "win" as const, tags: ["lane-gagnee"] },
+  ];
+  it("compte les parties et le taux de victoire par étiquette", () => {
+    const s = tagStats(ms);
+    expect(s[0]).toMatchObject({ games: 3, wins: 1 });
+    expect(s[0].tag.texte).toBe("Lane gagnée");
+  });
+  it("tire un enseignement des lanes gagnées mais parties perdues", () => {
+    expect(tagInsights(ms).join(" ")).toMatch(/lane gagnée/);
+  });
+});

@@ -25,7 +25,8 @@ function walk(dir) {
   });
 }
 
-const files = walk(OUT).filter((f) => f !== "sw.js" && !f.endsWith(".map"));
+// Le moteur OCR (public/ocr, ≈ 15 Mo) n'est PAS précaché : il est mis en cache au premier import de capture.
+const files = walk(OUT).filter((f) => f !== "sw.js" && !f.endsWith(".map") && !f.startsWith("ocr/"));
 // Les fichiers « index.html » sont servis sous l'adresse du dossier (ex. /MLBB/draft/).
 const toUrl = (f) => `${BASE}/${f.replace(/(^|\/)index\.html$/, "$1")}`;
 const isExtra = (f) => /^(heros|guides)\/[^/]+\//.test(f);

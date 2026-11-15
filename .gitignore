@@ -8,3 +8,5 @@ next-env.d.ts
 coverage/
 # Générés par le workflow GitHub Actions (npm run data:publish)
 public/data/*.json
+# Moteur OCR copié depuis node_modules au build (scripts/copy-ocr.mjs)
+public/ocr/

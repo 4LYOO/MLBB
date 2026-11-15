@@ -50,5 +50,23 @@
     "etoilesAVerifier": true,
     "antiTiltDefaitesDAffilee": 2,
     "sessionNouvelleApresHeures": 4
+  },
+  "annotations": {
+    "_explication": "Étiquettes rapides pour annoter une partie (onglet Stats). ton = bon / mauvais / neutre (couleur de la pastille). Tu peux en ajouter, en retirer ou les renommer ; garde le même id pour ne pas perdre l'historique.",
+    "etiquettes": [
+      {"id": "lane-gagnee", "texte": "Lane gagnée", "ton": "bon"},
+      {"id": "lane-perdue", "texte": "Lane perdue", "ton": "mauvais"},
+      {"id": "early-detruit", "texte": "Détruit en early", "ton": "mauvais"},
+      {"id": "win-late", "texte": "Gagné en late", "ton": "bon"},
+      {"id": "comeback", "texte": "Comeback", "ton": "bon"},
+      {"id": "throw", "texte": "Avance perdue (throw)", "ton": "mauvais"},
+      {"id": "carry", "texte": "J'ai carry", "ton": "bon"},
+      {"id": "bons-teamfights", "texte": "Bons teamfights", "ton": "bon"},
+      {"id": "mauvais-teamfights", "texte": "Teamfights ratés", "ton": "mauvais"},
+      {"id": "objectifs", "texte": "Objectifs bien joués", "ton": "bon"},
+      {"id": "draft-perdue", "texte": "Draft perdue", "ton": "mauvais"},
+      {"id": "equipe-tilt", "texte": "Équipe en tilt / AFK", "ton": "neutre"},
+      {"id": "moi-tilt", "texte": "J'ai tilt", "ton": "mauvais"}
+    ]
   }
 }

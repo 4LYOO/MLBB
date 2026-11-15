@@ -37,7 +37,7 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     (async () => {
-      for (const key of await caches.keys()) if (key.startsWith("mlbb-") && key !== CACHE) await caches.delete(key);
+      for (const key of await caches.keys()) if (key.startsWith("mlbb-") && key !== CACHE && !key.startsWith("mlbb-ocr-")) await caches.delete(key);
       await self.clients.claim();
       await addAll(await caches.open(CACHE), EXTRA);
     })(),
@@ -72,6 +72,16 @@ async function cacheFirst(request) {
   return response;
 }
 
+/** Moteur OCR : cache dédié et durable (gros fichiers qui changent rarement). */
+async function ocrCache(request) {
+  const cache = await caches.open("mlbb-ocr-v1");
+  const cached = await cache.match(request);
+  if (cached) return cached;
+  const response = await fetch(request);
+  if (response.ok) cache.put(request, response.clone());
+  return response;
+}
+
 function offlinePage() {
   const html = `<!doctype html><html lang="fr"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>Hors ligne</title><body style="margin:0;background:#000;color:#fff;font:17px -apple-system,sans-serif;display:grid;place-items:center;min-height:100vh;text-align:center;padding:24px">
@@ -88,6 +98,9 @@ self.addEventListener("fetch", (event) => {
 
   if (url.pathname.includes("/_next/static/")) {
     event.respondWith(cacheFirst(request));
+  } else if (url.pathname.startsWith(BASE + "/ocr/")) {
+    // Moteur OCR : gardé dans un cache séparé qui survit aux mises à jour du site.
+    event.respondWith(ocrCache(request));
   } else {
     // Pages, données de navigation Next.js (« ?_rsc=… ») et fichiers JSON :
     // la partie après « ? » (filtres, identifiants techniques) ne change pas le fichier → ignorée.
