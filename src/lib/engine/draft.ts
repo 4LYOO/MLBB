@@ -713,3 +713,89 @@ export function expandSteps(mode: DraftMode, side: "blue" | "red"): DraftStep[] 
 }
 
 export const roleLabel = (r: Role | null) => (r ? ROLE_FR[r] : "—");
+
+// ------------------------------------------------------------------ Écran de draft : indicateurs et bans
+/** Indicateurs en direct d'une équipe : lanes couvertes, dégâts, CC total, faiblesses courtes. */
+export function liveIndicators(team: Hero[]) {
+  const m = teamMetrics(team);
+  const weak: string[] = [];
+  if (team.length >= 3) {
+    if (m.maxDurability < 3) weak.push("pas de frontline");
+    if (m.magic === 0) weak.push("pas de dégâts magiques");
+    if (m.physical === 0) weak.push("pas de dégâts physiques");
+    if (m.cc / Math.max(1, m.profiled) < 1.6) weak.push("CC faible");
+    if (m.maxEngage < 2) weak.push("pas d'engage");
+    if (m.hasFragileCarry && m.maxPeel < 2) weak.push("carry non protégé");
+  }
+  return {
+    covered: m.lanes.covered,
+    missing: m.lanes.missing,
+    assignment: m.lanes.assignment,
+    physical: m.physical,
+    magic: m.magic,
+    cc: m.cc,
+    weaknesses: weak,
+  };
+}
+
+/** Résultats d'un joueur/duo face à un héros adverse (déduits du journal). */
+export type EnemyRecord = Record<string, { games: number; wins: number }>;
+
+export interface SmartBan {
+  hero: Hero;
+  score: number;
+  short: string;
+  reasons: string[];
+}
+
+/**
+ * Bans conseillés = héros forts du patch (tier / ban rate) + héros que NOUS controns mal
+ * (journal : au moins 2 parties contre lui et moins de 50 % de victoires) + menaces pour nos picks.
+ */
+export function suggestSmartBans(ctx: DraftContext, record: EnemyRecord = {}, limit = 3): SmartBan[] {
+  const idx = buildIndex(ctx.heroes);
+  const allies = ctx.allies.map((s) => idx.get(s)).filter(Boolean) as Hero[];
+  const taken = new Set([...ctx.allies, ...ctx.enemies, ...ctx.bans]);
+  const out: SmartBan[] = [];
+  for (const h of ctx.heroes) {
+    if (taken.has(h.slug) || h.incomplete || !h.profile) continue;
+    const parts: { v: number; short: string; reason: string }[] = [];
+    const tier = ctx.tiers?.[h.slug];
+    const st = ctx.stats?.[h.slug];
+    if (tier === "S+" || tier === "S") parts.push({ v: tier === "S+" ? 1 : 0.7, short: `fort du patch (${tier})`, reason: `Tier ${tier} du patch${st ? ` : WR ${fr(st.winRate, 1)} %, ban ${fr(st.banRate, 1)} %` : ""}.` });
+    else if (st && st.banRate >= 30) parts.push({ v: 0.6, short: `ban ${fr(st.banRate, 0)} %`, reason: `Très banni (${fr(st.banRate, 1)} %).` });
+    const r = record[h.slug];
+    if (r && r.games >= 2 && r.wins / r.games < 0.5) {
+      const loss = Math.round((1 - r.wins / r.games) * 100);
+      parts.push({ v: 0.5 + (0.5 - r.wins / r.games) * 2, short: `vous perdez ${loss} %`, reason: `Votre journal : ${r.games - r.wins} défaite(s) sur ${r.games} partie(s) contre lui.` });
+    }
+    if (allies.length) {
+      const hits = allies.map((a) => ({ a, m: matchup(h, a, ctx.matchups) })).filter((x) => x.m.value >= 0.3).sort((p, q) => q.m.value - p.m.value);
+      if (hits.length) parts.push({ v: 0.4 + hits[0].m.value * 0.4, short: `menace ${hits[0].a.name}`, reason: hits[0].m.reasons.find((x) => x.value > 0)?.text ?? `Menace ${hits[0].a.name}.` });
+    }
+    if (!parts.length) continue;
+    parts.sort((a, b) => b.v - a.v);
+    const score = Math.round(Math.min(100, 50 + parts.reduce((s2, p) => s2 + p.v, 0) * 25));
+    out.push({ hero: h, score, short: parts[0].short, reasons: parts.map((p) => p.reason) });
+  }
+  return out.sort((a, b) => b.score - a.score || a.hero.name.localeCompare(b.hero.name)).slice(0, limit);
+}
+
+/** Bilan face à chaque héros adverse, à partir des parties du journal qui listent les ennemis. */
+export function enemyRecordFrom(matches: { result: "win" | "loss"; enemies?: string[]; gameId?: string | null }[]): EnemyRecord {
+  const rec: EnemyRecord = {};
+  const seen = new Set<string>();
+  for (const m of matches) {
+    if (!m.enemies?.length) continue;
+    if (m.gameId) {
+      if (seen.has(m.gameId)) continue; // une même partie enregistrée pour les deux joueurs ne compte qu'une fois
+      seen.add(m.gameId);
+    }
+    for (const e of m.enemies) {
+      const r = (rec[e] ??= { games: 0, wins: 0 });
+      r.games++;
+      if (m.result === "win") r.wins++;
+    }
+  }
+  return rec;
+}

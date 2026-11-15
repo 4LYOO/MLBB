@@ -135,3 +135,26 @@ describe("raisons courtes, pool et poids configurables", () => {
     expect(a.score).toBeLessThan(b.score);
   });
 });
+
+import { enemyRecordFrom, liveIndicators, suggestSmartBans } from "@/lib/engine/draft";
+describe("indicateurs et bans conseillés", () => {
+  it("résume la composition en direct", () => {
+    const li = liveIndicators(["miya", "eudora", "fanny"].map(H));
+    expect(li.covered.sort()).toEqual(["gold", "jungle", "mid"]);
+    expect(li.weaknesses).toContain("pas de frontline");
+    expect(li.physical).toBe(2);
+    expect(li.magic).toBe(1);
+  });
+  it("conseille de bannir les héros forts du patch et ceux que nous controns mal", () => {
+    const record = enemyRecordFrom([
+      { result: "loss", enemies: ["ling", "tigreal"], gameId: "a" },
+      { result: "loss", enemies: ["ling"], gameId: "b" },
+      { result: "loss", enemies: ["ling"], gameId: "b" }, // même partie (duo) : comptée une fois
+      { result: "win", enemies: ["tigreal"], gameId: "c" },
+    ]);
+    expect(record.ling).toEqual({ games: 2, wins: 0 });
+    const bans = suggestSmartBans({ heroes, allies: [], enemies: [], bans: [], tiers: { masha: "S+" } }, record, 3);
+    expect(bans.map((b) => b.hero.slug)).toEqual(expect.arrayContaining(["masha", "ling"]));
+    expect(bans.find((b) => b.hero.slug === "ling")!.short).toBe("vous perdez 100 %");
+  });
+});
