@@ -2,15 +2,19 @@
  * MOTEUR DE DRAFT — déterministe et explicable (source « computed »).
  *
  * Il combine, pour chaque héros candidat, plusieurs critères normalisés dans [-1, 1] :
- *   counter    : avantage moyen contre les héros adverses (données de matchup importées
- *                si disponibles, sinon règles de mécaniques issues du profil éditorial)
- *   synergy    : synergie moyenne avec les alliés
- *   needs      : ce que le héros apporte à la composition (lane manquante, équilibre des
- *                dégâts, frontline, contrôle, engage, protection du carry)
- *   stats      : performance statistique (win rate ajusté) dans le rang choisi
- *   meta       : tier calculé
- *   mastery    : ton historique personnel sur ce héros
- *   difficulty : pénalité si le héros dépasse la difficulté maximale choisie
+ *   counter     : avantage moyen contre les héros adverses (données de matchup importées
+ *                 si disponibles, sinon règles de mécaniques issues du profil éditorial)
+ *   synergy     : synergie moyenne avec les alliés
+ *   lane        : occupe une lane encore libre (ou pénalité si sa lane est déjà prise)
+ *   damage      : équilibre des dégâts physiques / magiques
+ *   cc          : apport de contrôle de foule
+ *   composition : frontline, engage, protection du carry
+ *   pool        : héros présent dans le pool du joueur (onglet Duo)
+ *   mastery     : historique personnel sur ce héros (journal)
+ *   stats       : performance statistique (win rate ajusté) dans le rang choisi
+ *   meta        : tier calculé
+ *   difficulty  : pénalité si le héros dépasse la difficulté maximale choisie
+ * Les poids viennent de data/config.json (draft.poids).
  * Score final = 50 + 50 × Σ(poids × critère) / Σ(poids actifs), borné à [0, 100].
  * Un critère sans donnée est désactivé (son poids est retiré) et c'est indiqué.
  *
@@ -32,22 +36,43 @@ export interface MatchupDatum {
 export interface Weights {
   counter: number;
   synergy: number;
-  needs: number;
+  lane: number;
+  damage: number;
+  cc: number;
+  composition: number;
+  pool: number;
+  mastery: number;
   stats: number;
   meta: number;
-  mastery: number;
   difficulty: number;
 }
-/** Poids par défaut : réglables dans data/config.json → draft.poids. */
-export const DEFAULT_WEIGHTS: Weights = config.draft.poids;
+/** Poids par défaut : réglables dans data/config.json → draft.poids (clés en français). */
+const P_ = config.draft.poids;
+export const DEFAULT_WEIGHTS: Weights = {
+  counter: P_.counter,
+  synergy: P_.synergie,
+  lane: P_.lane,
+  damage: P_.degats,
+  cc: P_.cc,
+  composition: P_.composition,
+  pool: P_.pool,
+  mastery: P_.maitrise,
+  stats: P_.stats,
+  meta: P_.meta,
+  difficulty: P_.difficulte,
+};
 
 export const CRITERIA_FR: Record<keyof Weights, string> = {
   counter: "Counter adverse",
   synergy: "Synergie alliée",
-  needs: "Besoins de la composition",
+  lane: "Lane / rôle libre",
+  damage: "Équilibre des dégâts",
+  cc: "Contrôle de foule",
+  composition: "Frontline, engage, protection",
+  pool: "Pool du joueur",
+  mastery: "Maîtrise (journal)",
   stats: "Performance statistique",
   meta: "Méta (tier)",
-  mastery: "Ta maîtrise",
   difficulty: "Prise en main",
 };
 
@@ -62,6 +87,9 @@ export interface DraftContext {
   personal?: Record<string, { games: number; wins: number }>;
   maxDifficulty?: number; // 1..3
   weights?: Partial<Weights>;
+  /** Héros maîtrisés par le joueur qui choisit (bonus « pool ») et son nom affiché. */
+  pool?: string[];
+  poolOwner?: string;
 }
 
 const fr = (v: number, d: number) => v.toFixed(d).replace(".", ",");
@@ -240,34 +268,78 @@ export function teamMetrics(team: Hero[]): TeamMetrics {
   };
 }
 
-/** Apport du candidat aux besoins de la composition alliée. */
-export function needsFit(h: Hero, allies: Hero[]): { value: number; reasons: Reason[]; lane: Lane | null } {
-  const reasons: Reason[] = [];
-  const add = (value: number, text: string) => reasons.push({ value, text, source: "rules" });
+/** Une partie du score de composition : valeur [-1, 1], raisons détaillées et étiquette courte. */
+export interface FitPart {
+  value: number;
+  reasons: Reason[];
+  short: string | null;
+}
+
+/**
+ * Ce que le candidat apporte à la composition alliée, critère par critère :
+ * lane libre, équilibre des dégâts, contrôle de foule, frontline/engage/protection.
+ */
+export function fitParts(h: Hero, allies: Hero[]): { lane: Lane | null; parts: { lane: FitPart; damage: FitPart; cc: FitPart; composition: FitPart } } {
   const before = teamMetrics(allies);
   const after = teamMetrics([...allies, h]);
   const lane = after.lanes.assignment[h.slug] ?? null;
+  const part = (): FitPart => ({ value: 0, reasons: [], short: null });
+  const add = (p: FitPart, value: number, text: string, short?: string) => {
+    p.reasons.push({ value, text, source: "rules" });
+    p.value = clamp(p.value + value);
+    if (short && value > 0 && !p.short) p.short = short;
+  };
+  const pl = part();
+  const pd = part();
+  const pc = part();
+  const pk = part();
+
+  // Lane / rôle libre
   if (after.lanes.covered.length > before.lanes.covered.length) {
-    if (allies.length) add(0.6, `Occupe la lane manquante : ${LANE_FR[lane!]}.`);
-    else add(0.2, `Se place en ${LANE_FR[lane!]}.`);
+    if (allies.length) add(pl, 0.8, `Occupe la lane manquante : ${LANE_FR[lane!]}.`, `${LANE_FR[lane!]} manquante`);
+    else add(pl, 0.2, `Se place en ${LANE_FR[lane!]}.`);
   } else if (allies.length) {
-    add(-0.6, `Aucune lane libre compatible (${h.lanes.map((l) => LANE_FR[l as Lane]).join(", ")} déjà occupée).`);
+    add(pl, -0.8, `Aucune lane libre compatible (${h.lanes.map((l) => LANE_FR[l as Lane]).join(", ")} déjà occupée).`);
   }
-  if (!h.profile) return { value: clamp(reasons.reduce((s, r) => s + r.value, 0)), reasons, lane };
+  if (!h.profile) return { lane, parts: { lane: pl, damage: pd, cc: pc, composition: pk } };
   const x = P(h);
-  if (allies.length >= 2) {
-    if (before.magic === 0 && (h.damage === "M" || h.damage === "H")) add(0.4, "Apporte les dégâts magiques qui manquent à l'équipe.");
-    if (before.physical === 0 && (h.damage === "P" || h.damage === "H")) add(0.4, "Apporte les dégâts physiques qui manquent à l'équipe.");
-    if (before.magic >= 3 && h.damage === "M") add(-0.3, "Rend l'équipe trop dépendante des dégâts magiques.");
-    if (before.physical >= 3 && h.damage === "P") add(-0.3, "Rend l'équipe trop dépendante des dégâts physiques.");
+
+  // Équilibre physique / magique
+  const mag = h.damage === "M" || h.damage === "H";
+  const phy = h.damage === "P" || h.damage === "H";
+  if (allies.length >= 1) {
+    if (before.magic === 0 && mag) add(pd, allies.length >= 2 ? 0.8 : 0.4, "Apporte les dégâts magiques qui manquent à l'équipe.", "dégâts magiques manquants");
+    else if (before.magic === 1 && h.damage === "M" && before.physical >= 2) add(pd, 0.4, "Deuxième source de dégâts magiques : l'adversaire ne pourra pas tout miser sur une défense.", "2e dégât magique");
+    if (before.physical === 0 && phy) add(pd, allies.length >= 2 ? 0.8 : 0.4, "Apporte les dégâts physiques qui manquent à l'équipe.", "dégâts physiques manquants");
+    else if (before.physical === 1 && h.damage === "P" && before.magic >= 2) add(pd, 0.4, "Deuxième source de dégâts physiques.", "2e dégât physique");
+    if (before.magic >= 3 && h.damage === "M") add(pd, -0.5, "Rend l'équipe trop dépendante des dégâts magiques.");
+    if (before.physical >= 3 && h.damage === "P") add(pd, -0.5, "Rend l'équipe trop dépendante des dégâts physiques.");
   }
-  if (before.maxDurability < 3 && x.durability >= 3) add(0.4, "Donne enfin une frontline à l'équipe.");
-  if (before.maxEngage < 3 && x.engage >= 3) add(0.3, "Apporte une capacité d'engage.");
-  if (before.cc < 5 && x.cc >= 3) add(0.25, "Renforce une chaîne de contrôle encore faible.");
-  if (before.hasFragileCarry && before.maxPeel < 2 && x.peel >= 2) add(0.3, "Protège le carry fragile de l'équipe.");
-  if (allies.length >= 3 && before.maxDurability >= 3 && x.durability >= 3 && x.burst === 0 && before.physical + before.magic < 3)
-    add(-0.2, "Encore un profil défensif alors que l'équipe manque de dégâts.");
-  return { value: clamp(reasons.reduce((s, r) => s + r.value, 0)), reasons, lane };
+
+  // Contrôle de foule (CC)
+  const ccPerHero = allies.length ? before.cc / allies.length : 0;
+  if (allies.length && ccPerHero < 1.6) {
+    if (x.cc >= 3) add(pc, 0.8, "L'équipe manque de contrôle de foule : il en apporte beaucoup.", "CC manquant");
+    else if (x.cc === 2) add(pc, 0.4, "Ajoute du contrôle à une équipe qui en manque.", "CC manquant");
+    else if (x.cc === 0) add(pc, -0.3, "N'apporte aucun contrôle alors que l'équipe en manque.");
+  } else if (x.cc >= 3) add(pc, 0.3, "Renforce la chaîne de contrôles.", "chaîne de CC");
+
+  // Frontline, engage, protection du carry
+  if (allies.length) {
+    if (before.maxDurability < 3 && x.durability >= 3) add(pk, 0.6, "Donne enfin une frontline à l'équipe.", "frontline manquante");
+    if (before.maxEngage < 3 && x.engage >= 3) add(pk, 0.4, "Apporte une capacité d'engage.", "engage manquant");
+    if (before.hasFragileCarry && before.maxPeel < 2 && x.peel >= 2) add(pk, 0.4, "Protège le carry fragile de l'équipe.", "protège le carry");
+    if (allies.length >= 3 && before.maxDurability >= 3 && x.durability >= 3 && x.burst === 0 && before.physical + before.magic < 3)
+      add(pk, -0.3, "Encore un profil défensif alors que l'équipe manque de dégâts.");
+  }
+  return { lane, parts: { lane: pl, damage: pd, cc: pc, composition: pk } };
+}
+
+/** Apport total à la composition (compatibilité : somme des 4 critères). */
+export function needsFit(h: Hero, allies: Hero[]): { value: number; reasons: Reason[]; lane: Lane | null } {
+  const { lane, parts } = fitParts(h, allies);
+  const all = [parts.lane, parts.damage, parts.cc, parts.composition];
+  return { value: clamp(all.reduce((s2, p) => s2 + p.value, 0)), reasons: all.flatMap((p) => p.reasons), lane };
 }
 
 // ------------------------------------------------------------------ Recommandation
@@ -284,6 +356,10 @@ export interface Recommendation {
   weaknesses: string[];
   explanation: string[];
   notes: string[];
+  /** UNE raison courte, celle qui pèse le plus dans le score (ex. « counter Ling », « CC manquant »). */
+  short: string;
+  /** Héros du pool du joueur. */
+  inPool: boolean;
 }
 
 export function buildIndex(heroes: Hero[]) {
@@ -302,15 +378,23 @@ export function recommend(ctx: DraftContext, combos: Map<string, string>, limit 
   const out: Recommendation[] = [];
   for (const h of ctx.heroes) {
     if (taken.has(h.slug) || h.incomplete || !h.profile) continue;
-    const comp: Record<keyof Weights, number | null> = { counter: null, synergy: null, needs: null, stats: null, meta: null, mastery: null, difficulty: null };
+    const comp: Record<keyof Weights, number | null> = { counter: null, synergy: null, lane: null, damage: null, cc: null, composition: null, pool: null, mastery: null, stats: null, meta: null, difficulty: null };
     const notes: string[] = [];
 
     const mus = enemies.map((e) => ({ hero: e, ...matchup(h, e, ctx.matchups) }));
     if (enemies.length) comp.counter = mus.reduce((s, m) => s + m.value, 0) / enemies.length;
     const syns = allies.map((a) => ({ hero: a, ...synergy(h, a, combos, ctx.matchups) }));
     if (allies.length) comp.synergy = syns.reduce((s, m) => s + m.value, 0) / allies.length;
-    const nf = needsFit(h, allies);
-    comp.needs = nf.value;
+    const fit = fitParts(h, allies);
+    const nf = { lane: fit.lane, reasons: [fit.parts.lane, fit.parts.damage, fit.parts.cc, fit.parts.composition].flatMap((p) => p.reasons) };
+    comp.lane = fit.parts.lane.value;
+    if (allies.length) {
+      comp.damage = fit.parts.damage.value;
+      comp.composition = fit.parts.composition.value;
+    }
+    comp.cc = fit.parts.cc.value;
+    const inPool = !!ctx.pool?.includes(h.slug);
+    if (ctx.pool?.length) comp.pool = inPool ? 1 : 0;
 
     const st = ctx.stats?.[h.slug];
     if (st) comp.stats = clamp((heroScore(st).adjWinRate - 50) / 4);
@@ -357,6 +441,27 @@ export function recommend(ctx: DraftContext, combos: Map<string, string>, limit 
     if (!ctx.matchups?.length) notes.push("Matchups estimés par règles de mécaniques (aucune donnée de matchup importée).");
     if (h.confidence === "low") notes.push("Profil éditorial de faible confiance pour ce héros (à vérifier).");
 
+    // Raison courte : le critère qui contribue le plus (poids × valeur) au score.
+    const shortOf: Partial<Record<keyof Weights, string | null>> = {
+      counter: favorable[0] ? `counter ${favorable[0].hero.name}` : null,
+      synergy: goodSyn[0] ? `synergie ${goodSyn[0].hero.name}` : null,
+      lane: fit.parts.lane.short,
+      damage: fit.parts.damage.short,
+      cc: fit.parts.cc.short,
+      composition: fit.parts.composition.short,
+      pool: inPool ? (ctx.poolOwner ? `pool de ${ctx.poolOwner}` : "dans ton pool") : null,
+      mastery: me && me.games >= 3 ? `${Math.round((me.wins / me.games) * 100)} % sur ${me.games} parties` : null,
+      stats: st ? `WR ${fr(st.winRate, 1)} %` : null,
+      meta: hasTiers && ctx.tiers![h.slug] ? `tier ${ctx.tiers![h.slug]}` : null,
+    };
+    // La lane (déjà affichée à part) et le pool (étoile) ne servent qu'en dernier recours :
+    // on préfère la raison qui distingue ce héros des autres candidats.
+    const ranked = (Object.keys(shortOf) as (keyof Weights)[])
+      .filter((k) => shortOf[k] && (comp[k] ?? 0) > 0)
+      .sort((a, b) => w[b] * (comp[b] ?? 0) - w[a] * (comp[a] ?? 0));
+    const best = ranked.find((k) => k !== "lane" && k !== "pool") ?? ranked[0];
+    const short = best ? shortOf[best]! : "choix équilibré";
+
     const role = (h.roles.find((r) => (nf.lane === "roam" ? r === "Tank" || r === "Support" : nf.lane === "gold" ? r === "Marksman" : nf.lane === "mid" ? r === "Mage" : true)) ?? h.roles[0] ?? null) as Role | null;
     out.push({
       hero: h,
@@ -371,6 +476,8 @@ export function recommend(ctx: DraftContext, combos: Map<string, string>, limit 
       weaknesses,
       explanation,
       notes,
+      short,
+      inPool,
     });
   }
   return out.sort((a, b) => b.score - a.score || a.hero.name.localeCompare(b.hero.name)).slice(0, limit);

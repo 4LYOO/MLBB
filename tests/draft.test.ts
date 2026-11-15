@@ -112,3 +112,26 @@ describe("modes de draft", () => {
     expect(firstPickRed.team).toBe("enemy");
   });
 });
+
+describe("raisons courtes, pool et poids configurables", () => {
+  it("donne une raison courte et lisible", () => {
+    const r = recommend({ heroes, allies: [], enemies: ["ling"], bans: [] }, combos, 3);
+    expect(r[0].short).toBe("counter Ling");
+    const m = recommend({ heroes, allies: ["claude", "alucard", "chou"], enemies: [], bans: [] }, combos, 3);
+    expect(m[0].short).toBe("dégâts magiques manquants");
+  });
+  it("le bonus de pool favorise les héros maîtrisés", () => {
+    const base = { heroes, allies: ["tigreal", "claude", "valentina"], enemies: ["fanny", "lylia", "karrie"], bans: [] };
+    const without = recommend(base, combos, 200).find((r) => r.hero.slug === "benedetta")!;
+    const withPool = recommend({ ...base, pool: ["benedetta"], poolOwner: "Elle" }, combos, 200).find((r) => r.hero.slug === "benedetta")!;
+    expect(withPool.inPool).toBe(true);
+    expect(withPool.score).toBeGreaterThan(without.score);
+    expect(withPool.components.pool).toBe(1);
+  });
+  it("un poids à 0 désactive un critère", () => {
+    const base = { heroes, allies: [], enemies: ["ling"], bans: [] };
+    const a = recommend({ ...base, weights: { counter: 0 } }, combos, 200).find((r) => r.hero.slug === "phoveus")!;
+    const b = recommend(base, combos, 200).find((r) => r.hero.slug === "phoveus")!;
+    expect(a.score).toBeLessThan(b.score);
+  });
+});
