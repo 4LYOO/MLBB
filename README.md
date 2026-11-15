@@ -77,6 +77,10 @@ Détails : [`docs/SOURCES.md`](docs/SOURCES.md) · [`docs/DATA-FORMAT.md`](docs/
 
 ---
 
+## Mettre à jour les données
+
+À chaque patch, suis [MISE-A-JOUR.md](MISE-A-JOUR.md) : un fichier JSON à modifier, pas de code.
+
 ## Développement
 
 Prérequis : Node.js ≥ 20 (testé avec Node 22).

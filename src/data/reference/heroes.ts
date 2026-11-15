@@ -61,3 +61,12 @@ export const EDITORIAL_COMBOS: { a: string; b: string; why: string }[] = data.co
 
 /** En-tête du fichier : patch, date de mise à jour, sources. */
 export const HEROES_META = data.meta;
+
+/** Changements du patch (data/heroes.json → changements), affichés dans « Nouveautés du patch ». */
+export interface Changement {
+  type: "buff" | "nerf" | "ajustement" | "nouveau" | "objet" | string;
+  hero?: string;
+  texte: string;
+  aVerifier?: boolean;
+}
+export const CHANGEMENTS = data.changements as unknown as { patch: string; date: string | null; source: string | null; aVerifier: boolean; liste: Changement[] };

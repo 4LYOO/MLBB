@@ -16,6 +16,14 @@
     "roam": ["marcel", "rafaela", "floryn", "carmilla", "khufra"],
     "gold": ["obsidia", "bruno", "popol-and-kupa", "irithel", "moskov"]
   },
+  "changements": {
+    "_explication": "Écran « Nouveautés du patch ». Recopie ici les changements des patch notes officielles (un objet par changement). type = buff, nerf, ajustement, nouveau ou objet. hero = slug du héros (facultatif). Exemple : {\"type\": \"buff\", \"hero\": \"layla\", \"texte\": \"Dégâts de la 2e compétence augmentés\"}",
+    "patch": "2.2.16a",
+    "date": null,
+    "source": null,
+    "aVerifier": true,
+    "liste": []
+  },
   "heroes": [
     {
       "slug": "aamon",

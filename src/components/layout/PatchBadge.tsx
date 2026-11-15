@@ -22,7 +22,7 @@ export function PatchBadge({ compact = false }: { compact?: boolean }) {
   const [y, m, d] = HEROES_META.dateMaj.split("-");
   return (
     <Link
-      href="/patchs"
+      href="/nouveautes"
       className={clsx(
         "inline-flex min-h-8 items-center gap-1 rounded-full border px-2.5 text-[11px] font-semibold whitespace-nowrap",
         old ? "border-warn/70 bg-warn/15 text-warn" : "border-white/15 bg-white/5 text-ink-2",

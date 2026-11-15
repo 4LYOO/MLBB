@@ -23,3 +23,15 @@ describe("data/coaching.json", () => {
     for (const lane of ["exp", "jungle", "mid", "roam", "gold"] as const) for (const s of META_PAR_ROLE[lane]) expect(slugs.has(s)).toBe(true);
   });
 });
+
+import heroesJson from "@data/heroes.json";
+import coachingJson from "@data/coaching.json";
+describe("nouveautés et aide-mémoire", () => {
+  it("les héros cités dans changements existent", () => {
+    const slugs = new Set(heroesJson.heroes.map((h) => h.slug));
+    for (const c of heroesJson.changements.liste as { hero?: string }[]) if (c.hero) expect(slugs.has(c.hero)).toBe(true);
+  });
+  it("les objectifs de l'aide-mémoire ont un timing et sont marqués à vérifier tant que non confirmés", () => {
+    for (const o of coachingJson.aideMemoire.objectifs) expect(o.timing && o.nom).toBeTruthy();
+  });
+});
