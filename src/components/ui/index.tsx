@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { PortraitImg } from "./PortraitImg";
 import clsx from "clsx";
 import { AlertTriangle, Clock, Database, Info } from "lucide-react";
 import { RANK_FR, PERIOD_FR, ROLE_COLOR, ROLE_FR, SOURCE_KIND_FR, TIER_COLOR, UNAVAILABLE, type Hero, type Period, type Rank, type Role, type Source, type Tier } from "@/lib/domain";
@@ -129,8 +128,13 @@ export function TierBadge({ tier, size = "md" }: { tier: Tier | null | undefined
   );
 }
 
-export function HeroAvatar({ hero, size = 40, className }: { hero: Pick<Hero, "name" | "roles" | "portraitUrl">; size?: number; className?: string }) {
-  const c = ROLE_COLOR[hero.roles[0] as Role] ?? "#64748b";
+/**
+ * Avatar d'un héros : initiales + pastille de la couleur du rôle principal.
+ * Volontairement AUCUNE image officielle du jeu (portraits, icônes).
+ */
+export function HeroAvatar({ hero, size = 40, className }: { hero: Pick<Hero, "name" | "roles">; size?: number; className?: string }) {
+  const c = ROLE_COLOR[hero.roles[0] as Role] ?? "#71717a";
+  const c2 = hero.roles[1] ? (ROLE_COLOR[hero.roles[1] as Role] ?? null) : null;
   const initials = hero.name
     .replace(/[^A-Za-z0-9 .'-]/g, "")
     .split(/[\s.-]+/)
@@ -139,14 +143,28 @@ export function HeroAvatar({ hero, size = 40, className }: { hero: Pick<Hero, "n
     .map((w) => w[0])
     .join("")
     .toUpperCase();
+  const dot = Math.max(8, Math.round(size * 0.24));
   return (
     <span
-      className={clsx("relative inline-grid shrink-0 place-items-center overflow-hidden rounded-2xl font-bold text-white", className)}
-      style={{ width: size, height: size, fontSize: size * 0.36, background: `linear-gradient(135deg, ${c}, #1f2545)`, boxShadow: `inset 0 0 0 1px ${c}88` }}
+      className={clsx("relative inline-grid shrink-0 place-items-center rounded-2xl font-bold text-white", className)}
+      style={{ width: size, height: size, fontSize: size * 0.36, background: "#16161b", boxShadow: `inset 0 0 0 2px ${c}` }}
       aria-hidden
     >
       {initials}
-      {hero.portraitUrl && <PortraitImg src={hero.portraitUrl} />}
+      {/* Pastille du rôle principal (et du rôle secondaire s'il existe) */}
+      <span className="absolute -bottom-0.5 -right-0.5 flex">
+        {c2 && <span className="-mr-1 rounded-full ring-2 ring-black" style={{ width: dot, height: dot, background: c2 }} />}
+        <span className="rounded-full ring-2 ring-black" style={{ width: dot, height: dot, background: c }} />
+      </span>
+    </span>
+  );
+}
+
+/** Petite pastille « à vérifier » : donnée incertaine (estimation, dépend du patch). */
+export function AVerifier({ title = "Donnée incertaine ou dépendante du patch : à vérifier" }: { title?: string }) {
+  return (
+    <span className="inline-flex shrink-0 items-center rounded-full border border-warn/60 bg-warn/15 px-1.5 py-px align-middle text-[10px] font-semibold text-warn" title={title}>
+      à vérifier
     </span>
   );
 }

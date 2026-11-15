@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { Suspense } from "react";
-import { Card, HeroAvatar, Notice, PageHeader, Provenance, RoleBadge } from "@/components/ui";
+import { AVerifier, Card, HeroAvatar, Notice, PageHeader, Provenance, RoleBadge } from "@/components/ui";
 import { LinkTabs } from "@/components/filters/LinkTabs";
 import { ItemRow } from "@/components/hero/ItemRow";
 import { BuildLab } from "@/components/builds/BuildLab";
@@ -109,7 +109,7 @@ function Inner() {
             </dl>
             {hero.profile && (
               <div className="mt-4 border-t border-line pt-3 text-sm">
-                <p className="label">Emblème conseillé (éditorial)</p>
+                <p className="label">Emblème conseillé (éditorial) <AVerifier /></p>
                 <p>
                   {EDITORIAL_EMBLEMS.find((e) => e.slug === EMBLEM_BY_ARCHETYPE[archetypeOf(hero)].emblem)?.nameFr} — {EMBLEM_BY_ARCHETYPE[archetypeOf(hero)].talents.join(" · ")}
                 </p>
@@ -208,7 +208,7 @@ function Inner() {
               <Provenance source={sources[talents[0].sourceId]} capturedAt={talents[0].capturedAt} />
             </Card>
           ) : (
-            <Card title="Talents" subtitle="Système connu 2023–2025 : à revérifier contre le patch actuel (refonte possible en 2026)">
+            <Card title={<span className="inline-flex items-center gap-2">Talents <AVerifier /></span>} subtitle="Système connu 2023–2025 : à revérifier contre le patch actuel (refonte possible en 2026)">
               {[1, 2, 3].map((tier) => (
                 <div key={tier} className="mb-3">
                   <p className="label">Palier {tier}</p>
