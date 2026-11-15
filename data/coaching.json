@@ -3,78 +3,88 @@
     "patch": "2.2.16a",
     "dateMaj": "2026-11-15",
     "sources": ["Rédaction MLBB Companion (principes de jeu généraux)", "Liens de la base de connaissances (ONE Esports, MLBBHub guides, GuildOrder)"],
-    "note": "Les points marqués aVerifier dépendent du patch (timings d'objectifs, objets, emblèmes) : à revérifier à chaque mise à jour du jeu."
+    "note": "Coaching orienté haut niveau (Mythique Immortel). Les points marqués aVerifier dépendent du patch (timings d'objectifs, objets) : à revérifier à chaque mise à jour du jeu.",
+    "niveau": "Mythique Immortel"
   },
   "roles": [
     {
       "id": "exp",
       "nom": "EXP Lane",
       "couleur": "#f97316",
-      "resume": "Tu tiens seul le côté de la Tortue, tu gagnes ton duel puis tu pèses sur les objectifs.",
+      "resume": "Tu es l'aile qui fixe le tempo côté Tortue : gagner ta lane par la gestion de vague, puis convertir ta priorité en objectifs et en pression latérale.",
       "responsabilites": [
-        "Tenir ta lane sans mourir : chaque mort donne la Tortue à l'adversaire.",
-        "Arriver à temps sur les combats de Tortue avec ton jungler.",
-        "En fin de partie : encaisser, ouvrir les combats ou attirer du monde en split push."
+        "Gagner la priorité de lane (vague poussée en premier) pour arriver avant l'adversaire sur chaque Tortue.",
+        "Choisir à chaque vague entre rotation, freeze et split : jamais quitter la lane sans que ta vague ait atteint sa tour.",
+        "En teamfight : soit frontline secondaire, soit flanc sur leur backline selon ton héros ; décide-le dès la draft."
       ],
       "sections": {
         "early": [
-          "Prends le niveau 2 avant l'adversaire : c'est souvent là que se gagne le premier échange.",
-          "Pousse ta vague avant d'aller aider : une vague perdue = expérience et or perdus.",
-          "Échanges courts : tu touches, tu recules. Ne poursuis pas sous sa tour.",
-          {"texte": "Première Tortue vers 2:00 : sois en lane côté Tortue, vague poussée, prêt à rejoindre.", "aVerifier": true},
-          "Si ton adversaire disparaît, préviens tout de suite (« manquant ») : il va ganker le mid ou la jungle."
+          "Niveau 1-2 : joue autour des pics de niveau. Le premier à atteindre son niveau 2 (puis 4) gagne l'échange : compte les sbires de la vague.",
+          "Slow push en vague 2-3 si ton jungler arrive pour la Tortue : la vague s'écrase sur leur tour au moment de l'objectif, l'EXP adverse doit choisir entre sa tour et la Tortue.",
+          {
+            "texte": "Avant la première Tortue (~2:00) : vague poussée 20 s avant, Châtiment du jungler prêt, ton sort de combat disponible ; sinon cède-la et prends une plaque en échange.",
+            "aVerifier": true
+          },
+          "Si tu perds la lane : freeze près de ta tour, refuse l'XP, ne cherche pas le kill. Un EXP à égalité d'XP vaut mieux qu'un EXP mort deux fois.",
+          "Track le jungler adverse : s'il a été vu côté Seigneur, tu peux trade agressivement ; s'il a disparu après son buff, recule d'un buisson."
         ],
         "mid": [
-          "Après ta tour extérieure, rejoins les combats d'objectifs : tu es souvent le premier contact.",
-          "Ne split push que si tes 4 alliés peuvent tenir sans toi et que tu vois au moins 3 ennemis sur la carte.",
-          "En teamfight : entre APRÈS ton tank ou en même temps, jamais avant.",
-          "Garde ton sort de combat (Pétrification, Vengeance, Flicker) pour le vrai combat, pas pour un poke."
+          "Rotation après chaque Tortue : pousse ta vague jusqu'à la tour, puis va mid ou côté Seigneur. Ne laisse jamais une vague de 3+ sbires arriver seule sur ta tour.",
+          "Split push quand ton équipe peut tenir à 4 (meilleure waveclear, pas de Seigneur dispo) : tu forces 2 adversaires à répondre, c'est un avantage numérique ailleurs.",
+          "Avant chaque objectif, regarde les sorts adverses et les timers d'ultimes (Retribution, Flicker, ultimes des carries) : on engage quand eux n'ont plus leurs outils.",
+          "Ton build suit la compo adverse dès le 2e objet : anti-heal, défense magique ou physique selon leur source principale de dégâts, pas un build fixe."
         ],
         "late": [
-          "Ton rôle : soit tu tiens la frontline, soit tu plonges sur leur carry. Décide AVANT le combat.",
-          "Vise le tireur ou le mage adverse s'ils sont accessibles ; sinon, protège ton carry des plongeurs.",
-          {"texte": "Seigneur vers 8:00 et ensuite : ne le lance que si un ou deux adversaires sont morts ou très loin.", "aVerifier": true},
-          "Si tu split push en fin de partie, recule dès que 2 ennemis disparaissent de la carte."
+          {
+            "texte": "Seigneur (~8:00 puis à chaque réapparition) : ton rôle est de tenir le flanc ou de split la lane opposée pour diviser leur équipe.",
+            "aVerifier": true
+          },
+          "Un pick (kill isolé) = un objectif : Seigneur si le jungler adverse est mort, sinon 1 tour + vagues. Ne poursuis pas dans leur jungle.",
+          "En fin de partie, ne split plus seul sans vision : la mort de l'aile coûte souvent le Seigneur et l'inhibiteur.",
+          "Positionne-toi selon ta condition de victoire : diver sur le tireur (assassin-combattant) ou peeler ton carry (combattant tanky)."
         ],
         "vision": [
-          "Regarde la mini-carte toutes les 5 secondes, surtout la rivière côté Tortue.",
-          "Recule quand le jungler adverse n'est pas visible et que ta vague est poussée chez lui.",
-          "Signaux utiles : « Ennemi manquant », « Rassemblement à la Tortue », « Reculer »."
+          "À haut niveau, tout le monde suit la mini-carte : avance dans la rivière seulement si 2 adversaires sont visibles ailleurs.",
+          "Compte les adversaires visibles avant de pousser au-delà de la moitié de la lane : 3 manquants = recul immédiat.",
+          "Utilise les buissons de rivière pour couvrir la Tortue avant l'apparition, pas après.",
+          "Pinge les timings (sorts adverses, ultimes, buffs) : la communication fait gagner les 50/50 à ce niveau."
         ],
         "erreurs": [
           {
-            "erreur": "Poursuivre un adversaire à faibles PV sous sa tour.",
-            "correction": "Laisse-le partir : pousse ta vague et prends la plaque/tour à la place."
+            "erreur": "Quitter la lane avec une vague à moitié poussée pour aider sur un objectif perdu d'avance.",
+            "correction": "Termine la vague, puis va sur l'objectif suivant ou prends une plaque : échange un objectif contre un autre."
           },
           {
-            "erreur": "Arriver en retard sur la Tortue parce que tu farmais.",
-            "correction": "Pousse ta vague 30 secondes avant l'objectif, puis marche vers la rivière."
+            "erreur": "Engager le premier en teamfight sur leur frontline.",
+            "correction": "Attends l'engage du roam, puis entre sur la backline ou coupe leur retraite."
           },
-          {"erreur": "Ouvrir un combat seul en fin de partie.", "correction": "Attends ton tank ou ton roamer ; entre juste après eux."},
-          {"erreur": "Split push alors que ton équipe se bat à 4 contre 5.", "correction": "Rejoins dès qu'un combat commence près d'un objectif."},
           {
-            "erreur": "Ignorer le build : full dégâts contre une équipe qui te one-shot.",
-            "correction": "Un objet défensif tôt (voir items situationnels) te garde en vie et utile."
+            "erreur": "Split push alors que le Seigneur adverse est disponible et que ton équipe est en infériorité.",
+            "correction": "Regroupe-toi 30 s avant chaque Seigneur ; split uniquement quand aucun objectif majeur n'est disponible."
+          },
+          {
+            "erreur": "Garder le même build quelle que soit leur compo.",
+            "correction": "Adapte le 2e et le 3e objet à leur source de dégâts principale et à leurs soins."
           }
         ],
         "checklist": [
-          "Je n'ai pas perdu de duel évitable avant 4 min.",
-          "J'ai rejoint chaque Tortue avec ma vague poussée.",
-          "J'ai signalé chaque disparition de mon adversaire.",
-          "Je suis entré en teamfight après mon tank, pas avant.",
-          "Je n'ai pas split push pendant un combat à 4 contre 5."
+          "J'avais la priorité de vague sur chaque Tortue.",
+          "Je n'ai jamais laissé une grosse vague mourir sous ma tour.",
+          "J'ai échangé chaque objectif perdu contre une tour ou des plaques.",
+          "J'ai attendu l'engage avant d'entrer en teamfight.",
+          "Mon build était adapté à leur compo dès le 2e objet."
         ],
         "rush": [
-          "Pour carry en solo : choisis un héros qui gagne sa lane et qui split push bien, puis transforme ton avance en tours.",
-          "Si l'équipe tilt : joue simple, regroupe-toi pour les objectifs, évite de te disputer dans le chat.",
-          "Adapte ton pick : contre une compo pleine de plongeurs, prends un héros résistant avec du contrôle ; contre du poke, un héros qui engage vite."
+          "En Mythique Immortel, l'EXP qui gagne la lane sans mourir et tourne au bon moment carry plus que celui qui cherche les solo kills.",
+          "Draft : préfère un héros flex (EXP/Jungle) ou bloqueur de dashs si leur compo est mobile ; évite d'être counter-pick en premier pick.",
+          "Si l'équipe est en retard : farm sûr, défends, et attends un pick ; une bonne teamfight à 15 min retourne la partie."
         ],
         "duo": [
-          "Meilleur duo : EXP + Jungle (Tortue ensemble dès le début) ou EXP + Roam (2 contre 1 en lane).",
-          "Annoncez les timings de Tortue à voix haute ; le jungler sécurise, toi tu bloques l'adversaire.",
-          "En fin de partie, l'un engage, l'autre suit dans la seconde : entraînez-vous à entrer ensemble."
+          "EXP + Jungle : synchronisez chaque Tortue (vague poussée + Châtiment) et les ganks de niveau 2-4.",
+          "EXP + Roam : le roam vient aux pics de niveau ; le roam pose la vision dans la rivière côté EXP avant la Tortue.",
+          "Annoncez vos ultimes et sorts de combat avant chaque objectif."
         ],
-        "meta": "Héros forts du patch en EXP Lane. Choisis-en un dans ton pool si possible.",
+        "meta": "Héros forts du patch en EXP Lane à haut niveau (Mythical Glory+).",
         "builds": {
           "aVerifier": true,
           "emblemes": [
@@ -120,71 +130,70 @@
       "id": "jungle",
       "nom": "Jungle",
       "couleur": "#a855f7",
-      "resume": "Tu décides du rythme : farm, ganks et objectifs passent par toi.",
+      "resume": "Tu es le métronome de la partie : ton chemin, tes timings d'objectifs et ta lecture du jungler adverse décident du tempo des 5 joueurs.",
       "responsabilites": [
-        "Farmer efficacement et rester au niveau ou devant le jungler adverse.",
-        "Sécuriser Tortue et Seigneur avec Châtiment.",
-        "Créer des avantages : ganks sur les lanes qui peuvent gagner un 2 contre 1."
+        "Optimiser le farm (clear sans perte de temps) tout en suivant le jungler adverse et ses timings.",
+        "Prendre chaque Tortue et chaque Seigneur au bon moment : avec priorité de vague et sorts adverses épuisés.",
+        "Convertir les avantages : chaque kill doit devenir un objectif (Tortue, tour, buff adverse, Seigneur)."
       ],
       "sections": {
         "early": [
-          "Planifie ton chemin avant 0:00 : quel buff en premier, quelle lane ganker ensuite.",
-          "Ne ganke que les lanes avec du contrôle ou un adversaire très avancé.",
-          {"texte": "Première Tortue vers 2:00 : sois là avec ton EXP ou ton roamer, Châtiment prêt.", "aVerifier": true},
-          "Si tu vois le jungler adverse d'un côté, va de l'autre côté : contre-jungle ou objectif.",
-          "Ne perds pas 30 secondes sur un gank raté : retourne farmer."
+          "Planifie ton chemin selon la draft : buff côté Tortue si tes lanes de ce côté ont la priorité, sinon côté opposé et contre-jungle.",
+          "Déduis le chemin adverse dès sa première apparition : son buff de départ et sa vitesse de clear indiquent où il sera ensuite.",
+          {
+            "texte": "Première Tortue (~2:00) : arrive avec ton EXP ou ton roam, vagues poussées ; si le jungler adverse est de l'autre côté, prends-la sans combat.",
+            "aVerifier": true
+          },
+          "Gank seulement les lanes avec CC allié, une vague poussée chez eux et un adversaire sans Flicker : sinon, farm.",
+          "Contre-jungle quand le jungler adverse est vu de l'autre côté de la carte et que tes lanes proches ont la priorité."
         ],
         "mid": [
-          "Chaque Tortue compte : arrive avant l'adversaire et prends la vision autour.",
-          "Après un kill, convertis immédiatement : Tortue, tour ou buff adverse.",
-          "En teamfight : attends que leurs contrôles soient utilisés, puis entre sur le carry.",
-          "Si ton équipe perd, farme et reviens au combat suivant plutôt que de mourir en retard."
+          "Contrôle de la vision avant chaque Tortue : ton roam et toi entrez dans la rivière 20-30 s avant l'apparition.",
+          "Objectif contre objectif : si l'adversaire prend la Tortue, prends une tour ou leur buff de l'autre côté ; ne force pas un 4v5.",
+          "En teamfight, attends l'engage et les contrôles adverses, puis plonge sur le carry : l'assassin qui entre en premier meurt en premier.",
+          "Garde ton Châtiment pour les objectifs et les 50/50 ; un Châtiment raté sur la Tortue ou le Seigneur coûte la partie."
         ],
         "late": [
-          "Ta cible : le tireur ou le mage adverse. Évite de taper le tank.",
-          {"texte": "Seigneur : lance-le seulement si 2 ennemis sont morts ou si tout leur camp est visible loin.", "aVerifier": true},
-          "Garde Châtiment pour le Seigneur ou un kill décisif, jamais pour un petit monstre en fin de partie.",
-          "Si le jungler adverse est mort, c'est le moment du Seigneur."
+          {
+            "texte": "Seigneur (~8:00 et réapparitions) : lance-le si le jungler adverse est mort, ou si 2 adversaires sont morts, ou si leur équipe est visible à l'opposé.",
+            "aVerifier": true
+          },
+          "Ne commence jamais le Seigneur sans vision de la rivière : le vol au Châtiment est la première cause de défaite en fin de partie.",
+          "Si le jungler adverse meurt en fin de partie, c'est un Seigneur gratuit : annonce-le immédiatement.",
+          "En retard : protège ta jungle et tes objectifs, cherche le pick sur le carry adverse isolé."
         ],
         "vision": [
-          "Suis le jungler adverse : à chaque apparition, déduis son prochain camp.",
+          "Note à chaque apparition du jungler adverse : son buff de départ, son niveau, son Châtiment utilisé ou non.",
           "Recule si 3 ennemis manquent et que tu es dans leur jungle.",
-          "Signaux : « Rassemblement Tortue / Seigneur », « Ennemi manquant », « Attaquer »."
+          "Pinge « Ennemi manquant » et « Rassemblement Tortue/Seigneur » 20-30 s avant chaque objectif."
         ],
         "erreurs": [
           {
-            "erreur": "Ganker une lane sans contrôle contre un adversaire en pleine vie.",
-            "correction": "Choisis la lane où l'allié a du CC ou où l'adversaire est trop avancé."
+            "erreur": "Ganker une lane sans priorité de vague ni contrôle allié.",
+            "correction": "Choisis la lane qui peut gagner le 2v1 (CC, adversaire avancé, pas de Flicker), sinon farm."
           },
-          {
-            "erreur": "Rater un Châtiment sur un objectif.",
-            "correction": "Regarde les PV du monstre, pas les héros ; lance Châtiment au seuil, pas avant."
-          },
-          {"erreur": "Entrer en premier dans un combat.", "correction": "Attends l'engage du tank et les contrôles adverses, puis plonge."},
-          {
-            "erreur": "Farmer pendant que ton équipe se bat pour la Tortue.",
-            "correction": "L'objectif passe avant ton camp : un camp repousse, la Tortue non."
-          },
-          {"erreur": "Ne pas suivre le jungler adverse.", "correction": "Note où il apparaît et préviens les lanes qui vont se faire ganker."}
+          {"erreur": "Lancer la Tortue ou le Seigneur sans vision.", "correction": "Vision d'abord (roam + jungle), objectif ensuite."},
+          {"erreur": "Plonger le premier en teamfight.", "correction": "Attends que l'adversaire utilise ses contrôles, puis entre sur le carry."},
+          {"erreur": "Rater un Châtiment par impatience.", "correction": "Regarde les PV du monstre, pas les héros ; Châtiment au seuil."}
         ],
         "checklist": [
-          "J'ai planifié mon chemin avant le début de la partie.",
-          "J'étais présent sur chaque Tortue avec Châtiment prêt.",
-          "Après chaque kill, j'ai pris un objectif.",
-          "J'ai attendu les contrôles adverses avant de plonger.",
+          "J'ai suivi le chemin du jungler adverse et anticipé ses objectifs.",
+          "J'ai pris chaque Tortue avec priorité de vague ou échangé contre un autre objectif.",
+          "Chaque kill de mon équipe est devenu un objectif.",
+          "J'ai plongé après l'engage, pas avant.",
           "Je n'ai pas raté de Châtiment."
         ],
         "rush": [
-          "Pour carry : prends un jungler qui farme vite et qui gagne les escarmouches ; contrôle la Tortue, c'est l'or de toute l'équipe.",
-          "Si l'équipe tilt : farm, contrôle la vision et joue les objectifs sûrs ; un jungler calme gagne beaucoup de parties.",
-          "Adapte ton pick : contre beaucoup de contrôles, un jungler qui les évite ; contre des carries fragiles, un assassin à burst."
+          "En Mythique Immortel, le jungler gagne surtout par le tempo : ne perds pas 30 s sur un gank raté, retourne farmer ou objectiver.",
+          "Draft : choisis selon la compo (anti-heal, bloqueurs de dashs) et l'ordre de pick ; les junglers disputés se prennent tôt.",
+          "Si l'équipe tilt : farm, contrôle la vision et joue les objectifs sûrs ; un jungler calme gagne beaucoup de parties."
         ],
         "duo": [
-          "Meilleur duo : Jungle + Roam (vision + gank ensemble) ou Jungle + EXP (Tortue).",
-          "Le roamer prend la vision devant toi ; tu entres quand il a posé son contrôle.",
+          "Jungle + Roam : le roam pose la vision devant toi et engage ; tu entres après son contrôle.",
+          "Jungle + EXP : synchronisez chaque Tortue (vague poussée + Châtiment).",
           "Annoncez vos sorts de combat disponibles avant chaque objectif."
         ],
-        "meta": "Junglers forts du patch. Vérifie qu'ils correspondent à ton style (farm ou ganks).",
+        "meta": "Junglers forts du patch à haut niveau (Mythical Glory+).",
         "builds": {
           "aVerifier": true,
           "emblemes": [
@@ -225,64 +234,60 @@
       "id": "mid",
       "nom": "Mid Lane",
       "couleur": "#6366f1",
-      "resume": "Tu pousses vite ta vague, tu tournes sur la carte et tu apportes les dégâts magiques.",
+      "resume": "Tu contrôles le centre de la carte : clear rapide, rotations vers les objectifs et dégâts de zone qui gagnent les teamfights.",
       "responsabilites": [
-        "Nettoyer ta vague rapidement pour gagner du temps de rotation.",
-        "Aider le jungler sur la Tortue et contrôler la rivière.",
-        "En teamfight : dégâts de zone et contrôles depuis l'arrière."
+        "Clear la vague mid plus vite que l'adversaire pour arriver en premier sur la Tortue et la rivière.",
+        "Rotations à chaque objectif : jamais seul en lane quand la Tortue ou le Seigneur sont contestés.",
+        "En teamfight : rester à portée maximale, lancer les ultimes sur les adversaires groupés ou sur le carry."
       ],
       "sections": {
         "early": [
-          "Nettoie ta vague, puis regarde la mini-carte : qui a besoin d'aide ?",
-          {"texte": "Va sur la Tortue vers 2:00 avec ton jungler si ta vague est poussée.", "aVerifier": true},
-          "Ne reste pas au milieu de la rivière sans vision : c'est là que les assassins t'attendent.",
-          "Garde ton contrôle principal pour un gank ou pour te défendre, pas pour harceler."
+          "Priorité de vague dès le niveau 1 : le mid qui pousse en premier tourne en premier.",
+          {"texte": "Première Tortue (~2:00) : pousse ta vague 20 s avant et rejoins le jungler par la rivière.", "aVerifier": true},
+          "Joue autour de ton pic de niveau 4 (ultime) : c'est là que tes rotations deviennent dangereuses.",
+          "Si l'adversaire tourne, pinge-le immédiatement et pousse sa tour : chaque rotation a un coût en vague.",
+          "Avec la priorité mid, accompagne ton jungler en invasion côté adverse : le mid qui a poussé décide où se joue le prochain combat."
         ],
         "mid": [
-          "Tourne vers la lane qui va jouer un objectif : Tortue côté EXP, tours côté Gold.",
-          "Reste derrière ta frontline ; ta survie = la moitié des dégâts magiques de l'équipe.",
-          "Utilise ton ultime sur un groupe, pas sur une seule cible à moins qu'elle soit le carry.",
-          "Pousse la vague du milieu avant chaque rotation pour ne pas perdre ta tour."
+          "Rotation après chaque vague : Tortue, gold lane ou EXP selon l'objectif suivant.",
+          "Contrôle de la rivière avec ton roam : vision avant les objectifs, pas après.",
+          "En teamfight, ne lance pas ton CC ou ton ultime sur la frontline : attends que leur carry soit à portée.",
+          "Adapte ton build : pénétration contre les tanks, survie (Immortality, Winter Crown…) contre les assassins.",
+          "Poke avant l'objectif : chaque adversaire à 70 % de PV avant le combat est un 5v4 potentiel."
         ],
         "late": [
-          "Place-toi à distance maximale de ton sort ; avance seulement quand les contrôles adverses sont utilisés.",
-          "Cible : ce que tu peux atteindre en sécurité. Ne plonge pas pour un kill.",
-          {"texte": "Seigneur : couvre l'entrée de la rivière avec tes contrôles pendant que l'équipe le tape.", "aVerifier": true},
-          "Si tu es mort, ton équipe ne doit pas engager : signale « Reculer »."
+          {
+            "texte": "Seigneur (~8:00 et réapparitions) : ta zone de dégâts protège l'équipe pendant le Seigneur ; garde ton ultime pour le combat.",
+            "aVerifier": true
+          },
+          "Ne farme pas seul une lane latérale en fin de partie : un pick sur le mid coûte le Seigneur.",
+          "Positionne-toi derrière la frontline, à portée max ; ta survie gagne le combat."
         ],
         "vision": [
-          "Surveille les deux côtés de la rivière : tu es le premier à voir les rotations.",
-          "Recule dès que l'assassin adverse n'est plus visible.",
-          "Signaux : « Ennemi manquant », « Aide », « Rassemblement »."
+          "Le mid voit les deux rivières : pinge les jungler et roam adverses dès qu'ils disparaissent.",
+          "Avant de pousser : 3 ennemis manquants = clear sous ta tour, pas d'avance."
         ],
         "erreurs": [
-          {
-            "erreur": "Rester en lane alors que la Tortue se joue.",
-            "correction": "Pousse ta vague et rejoins : l'objectif vaut plus que quelques sbires."
-          },
-          {"erreur": "Gaspiller ton ultime sur un tank.", "correction": "Garde-le pour un groupe ou pour le carry adverse."},
-          {"erreur": "Te placer devant ton tank.", "correction": "Reste derrière ; tu dois survivre aux 5 premières secondes du combat."},
-          {"erreur": "Traverser la rivière sans vision.", "correction": "Passe par les zones déjà vues par un allié, ou attends ton roamer."},
-          {"erreur": "Construire full dégâts contre deux assassins.", "correction": "Un objet défensif tôt (bouclier anti-burst, Immortality) te sauve."}
+          {"erreur": "Rester en lane quand la Tortue est contestée.", "correction": "Pousse vite et tourne : 5 secondes de retard = Tortue perdue."},
+          {"erreur": "Gaspiller ton ultime sur la frontline.", "correction": "Garde-le pour le carry ou pour 3 adversaires groupés."},
+          {"erreur": "Aller dans la rivière sans vision.", "correction": "Attends ton roam ou ton jungler."}
         ],
         "checklist": [
-          "Ma vague était poussée avant chaque rotation.",
-          "J'étais sur chaque Tortue avec le jungler.",
-          "Mon ultime a touché au moins 2 ennemis en teamfight.",
-          "Je ne suis pas mort avant le début des combats.",
-          "J'ai signalé chaque disparition de l'assassin adverse."
+          "J'ai poussé ma vague avant chaque objectif.",
+          "J'ai tourné à chaque Tortue et chaque Seigneur.",
+          "J'ai gardé mon ultime pour le carry ou un groupe.",
+          "Je ne suis pas mort sans vision.",
+          "Mon build était adapté à leur compo."
         ],
         "rush": [
-          "Pour carry : un mage à gros dégâts de zone fait gagner les teamfights même si l'équipe est moyenne.",
-          "Si l'équipe tilt : joue en sécurité, défends les tours et attends les erreurs adverses en fin de partie.",
-          "Adapte ton pick : contre des assassins, un mage avec contrôle ou bouclier ; contre des tanks, un mage à dégâts continus."
+          "En Mythique Immortel, le mid gagne par le clear et les rotations : un mid absent des objectifs fait perdre la partie.",
+          "Draft : si l'adversaire a beaucoup d'assassins, prends un mage avec contrôle ou survie ; s'il est très tanky, un mage à dégâts continus."
         ],
         "duo": [
-          "Meilleur duo : Mid + Roam (le tank engage, tu enchaînes) ou Mid + Jungle (rotations rapides).",
-          "Combinez vos contrôles : l'un immobilise, l'autre place l'ultime.",
-          "Annoncez « ulti prêt » avant chaque objectif."
+          "Mid + Jungle : rotation commune sur la Tortue ; ton CC prépare son engage.",
+          "Mid + Roam : contrôle de la rivière à deux, vision avant les objectifs."
         ],
-        "meta": "Mages forts du patch en Mid Lane.",
+        "meta": "Mages forts du patch en Mid Lane à haut niveau (Mythical Glory+).",
         "builds": {
           "aVerifier": true,
           "emblemes": [
@@ -329,64 +334,60 @@
       "id": "roam",
       "nom": "Roam",
       "couleur": "#22c55e",
-      "resume": "Tu fais gagner la carte : vision, engage, protection et rotations.",
+      "resume": "Tu es le cerveau de l'équipe : vision, engage, protection et appels d'objectifs. À haut niveau, le roam décide des combats.",
       "responsabilites": [
-        "Prendre la vision devant ton équipe avant chaque objectif.",
-        "Engager les combats au bon moment ou protéger ton carry.",
-        "Aider la lane qui en a besoin, au bon moment."
+        "Vision : contrôler la rivière et les buissons avant chaque objectif.",
+        "Engage ou peel selon la compo : décider qui entre, qui protège, et quand.",
+        "Appeler les objectifs et les timings (sorts adverses, ultimes, réapparitions)."
       ],
       "sections": {
         "early": [
-          "Commence avec ton tireur ou ton jungler selon le plan de l'équipe.",
-          {"texte": "Sois sur la Tortue vers 2:00 avec le jungler : vision et contrôle des entrées.", "aVerifier": true},
-          "Ne reste pas inactif derrière ton tireur : quand il est en sécurité, tourne.",
-          "Vérifie les buissons avant ton équipe : c'est ton rôle de prendre les risques de vision."
+          "Accompagne ton jungler sur ses premiers buffs puis va sur la lane qui peut gagner un 2v1.",
+          {"texte": "Première Tortue (~2:00) : pose la vision 20-30 s avant, ton CC prêt.", "aVerifier": true},
+          "Roam vers la gold lane aux pics de niveau 2 et 4 de ton tireur, puis anticipe le premier gank adverse : sois dans le buisson avant lui.",
+          "Ne reste pas en lane quand ton jungler fait un objectif : suis-le."
         ],
         "mid": [
-          "Avant chaque objectif : vision dans la jungle adverse, puis signal de regroupement.",
-          "Choisis : engager sur une cible prioritaire OU protéger ton carry. Pas les deux à moitié.",
-          "Accompagne le jungler dans la jungle adverse pour l'aider à voler des camps.",
-          "Après un kill, pousse avec l'équipe vers la tour la plus proche."
+          "Vision avant chaque objectif : rivière, buissons, entrées de jungle adverses.",
+          "Engage quand les contrôles adverses sont épuisés ou que leur carry est mal placé.",
+          "Protège ton carry en teamfight : reste entre lui et leurs assassins.",
+          "Pinge les sorts adverses utilisés (Flicker, Purify) : ils ouvrent les engages.",
+          "Avec l'avantage, vision profonde dans leur jungle (buffs, entrées) : tu étouffes le jungler adverse et tu prépares les picks.",
+          "Flicker-engage : garde ton Flicker pour l'engage décisif sur le carry, pas pour fuir en début de partie."
         ],
         "late": [
-          "Ton engage ouvre le combat : attends que ton équipe soit en position.",
-          "Si tu protèges : reste collé à ton tireur et garde tes contrôles pour les plongeurs.",
-          {"texte": "Seigneur : bloque l'entrée de la rivière et garde ton contrôle pour l'interruption adverse.", "aVerifier": true},
-          "Ta mort coûte moins que celle du carry : sacrifie-toi pour le sauver si besoin."
+          {
+            "texte": "Seigneur (~8:00 et réapparitions) : vision de la rivière avant de commencer, puis protège ton jungler pendant le Châtiment.",
+            "aVerifier": true
+          },
+          "Un engage raté en fin de partie = défaite : attends le bon moment.",
+          "Garde ton ultime pour protéger le carry si leur assassin plonge."
         ],
         "vision": [
-          "Tu es les yeux de l'équipe : regarde la carte encore plus souvent que les autres.",
-          "Recule si 2 ennemis manquent et que tu es seul en avant.",
-          "Signaux : « Ennemi manquant », « Rassemblement », « Attaquer » sur la cible prioritaire."
+          "Contrôle de la vision = contrôle des objectifs : sois toujours dans la rivière avant l'apparition de l'objectif.",
+          "Pinge chaque ennemi manquant ; compte les adversaires visibles avant chaque engage."
         ],
         "erreurs": [
-          {"erreur": "Engager quand ton équipe est trop loin.", "correction": "Regarde où sont tes alliés avant d'utiliser ton engage."},
-          {"erreur": "Rester collé au tireur toute la partie.", "correction": "Quand il est en sécurité, tourne pour aider le mid ou la jungle."},
-          {"erreur": "Gaspiller ton contrôle sur le tank adverse.", "correction": "Garde-le pour le carry ou pour l'assassin qui plonge sur ton tireur."},
-          {"erreur": "Prendre la vision seul sans signaler.", "correction": "Signale avant d'entrer dans la jungle adverse."},
-          {
-            "erreur": "Ne pas acheter d'objet de soutien d'équipe.",
-            "correction": "Tes objets doivent aider les 5 : défenses de zone, réduction de soins, auras."
-          }
+          {"erreur": "Engager sans que ton équipe soit à portée.", "correction": "Vérifie que ton jungler et ton mid peuvent suivre en 1-2 secondes."},
+          {"erreur": "Rester avec le tireur toute la partie.", "correction": "Roam : aide le jungler sur les objectifs et pose la vision."},
+          {"erreur": "Gaspiller ton ultime sur la frontline.", "correction": "Garde-le pour le carry adverse ou pour protéger le tien."}
         ],
         "checklist": [
-          "J'ai pris la vision avant chaque objectif.",
-          "Mon engage a eu lieu quand mon équipe était à portée.",
-          "J'ai gardé mon contrôle pour la bonne cible.",
-          "J'ai tourné quand mon tireur était en sécurité.",
-          "J'ai signalé avant d'entrer dans la jungle adverse."
+          "J'ai posé la vision avant chaque objectif.",
+          "J'ai engagé quand les contrôles adverses étaient épuisés.",
+          "J'ai protégé notre carry en teamfight.",
+          "J'ai pingé les sorts et ultimes adverses.",
+          "J'étais présent sur chaque Tortue et Seigneur."
         ],
         "rush": [
-          "Pour carry : un tank qui engage bien gagne les parties en rush, même avec une équipe moyenne.",
-          "Si l'équipe tilt : sois la voix calme, signale les objectifs et protège celui qui est fed.",
-          "Adapte ton pick : contre des plongeurs, un support qui protège ; contre une compo fragile, un tank qui engage."
+          "En Mythique Immortel, un roam qui communique (pings) gagne plus de parties qu'un roam qui fait des actions spectaculaires.",
+          "Draft : choisis entre engage (compo à burst) et protection (carry fragile) selon la compo de ton équipe."
         ],
         "duo": [
-          "Meilleur duo : Roam + Gold (protection du carry) ou Roam + Jungle (vision et ganks).",
-          "Le roamer annonce l'engage, le partenaire suit dans la seconde.",
-          "Entraînez une combinaison de contrôles : l'un immobilise, l'autre achève."
+          "Roam + Jungle : vision devant le jungler, engage ensemble sur les objectifs.",
+          "Roam + Gold : protège ton tireur aux pics de niveau 2 et 4."
         ],
-        "meta": "Tanks et supports forts du patch.",
+        "meta": "Tanks et supports forts du patch à haut niveau (Mythical Glory+).",
         "builds": {
           "aVerifier": true,
           "emblemes": [
@@ -427,67 +428,56 @@
       "id": "gold",
       "nom": "Gold Lane",
       "couleur": "#eab308",
-      "resume": "Tu es la source de dégâts continus de l'équipe : farm, survis et frappe en fin de partie.",
+      "resume": "Tu es le carry de fin de partie : farm optimal, survie, et dégâts constants en teamfight depuis la bonne position.",
       "responsabilites": [
-        "Farmer sans mourir : ton or est la ressource la plus précieuse de l'équipe.",
-        "Prendre les tours dès que possible.",
-        "En teamfight : frapper la cible la plus proche en sécurité."
+        "Farmer efficacement sans mourir : l'or est ta condition de victoire.",
+        "Prendre les tours dès que possible : la gold lane ouvre la carte.",
+        "En teamfight : rester derrière la frontline et taper la cible la plus proche en sécurité."
       ],
       "sections": {
         "early": [
-          "Last hit chaque sbire : c'est ta principale source d'or.",
-          "Ne prends pas de risque avant tes premiers objets ; ton pic arrive plus tard.",
-          "Recule quand le roamer et le jungler adverses manquent.",
-          "Si ton roamer part, joue sous ta tour et nettoie la vague à distance."
+          "Last hit chaque sbire : la différence d'or au niveau 4 décide de ta lane.",
+          "Joue autour de tes pics de niveau 2 et 4 : trade quand tu atteins ton niveau avant l'adversaire.",
+          "Si le jungler adverse est vu côté Seigneur, tu peux pousser ; sinon garde ta vague près de ta tour.",
+          "Contre un tireur plus fort en early : freeze devant ta tour, refuse l'XP et attends ton jungler plutôt que de forcer les échanges."
         ],
         "mid": [
-          "Pousse ta lane quand la Tortue se joue de l'autre côté : tu forces l'adversaire à choisir.",
-          "Rejoins les combats avec ton équipe, jamais seul par le milieu de la jungle.",
-          "Frappe ce qui est à portée en sécurité : souvent le tank ou le combattant au début.",
-          "Achète un objet défensif dès qu'un assassin te cible."
+          "Prends la tour de ta lane dès que possible, puis tourne vers le mid pour les objectifs.",
+          "Farme les vagues latérales quand ton équipe n'a pas d'objectif : ton or compte.",
+          "En teamfight, tape la cible la plus proche à portée sans t'exposer ; ta survie gagne le combat.",
+          "Joue autour de tes pics d'objets (2e et 3e objet) : c'est là que tu forces les combats, pas avant.",
+          "Après la première tour, échange de côté avec ton équipe si leur gold lane est plus forte : tu farmes en sécurité, l'équipe tient la pression."
         ],
         "late": [
-          "Tu es la cible numéro 1 : reste derrière ton tank et ton roamer.",
-          "Frappe la cible la plus proche ; ne traverse pas le combat pour le carry adverse.",
-          {"texte": "Seigneur : tu le tapes vite, mais regarde la rivière toutes les 2 secondes.", "aVerifier": true},
-          "Mort en fin de partie = défaite possible : sois patient, laisse l'adversaire engager."
+          {"texte": "Seigneur (~8:00 et réapparitions) : tu donnes les dégâts sur le Seigneur, positionne-toi derrière ton équipe.", "aVerifier": true},
+          "Ne farme jamais seul une lane latérale sans vision en fin de partie.",
+          "Achète Immortality ou un objet défensif quand leurs assassins sont forts."
         ],
         "vision": [
-          "Regarde la mini-carte à chaque sbire tué.",
-          "Recule dès que l'assassin adverse n'est pas visible.",
-          "Signaux : « Aide », « Ennemi manquant », « Reculer »."
+          "Surveille le jungler et le roam adverses : leur absence = danger pour toi.",
+          "Ne pousse jamais au-delà de la moitié de ta lane sans vision."
         ],
         "erreurs": [
-          {"erreur": "Mourir avant 5 minutes sur un gank prévisible.", "correction": "Quand 2 ennemis manquent, recule sous ta tour."},
-          {"erreur": "Plonger sur le carry adverse.", "correction": "Frappe ce qui est devant toi ; laisse l'assassin s'occuper du carry."},
-          {"erreur": "Arriver seul au combat par la jungle.", "correction": "Avance avec ton tank ou ton roamer."},
-          {
-            "erreur": "Construire uniquement des dégâts contre deux assassins.",
-            "correction": "Un objet défensif (Wind of Nature, Immortality) en 3e ou 4e position."
-          },
-          {
-            "erreur": "Laisser une vague mourir sous ta tour.",
-            "correction": "Une vague = de l'or : nettoie-la avant de rejoindre si tu le peux en sécurité."
-          }
+          {"erreur": "Mourir en farmant seul une lane latérale.", "correction": "Farme quand tu vois au moins 3 adversaires ailleurs."},
+          {"erreur": "Entrer en teamfight en premier.", "correction": "Attends l'engage de la frontline, puis tape depuis l'arrière."},
+          {"erreur": "Garder le même build contre toute compo.", "correction": "Adapte : pénétration contre les tanks, survie contre les assassins."}
         ],
         "checklist": [
-          "Je ne suis pas mort avant mes 2 premiers objets.",
-          "J'ai reculé à chaque disparition de 2 ennemis.",
-          "J'ai frappé la cible la plus proche en teamfight.",
-          "J'ai rejoint les combats avec un allié devant moi.",
-          "J'ai adapté un objet défensif à la menace adverse."
+          "J'ai last hit chaque sbire en early.",
+          "J'ai pris ma tour et tourné vers les objectifs.",
+          "Je ne suis pas mort en farmant seul.",
+          "J'ai tapé depuis l'arrière en teamfight.",
+          "Mon build était adapté à leur compo."
         ],
         "rush": [
-          "Pour carry : un tireur qui farme vite et frappe fort gagne la fin de partie ; ta patience fait ton score.",
-          "Si l'équipe tilt : farme, défends les tours ; les adversaires font souvent des erreurs en fin de partie.",
-          "Adapte ton pick : contre des assassins, un tireur mobile ou résistant ; contre des tanks, un tireur à dégâts en % PV."
+          "En Mythique Immortel, le tireur qui ne meurt pas gagne la fin de partie : priorise ta survie sur les kills.",
+          "Draft : prends un tireur qui scale si ton équipe peut tenir l'early, sinon un tireur fort en milieu de partie."
         ],
         "duo": [
-          "Meilleur duo : Gold + Roam (protection) ou Gold + Mid (dégâts combinés derrière la frontline).",
-          "Le roamer protège, toi tu restes derrière lui : jouez en distance de sécurité.",
-          "Annoncez quand vos objets clés sont terminés : c'est le moment de forcer un combat."
+          "Gold + Roam : le roam vient aux pics de niveau, vous prenez la tour ensemble.",
+          "Gold + Jungle : le jungler ganke ta lane quand ta vague est poussée."
         ],
-        "meta": "Tireurs forts du patch en Gold Lane.",
+        "meta": "Tireurs forts du patch en Gold Lane à haut niveau (Mythical Glory+).",
         "builds": {
           "aVerifier": true,
           "emblemes": [
@@ -551,9 +541,12 @@
       }
     ],
     "rappels": [
-      "Pas de combat à 4 contre 5 : attends ton équipe.",
-      "Après une victoire de teamfight : objectif ou tour, pas de chasse dans la jungle.",
-      "Regarde la mini-carte à chaque vague."
+      "Vagues poussées 20 s avant chaque objectif.",
+      "Sorts adverses (Flicker, Purify, Châtiment) utilisés ? C'est le moment d'engager.",
+      "Objectif perdu = objectif échangé de l'autre côté, jamais un 4v5.",
+      "Après un pick : objectif immédiat (Seigneur si leur jungler est mort).",
+      "Vision de la rivière avant de lancer la Tortue ou le Seigneur.",
+      "3 adversaires manquants = recule."
     ]
   }
 }
