@@ -39,7 +39,9 @@ iPhone (Safari)
 
 Dans Safari, ouvre l'adresse, puis **Partager → Sur l'écran d'accueil**. L'appli s'ouvre en plein écran, avec son icône, comme une application native.
 
-Interface iPhone : thème sombre « Liquid Glass », barre d'onglets flottante (Stats, Méta, Draft, Moi, Plus), zones de sécurité (encoche, barre d'accueil), champs en 16 px (pas de zoom automatique), cibles tactiles de 44 px, cartes à la place des grands tableaux.
+Interface iPhone : thème noir pur (OLED), 5 onglets en bas (Draft · Héros · Coaching · Duo · Stats) + menu « Plus » en haut pour les autres pages, badge « Patch X · mis à jour le JJ/MM » (orange au-delà de 21 jours), zones de sécurité (encoche, barre d'accueil), cibles tactiles ≥ 44 px, héros représentés par initiales + couleur du rôle (aucune image officielle).
+
+**Hors ligne** : après la première ouverture, l'appli fonctionne sans réseau (service worker généré au build : cœur précaché ≈ 3,5 Mo, fiches héros en arrière-plan).
 
 ---
 
@@ -87,7 +89,8 @@ npm run dev            # http://localhost:3000
 | --- | --- |
 | `npm run dev` | Serveur de développement |
 | `npm run data:publish` | Génère `public/data/published.json` et `history.json` (`--from-file=paquet.json` pour éviter le téléchargement ; `PAGES_URL=…` pour repartir de l'historique publié) |
-| `npm run build` | Export statique dans `out/` (`NEXT_PUBLIC_BASE_PATH=/MLBB` pour reproduire GitHub Pages) |
+| `npm run build` | Export statique dans `out/` + service worker hors ligne (`NEXT_PUBLIC_BASE_PATH=/MLBB` pour reproduire GitHub Pages) |
+| `node scripts/format-json.mjs` | Remet en forme les fichiers `data/*.json` après une modification à la main |
 | `npm run preview` | Sert `out/` sur http://localhost:4000 avec le même préfixe |
 | `npm test` | Tests unitaires (modèle de données, moteur de draft, tiers, builds, coach, OCR, connecteur, collage, patchs) |
 | `npm run lint` | Vérification TypeScript |
@@ -97,6 +100,7 @@ Derrière un proxy HTTPS (conteneur cloud) : lancer Node avec `NODE_USE_ENV_PROX
 ### Architecture
 
 ```
+data/*.json                     Données de jeu modifiables à la main (en-tête : patch, date, sources)
 .github/workflows/publish.yml   Synchro + build + déploiement GitHub Pages
 scripts/publish-data.ts         Synchro mlbb.io + data/imports → public/data/
 src/
@@ -109,6 +113,7 @@ src/
     client/                     Chargement des données publiées, stockage personnel (localStorage)
     engine/                     Moteurs purs et testés : draft, tier, meta, builds, coach, patch, ocr, collage
     sync/mlbbio.ts              Connecteur mlbb.io (exécuté par GitHub Actions)
+scripts/build-sw.mjs + sw-template.js   Service worker (mode hors ligne)
 ```
 
 Next.js 16 (export statique) · React 19 · TypeScript · Tailwind CSS 4 · Recharts · zod · Vitest.
