@@ -2,9 +2,18 @@
   "meta": {
     "patch": "2.2.16a",
     "dateMaj": "2026-11-15",
-    "sources": ["Réglages MLBB Companion"]
+    "sources": [
+      "Réglages MLBB Companion"
+    ]
   },
-  "badge": {"joursAvantAvertissement": 21},
+  "niveau": {
+    "_explication": "Niveau de jeu ciblé. rangStats = rang des statistiques utilisé par défaut (draft, méta, fiches héros). Chez mlbb.io, « Mythical Glory+ » inclut Mythical Immortal : c'est le plus proche disponible.",
+    "nom": "Mythique Immortel",
+    "rangStats": "mythical_glory"
+  },
+  "badge": {
+    "joursAvantAvertissement": 21
+  },
   "draft": {
     "_explication": "Poids des critères du score de draft. 0 = critère ignoré ; plus le poids est grand, plus le critère compte. Les poids n'ont pas besoin de faire 1 au total.",
     "poids": {

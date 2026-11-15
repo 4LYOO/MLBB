@@ -1,8 +1,11 @@
+import config from "@data/config.json";
 import { isStale, latestSnapshot, trendReference, type Model, type StatSnapshot } from "./model";
 import { computeTiers, type TierEntry } from "@/lib/engine/tier";
 import { PERIODS, RANKS, type Hero, type HeroStat, type Period, type Rank, type Source, type Tier } from "@/lib/domain";
 
-export const parseRank = (v: unknown): Rank => (RANKS.includes(v as Rank) ? (v as Rank) : "all");
+/** Rang par défaut : celui de ton niveau (data/config.json → niveau.rangStats, Mythical Glory+). */
+export const DEFAULT_RANK = config.niveau.rangStats as Rank;
+export const parseRank = (v: unknown): Rank => (RANKS.includes(v as Rank) ? (v as Rank) : DEFAULT_RANK);
 export const parsePeriod = (v: unknown): Period => (PERIODS.includes(v as Period) ? (v as Period) : "7d");
 
 export interface StatsContext {

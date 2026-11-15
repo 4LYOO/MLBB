@@ -29,7 +29,7 @@ import {
   type Team,
 } from "@/lib/engine/draft";
 import { computeTiers } from "@/lib/engine/tier";
-import { personalByHero } from "@/lib/data/views";
+import { DEFAULT_RANK, personalByHero } from "@/lib/data/views";
 import { LANES, RANKS, RANK_FR, ROLES, ROLE_COLOR, ROLE_FR, type Hero, type HeroStat, type Lane, type Rank, type Tier } from "@/lib/domain";
 import { AVerifier, HeroAvatar, Notice } from "@/components/ui";
 import { personal, poolOf, usePersonal, type Player } from "@/lib/client/store";
@@ -88,7 +88,7 @@ export function DraftScreen(p: DraftScreenProps) {
   const [side, setSide] = useState<"blue" | "red">("blue");
   const [log, setLog] = useState<Action[]>([]);
   const [target, setTarget] = useState<Target>({ team: "ally", action: "pick", slot: 0 });
-  const [rank, setRank] = useState<Rank>((Object.keys(p.statsByRank)[0] as Rank) ?? "all");
+  const [rank, setRank] = useState<Rank>(p.statsByRank[DEFAULT_RANK]?.length ? DEFAULT_RANK : ((Object.keys(p.statsByRank)[0] as Rank) ?? "all"));
   const [maxDiff, setMaxDiff] = useState(0);
   const [training, setTraining] = useState(false);
   const [owners, setOwners] = useState<Owner[]>(["moi", "elle", null, null, null]);

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Card, HeroAvatar, PageHeader, Provenance, RoleBadge, TierBadge, Unavailable, fmtPct } from "@/components/ui";
 import { GroupedBarChart } from "@/components/charts/Charts";
 import { heroStatMatrix } from "@/lib/data/model";
-import { statsContext } from "@/lib/data/views";
+import { DEFAULT_RANK, statsContext } from "@/lib/data/views";
 import { useData } from "@/lib/client/data";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
@@ -43,7 +43,7 @@ function Inner() {
   const all = model.heroes;
   const raw = [...sps.getAll("h"), ...(sps.get("heroes")?.split(",") ?? [])].filter(Boolean);
   const sel = [...new Set(raw)].map((s) => all.find((h) => h.slug === s)).filter(Boolean).slice(0, 4) as Hero[];
-  const ctx = statsContext(model, "all", "7d");
+  const ctx = statsContext(model, DEFAULT_RANK, "7d");
   const series = sel.map((h) => ({ key: h.slug, label: h.name }));
   const matrices = new Map(sel.map((h) => [h.slug, heroStatMatrix(model, h.slug)]));
   const rankRows = RANKS.filter((r) => sel.some((h) => matrices.get(h.slug)!.some((m) => m.rank === r && m.period === "7d"))).map((r) => {
@@ -144,7 +144,7 @@ function Inner() {
                     const max = Math.max(...vals.filter((v): v is number => v != null));
                     return (
                       <tr key={k}>
-                        <td className="text-muted">{{ winRate: "Win rate", pickRate: "Pick rate", banRate: "Ban rate" }[k]} (tous rangs, 7 j)</td>
+                        <td className="text-muted">{{ winRate: "Win rate", pickRate: "Pick rate", banRate: "Ban rate" }[k]} ({RANK_FR[DEFAULT_RANK]}, 7 j)</td>
                         {vals.map((v, i) => (
                           <td key={i} className={v != null && v === max ? "font-semibold text-gold" : ""}>
                             {v != null ? fmtPct(v) : <Unavailable compact />}
