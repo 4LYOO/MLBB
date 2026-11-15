@@ -524,5 +524,36 @@
         }
       }
     }
-  ]
+  ],
+  "aideMemoire": {
+    "_explication": "Écran « Aide-mémoire » (gros texte, pendant la partie). Les timings dépendent du patch : vérifie-les dans les patch notes officielles et retire aVerifier une fois confirmé.",
+    "objectifs": [
+      {
+        "nom": "Tortue",
+        "timing": "2:00",
+        "respawn": "environ 2 min après sa mort, jusqu'à l'apparition du Seigneur",
+        "conseil": "Pousse ta vague avant, prends la vision de la rivière, puis groupez-vous à 3+.",
+        "aVerifier": true
+      },
+      {
+        "nom": "Seigneur",
+        "timing": "8:00",
+        "respawn": "quelques minutes après sa mort",
+        "conseil": "À prendre après un kill ou avec le Seigneur adverse hors de vue ; garde le Châtiment pour la fin.",
+        "aVerifier": true
+      },
+      {
+        "nom": "Buffs bleu et rouge",
+        "timing": "début de partie",
+        "respawn": "à surveiller avec le minuteur du jeu",
+        "conseil": "Note quand le jungler adverse prend son buff : il sera de l'autre côté de la carte ensuite.",
+        "aVerifier": true
+      }
+    ],
+    "rappels": [
+      "Pas de combat à 4 contre 5 : attends ton équipe.",
+      "Après une victoire de teamfight : objectif ou tour, pas de chasse dans la jungle.",
+      "Regarde la mini-carte à chaque vague."
+    ]
+  }
 }

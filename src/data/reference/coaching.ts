@@ -38,3 +38,13 @@ export const COACHING_ROLES = data.roles as CoachingRole[];
 
 /** Héros méta par lane (data/heroes.json → metaParRole). */
 export const META_PAR_ROLE = heroesData.metaParRole as unknown as { source: string; aVerifier: boolean } & Record<Lane, string[]>;
+
+/** Aide-mémoire en partie (data/coaching.json → aideMemoire). */
+export interface ObjectifAide {
+  nom: string;
+  timing: string;
+  respawn: string;
+  conseil: string;
+  aVerifier?: boolean;
+}
+export const AIDE_MEMOIRE = data.aideMemoire as { objectifs: ObjectifAide[]; rappels: string[] };

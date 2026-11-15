@@ -7,7 +7,7 @@
  */
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { GraduationCap, Trophy, X, XCircle } from "lucide-react";
+import { AlarmClock, GraduationCap, Trophy, X, XCircle } from "lucide-react";
 import { AVerifier, HeroAvatar } from "@/components/ui";
 import { useData } from "@/lib/client/data";
 import { personal, type Player } from "@/lib/client/store";
@@ -177,6 +177,9 @@ export function PregameSheet({ heroes, idx, allies, enemies, owners, players, ma
             </Link>
           </section>
         ))}
+        <Link href="/aide" className="btn-ghost w-full">
+          <AlarmClock size={18} /> Aide-mémoire en partie (objectifs, items de contre)
+        </Link>
         {!cards.length && <p className="text-sm text-muted">Attribue tes emplacements (« + joueur ») et choisis vos héros pour voir la fiche.</p>}
 
         {cards.length > 0 && (
