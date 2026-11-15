@@ -8,6 +8,7 @@
 import { useSyncExternalStore } from "react";
 import { validatePackage } from "@/lib/data/schema";
 import type { Build, Patch } from "@/lib/data/model";
+import type { Lane } from "@/lib/domain";
 
 export interface Profile {
   nickname: string | null;
@@ -57,6 +58,13 @@ export interface LocalPackage {
   label: string;
   data: unknown;
 }
+/** Joueur du duo : son nom et ses héros maîtrisés, rangés par lane. */
+export interface Player {
+  id: "moi" | "elle";
+  nom: string;
+  pool: Record<Lane, string[]>;
+}
+
 export interface PersonalData {
   version: 1;
   profile: Profile;
@@ -68,6 +76,10 @@ export interface PersonalData {
   builds: Build[];
   patches: Patch[];
   packages: LocalPackage[];
+  /** Les deux joueurs du duo (pools de héros). */
+  players: Player[];
+  /** Préférences : anti-tilt, etc. */
+  prefs: { duo: boolean };
 }
 
 const KEY = "mlbb-companion:v1";
@@ -85,6 +97,11 @@ export const EMPTY: PersonalData = {
   builds: [],
   patches: [],
   packages: [],
+  players: [
+    { id: "moi", nom: "Moi", pool: { exp: [], jungle: [], mid: [], roam: [], gold: [] } },
+    { id: "elle", nom: "Ma conjointe", pool: { exp: [], jungle: [], mid: [], roam: [], gold: [] } },
+  ],
+  prefs: { duo: true },
 };
 
 let state: PersonalData = EMPTY;
@@ -96,17 +113,29 @@ function load() {
   loaded = true;
   try {
     const raw = localStorage.getItem(KEY);
-    if (raw) state = { ...EMPTY, ...JSON.parse(raw) };
+    if (raw) state = withDefaults(JSON.parse(raw));
   } catch {
     state = EMPTY;
   }
   window.addEventListener("storage", (e) => {
     if (e.key === KEY && e.newValue) {
-      state = { ...EMPTY, ...JSON.parse(e.newValue) };
+      state = withDefaults(JSON.parse(e.newValue));
       listeners.forEach((l) => l());
     }
   });
 }
+
+/** Complète une sauvegarde ancienne avec les champs ajoutés depuis (joueurs, préférences). */
+function withDefaults(d: Partial<PersonalData>): PersonalData {
+  const players = EMPTY.players.map((def) => {
+    const p = d.players?.find((x) => x.id === def.id);
+    return p ? { ...def, ...p, pool: { ...def.pool, ...p.pool } } : def;
+  });
+  return { ...EMPTY, ...d, players, prefs: { ...EMPTY.prefs, ...(d.prefs ?? {}) } } as PersonalData;
+}
+
+/** Pool complet d'un joueur (toutes lanes confondues). */
+export const poolOf = (p: Player | undefined) => (p ? [...new Set(Object.values(p.pool).flat())] : []);
 
 export class StorageFullError extends Error {}
 
@@ -223,7 +252,7 @@ export const personal = {
     try {
       const d = JSON.parse(json);
       if (d?.version !== 1 || !Array.isArray(d.matches)) return { ok: false, error: "Ce fichier n'est pas une sauvegarde MLBB Companion." };
-      set({ ...EMPTY, ...d });
+      set(withDefaults(d));
       return { ok: true };
     } catch (e) {
       return { ok: false, error: e instanceof Error ? e.message : String(e) };
@@ -231,5 +260,23 @@ export const personal = {
   },
   reset() {
     set(EMPTY);
+  },
+  /** Renomme un joueur du duo. */
+  renamePlayer(id: Player["id"], nom: string) {
+    update((s) => ({ ...s, players: s.players.map((p) => (p.id === id ? { ...p, nom: nom.slice(0, 24) || p.nom } : p)) }));
+  },
+  /** Ajoute ou retire un héros du pool d'un joueur pour une lane. */
+  togglePool(id: Player["id"], lane: Lane, hero: string) {
+    update((s) => ({
+      ...s,
+      players: s.players.map((p) => {
+        if (p.id !== id) return p;
+        const list = p.pool[lane] ?? [];
+        return { ...p, pool: { ...p.pool, [lane]: list.includes(hero) ? list.filter((x) => x !== hero) : [...list, hero] } };
+      }),
+    }));
+  },
+  setPref<K extends keyof PersonalData["prefs"]>(key: K, value: PersonalData["prefs"][K]) {
+    update((s) => ({ ...s, prefs: { ...s.prefs, [key]: value } }));
   },
 };
