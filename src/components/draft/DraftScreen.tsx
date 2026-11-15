@@ -30,7 +30,7 @@ import {
 } from "@/lib/engine/draft";
 import { computeTiers } from "@/lib/engine/tier";
 import { DEFAULT_RANK, personalByHero } from "@/lib/data/views";
-import { LANES, RANKS, RANK_FR, ROLES, ROLE_COLOR, ROLE_FR, type Hero, type HeroStat, type Lane, type Rank, type Tier } from "@/lib/domain";
+import { LANES, RANKS, RANK_FR, ROLES, ROLE_COLOR, ROLE_FR, type Hero, type HeroStat, type Lane, type Rank, type Role, type Tier } from "@/lib/domain";
 import { AVerifier, HeroAvatar, Notice } from "@/components/ui";
 import { personal, poolOf, usePersonal, type Player } from "@/lib/client/store";
 import { RecommendationCard } from "./RecommendationCard";
@@ -69,6 +69,8 @@ export interface DraftScreenProps {
 
 /** Abréviations des lanes pour les indicateurs compacts. */
 const LANE_SHORT: Record<Lane, string> = { exp: "EXP", jungle: "JGL", mid: "MID", roam: "ROAM", gold: "GOLD" };
+/** Couleur d'une lane = couleur du rôle qui l'occupe habituellement. */
+const ROLE_OF_LANE: Record<Lane, Role> = { exp: "Fighter", jungle: "Assassin", mid: "Mage", roam: "Tank", gold: "Marksman" };
 
 /** Une suggestion affichée : héros, score, raison courte, pool. */
 interface Sugg {
@@ -98,6 +100,13 @@ export function DraftScreen(p: DraftScreenProps) {
   const [compare, setCompare] = useState<number[]>([]);
   const [msg, setMsg] = useState("");
   const duo = me.prefs.duo;
+  // Rôles choisis en arrivant en partie (mémorisés d'une partie à l'autre).
+  const roles = me.prefs.rolesDraft ?? {};
+  /** Joueur réel d'un emplacement allié : en solo, seul « moi » compte. */
+  const effOwner = (i: number): Owner => (duo ? owners[i] : owners[i] === "moi" ? "moi" : null);
+  /** Lane choisie par un joueur (null si pas de rôle fixé ou joueur absent en solo). */
+  const laneOfOwner = useCallback((o: Owner): Lane | null => (o && (duo || o === "moi") ? (roles[o] ?? null) : null), [duo, roles]);
+  const reservedLanes = (["moi", "elle"] as const).map((o) => laneOfOwner(o)).filter((l): l is Lane => !!l);
   // Plateau : on y revient après un choix dans la grille (évite de remonter à la main).
   const boardRef = useRef<HTMLDivElement>(null);
   const backToBoard = () => boardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -134,7 +143,7 @@ export function DraftScreen(p: DraftScreenProps) {
       ? { team: nextStep.team, action: nextStep.action, slot: log.filter((a) => a.team === nextStep.team && a.action === nextStep.action).length }
       : null
     : target;
-  const activeOwner: Owner = activeTarget?.team === "ally" && activeTarget.action === "pick" && duo ? owners[activeTarget.slot] : activeTarget?.team === "ally" && activeTarget.action === "pick" ? "moi" : null;
+  const activeOwner: Owner = activeTarget?.team === "ally" && activeTarget.action === "pick" ? effOwner(activeTarget.slot) : null;
 
   // ---------------------------------------------------------------- données du moteur
   const stats = p.statsByRank[rank] ?? [];
@@ -144,8 +153,11 @@ export function DraftScreen(p: DraftScreenProps) {
   const enemyRecord = useMemo(() => enemyRecordFrom(me.matches), [me.matches]);
 
   const ctxFor = useCallback(
-    (us: string[], them: string[], owner: Owner = null): DraftContext => {
+    (us: string[], them: string[], owner: Owner = null, allyTeam = false): DraftContext => {
       const pl = players.find((x) => x.id === owner);
+      const forLane = laneOfOwner(owner);
+      // Pool : héros de la lane choisie s'il y en a, sinon tout le pool du joueur.
+      const lanePool = pl && forLane ? (pl.pool[forLane] ?? []) : [];
       return {
         heroes: p.heroes,
         allies: us,
@@ -155,11 +167,15 @@ export function DraftScreen(p: DraftScreenProps) {
         tiers: tierMap,
         matchups: p.matchups,
         personal: mastery,
-        pool: pl ? poolOf(pl) : undefined,
+        pool: pl ? (lanePool.length ? lanePool : poolOf(pl)) : undefined,
         poolOwner: pl && pl.id !== "moi" ? pl.nom : undefined,
+        forLane,
+        // Coéquipiers (emplacements sans joueur du duo) : pas de héros dans les lanes que vous avez prises.
+        reservedLanes: allyTeam && !owner ? reservedLanes : undefined,
       };
     },
-    [p.heroes, bans, statMap, tierMap, p.matchups, mastery, players],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [p.heroes, bans, statMap, tierMap, p.matchups, mastery, players, laneOfOwner, reservedLanes.join()],
   );
 
   const analysis = useMemo(() => analyzeComposition(allies, enemies, p.heroes, combos, p.matchups), [allies, enemies, p.heroes, combos, p.matchups]);
@@ -176,8 +192,9 @@ export function DraftScreen(p: DraftScreenProps) {
       return { title: activeTarget.team === "ally" ? "Bans conseillés" : "Bans probables de l'adversaire", items: bansS.map((b) => ({ hero: b.hero, score: b.score, short: b.short })) };
     }
     if (activeTarget.team === "enemy") return { title: "Picks probables de l'adversaire", items: recommend(ctxFor(enemies, allies), combos, 3) };
-    const who = activeOwner ? ` · ${playerName(activeOwner)}` : "";
-    return { title: `Meilleurs picks${who}`, items: recommend(ctxFor(allies, enemies, activeOwner), combos, 3) };
+    const ownerLane = laneOfOwner(activeOwner);
+    const who = activeOwner ? ` · ${playerName(activeOwner)}${ownerLane ? ` (${LANE_SHORT[ownerLane]})` : ""}` : "";
+    return { title: `Meilleurs picks${who}`, items: recommend(ctxFor(allies, enemies, activeOwner, true), combos, 3) };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTarget?.team, activeTarget?.action, activeTarget?.slot, allies, enemies, ctxFor, combos, enemyRecord, activeOwner, players]);
 
@@ -233,7 +250,7 @@ export function DraftScreen(p: DraftScreenProps) {
   const removeAt = (t: Target) => setLog((l) => l.filter((a) => !(a.team === t.team && a.action === t.action && a.slot === t.slot)));
   const cycleOwner = (i: number) =>
     setOwners((o) => {
-      const order: Owner[] = [null, "moi", "elle"];
+      const order: Owner[] = duo ? [null, "moi", "elle"] : [null, "moi"];
       const nextOwner = order[(order.indexOf(o[i]) + 1) % order.length];
       // Un joueur n'occupe qu'un emplacement : on le retire de l'ancien.
       return o.map((x, k) => (k === i ? nextOwner : x === nextOwner && nextOwner ? null : x));
@@ -272,7 +289,8 @@ export function DraftScreen(p: DraftScreenProps) {
     const h = slug ? idx.get(slug) : null;
     const pick = t.action === "pick";
     const lane = pick && slug ? (t.team === "ally" ? allyLive.assignment[slug] : enemyLive.assignment[slug]) : null;
-    const owner = pick && t.team === "ally" && duo ? owners[t.slot] : null;
+    const owner = pick && t.team === "ally" ? effOwner(t.slot) : null;
+    const ownerLane = laneOfOwner(owner);
     return (
       <div
         role="button"
@@ -311,7 +329,7 @@ export function DraftScreen(p: DraftScreenProps) {
         ) : (
           <Ban size={13} className="text-muted" />
         )}
-        {pick && t.team === "ally" && duo && (
+        {pick && t.team === "ally" && (
           <button
             className={clsx("absolute -top-2 left-1 rounded-full px-1.5 text-[10px] font-bold leading-4", owner === "moi" ? "bg-primary text-white" : owner === "elle" ? "bg-[#e66767] text-white" : "bg-[#26262d] text-muted")}
             onClick={(e) => {
@@ -320,7 +338,7 @@ export function DraftScreen(p: DraftScreenProps) {
             }}
             aria-label="Changer le joueur de cet emplacement"
           >
-            {owner ? playerName(owner).slice(0, 14) : "+ joueur"}
+            {owner ? `${playerName(owner).slice(0, 12)}${ownerLane ? ` · ${LANE_SHORT[ownerLane]}` : ""}` : "+ joueur"}
           </button>
         )}
       </div>
@@ -398,7 +416,7 @@ export function DraftScreen(p: DraftScreenProps) {
   const compareRows = savedDrafts.filter((s) => compare.includes(s.id));
   const allyHeroes = allies.map((s) => idx.get(s)!).filter(Boolean);
   const enemyHeroes = enemies.map((s) => idx.get(s)!).filter(Boolean);
-  const hasOwnedPick = owners.some((o, i) => o && state.allyPicks[i]);
+  const hasOwnedPick = owners.some((_, i) => effOwner(i) && state.allyPicks[i]);
 
   return (
     <div className="space-y-3">
@@ -464,6 +482,45 @@ export function DraftScreen(p: DraftScreenProps) {
       {msg && <p className="text-sm text-good">{msg}</p>}
       {!stats.length && <Notice tone="warn">Pas de statistiques pour {RANK_FR[rank]} : score fondé sur la composition, les counters et vos pools. {p.statsLabel}</Notice>}
 
+      {/* 1 bis. Nos rôles : à remplir en arrivant en partie */}
+      <section className="card space-y-2 p-2.5">
+        <div className="flex items-center gap-2">
+          <p className="flex-1 text-sm font-bold">Nos rôles</p>
+          <div className="flex rounded-full bg-white/5 p-0.5 text-sm">
+            {[false, true].map((v) => (
+              <button key={String(v)} onClick={() => personal.setPref("duo", v)} className={clsx("min-h-9 rounded-full px-3 transition-colors duration-150", duo === v ? "bg-white/15 font-semibold" : "text-muted")}>
+                {v ? "Duo" : "Solo"}
+              </button>
+            ))}
+          </div>
+        </div>
+        {(duo ? (["moi", "elle"] as const) : (["moi"] as const)).map((o) => (
+          <div key={o} className="flex items-center gap-1.5">
+            <span className={clsx("w-16 shrink-0 truncate text-xs font-bold", o === "moi" ? "text-primary" : "text-[#e66767]")}>{playerName(o)}</span>
+            {LANES.map((l) => {
+              const on = roles[o] === l;
+              const c = ROLE_COLOR[ROLE_OF_LANE[l]];
+              return (
+                <button
+                  key={l}
+                  onClick={() => {
+                    personal.setRoleDraft(o, on ? null : l);
+                    // Une lane par joueur : si l'autre l'avait, on la lui retire.
+                    const other = o === "moi" ? "elle" : "moi";
+                    if (!on && roles[other] === l) personal.setRoleDraft(other, null);
+                  }}
+                  aria-pressed={on}
+                  className="min-h-10 flex-1 rounded-xl border text-[11px] font-bold transition-colors duration-150"
+                  style={on ? { background: c, borderColor: c, color: "#000" } : { borderColor: `${c}66`, color: c }}
+                >
+                  {LANE_SHORT[l]}
+                </button>
+              );
+            })}
+          </div>
+        ))}
+      </section>
+
       {/* 2. Plateau */}
       <div ref={boardRef} className="grid scroll-mt-20 grid-cols-2 gap-2">
         <TeamColumn team="ally" />
@@ -483,9 +540,12 @@ export function DraftScreen(p: DraftScreenProps) {
       {done && <p className="text-center text-sm font-semibold text-good">Draft terminée.</p>}
 
       {/* 4. Mode duo */}
-      {duoSuggest.length > 0 && (
+      {duoSuggest.length > 0 && activeOwner !== "elle" && (
         <section className="card border-[#e66767]/40 p-3">
-          <h2 className="mb-2 text-base font-bold text-[#e66767]">Pour {playerName("elle")} (selon ton pick)</h2>
+          <h2 className="mb-2 text-base font-bold text-[#e66767]">
+            Pour {playerName("elle")}
+            {laneOfOwner("elle") ? ` (${LANE_SHORT[laneOfOwner("elle")!]})` : ""} · selon ton pick
+          </h2>
           <SuggCards items={duoSuggest} owner="elle" />
         </section>
       )}
@@ -549,7 +609,7 @@ export function DraftScreen(p: DraftScreenProps) {
       <details className="card p-3">
         <summary className="min-h-9 cursor-pointer text-sm font-semibold">Classement complet et explications</summary>
         <div className="mt-2 space-y-2">
-          {recommend(ctxFor(allies, enemies, activeOwner), combos, 10).map((r, i) => (
+          {recommend(ctxFor(allies, enemies, activeOwner, true), combos, 10).map((r, i) => (
             <RecommendationCard key={`${i}-${r.hero.slug}`} rec={r} rank={i + 1} canPick={!!activeTarget && activeTarget.team === "ally" && activeTarget.action === "pick"} onPick={() => place(r.hero.slug)} />
           ))}
         </div>
@@ -633,11 +693,14 @@ export function DraftScreen(p: DraftScreenProps) {
           idx={idx}
           allies={state.allyPicks}
           enemies={enemies}
-          owners={owners}
+          owners={owners.map((_, i) => effOwner(i))}
           players={players}
           matchups={p.matchups}
           combos={combos}
-          laneOf={(s) => allyLive.assignment[s] ?? null}
+          laneOf={(s) => {
+            const i = state.allyPicks.indexOf(s);
+            return laneOfOwner(i >= 0 ? effOwner(i) : null) ?? allyLive.assignment[s] ?? null;
+          }}
           onClose={() => setPregame(false)}
         />
       )}

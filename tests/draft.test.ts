@@ -177,3 +177,15 @@ describe("haut niveau : priorité et pick sûr", () => {
     expect(s(most)).toBeLessThanOrEqual(0);
   });
 });
+
+describe("rôle choisi en draft", () => {
+  it("ne propose que des héros de la lane choisie", () => {
+    const r = recommend({ heroes, allies: [], enemies: [], bans: [], forLane: "roam" }, combos, 20);
+    expect(r.length).toBeGreaterThan(0);
+    expect(r.every((x) => x.hero.lanes.includes("roam") && x.lane === "roam")).toBe(true);
+  });
+  it("écarte des coéquipiers les héros des seules lanes réservées par le duo", () => {
+    const r = recommend({ heroes, allies: [], enemies: [], bans: [], reservedLanes: ["gold"] }, combos, 200);
+    expect(r.some((x) => x.hero.lanes.length === 1 && x.hero.lanes[0] === "gold")).toBe(false);
+  });
+});

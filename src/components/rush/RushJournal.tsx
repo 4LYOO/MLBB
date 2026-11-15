@@ -2,7 +2,7 @@
 /**
  * JOURNAL DE RUSH — enregistrer une partie en 2 taps :
  *   1) toucher le héros (le dernier joué est déjà sélectionné), 2) Victoire ou Défaite.
- * Le rôle est déduit de la lane du pool (onglet Duo), sinon du rôle principal du héros.
+ * Le rôle vient du rôle choisi dans le Draft, sinon de la lane du pool (onglet Duo), sinon du rôle principal du héros.
  * En mode duo, les deux héros sont enregistrés avec le même identifiant de partie.
  */
 import { useMemo, useState } from "react";
@@ -15,7 +15,9 @@ import { LANES, type Hero, type Lane, type Role } from "@/lib/domain";
 const ROLE_OF_LANE: Record<Lane, Role> = { exp: "Fighter", jungle: "Assassin", mid: "Mage", roam: "Tank", gold: "Marksman" };
 
 /** Rôle d'un héros pour un joueur : lane du pool si le héros y est, sinon son rôle principal. */
-function roleFor(p: Player | undefined, h: Hero): string | null {
+function roleFor(p: Player | undefined, h: Hero, chosen?: Lane | null): string | null {
+  // 1) rôle choisi dans le Draft si le héros joue cette lane, 2) lane du pool, 3) rôle principal.
+  if (chosen && h.lanes.includes(chosen)) return ROLE_OF_LANE[chosen];
   const lane = p ? LANES.find((l) => p.pool[l]?.includes(h.slug)) : undefined;
   return lane ? ROLE_OF_LANE[lane] : (h.roles[0] ?? null);
 }
@@ -79,7 +81,7 @@ export function RushJournal({ heroes }: { heroes: Hero[] }) {
       personal.addMatch({
         playedAt: new Date().toISOString().slice(0, 10),
         hero: h.slug,
-        role: roleFor(me.players.find((p) => p.id === id), h),
+        role: roleFor(me.players.find((p) => p.id === id), h, me.prefs.rolesDraft?.[id]),
         result,
         kills: 0,
         deaths: 0,

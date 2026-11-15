@@ -101,6 +101,10 @@ export interface DraftContext {
   poolOwner?: string;
   /** Héros à protéger par les bans (pools des deux joueurs du duo). */
   protect?: string[];
+  /** Rôle choisi par le joueur qui pick : seuls les héros de cette lane sont proposés. */
+  forLane?: Lane | null;
+  /** Lanes déjà réservées par le duo : les coéquipiers ne s'y voient pas proposer de héros. */
+  reservedLanes?: Lane[];
 }
 
 const fr = (v: number, d: number) => v.toFixed(d).replace(".", ",");
@@ -422,6 +426,10 @@ export function recommend(ctx: DraftContext, combos: Map<string, string>, limit 
   const out: Recommendation[] = [];
   for (const h of ctx.heroes) {
     if (taken.has(h.slug) || h.incomplete || !h.profile) continue;
+    // Rôle choisi : uniquement les héros jouables dans cette lane.
+    if (ctx.forLane && !h.lanes.includes(ctx.forLane)) continue;
+    // Coéquipiers : on écarte les héros dont toutes les lanes sont déjà réservées par le duo.
+    if (!ctx.forLane && ctx.reservedLanes?.length && h.lanes.length && h.lanes.every((l) => ctx.reservedLanes!.includes(l as Lane))) continue;
     const comp: Record<keyof Weights, number | null> = { counter: null, synergy: null, lane: null, damage: null, cc: null, composition: null, pool: null, mastery: null, stats: null, meta: null, priority: null, safety: null, difficulty: null };
     const notes: string[] = [];
 
@@ -430,8 +438,9 @@ export function recommend(ctx: DraftContext, combos: Map<string, string>, limit 
     const syns = allies.map((a) => ({ hero: a, ...synergy(h, a, combos, ctx.matchups) }));
     if (allies.length) comp.synergy = syns.reduce((s, m) => s + m.value, 0) / allies.length;
     const fit = fitParts(h, allies);
-    const nf = { lane: fit.lane, reasons: [fit.parts.lane, fit.parts.damage, fit.parts.cc, fit.parts.composition].flatMap((p) => p.reasons) };
-    comp.lane = fit.parts.lane.value;
+    const nf = { lane: ctx.forLane ?? fit.lane, reasons: [fit.parts.lane, fit.parts.damage, fit.parts.cc, fit.parts.composition].flatMap((p) => p.reasons) };
+    // Rôle imposé : le critère « lane libre » ne départage plus les candidats.
+    comp.lane = ctx.forLane ? null : fit.parts.lane.value;
     if (allies.length) {
       comp.damage = fit.parts.damage.value;
       comp.composition = fit.parts.composition.value;
