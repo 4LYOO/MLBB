@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { HeroAvatar, PageHeader, RoleBadge } from "@/components/ui";
+import { AVerifier, HeroAvatar, PageHeader, RoleBadge } from "@/components/ui";
 import { useData } from "@/lib/client/data";
 import { usePersonal } from "@/lib/client/store";
 import { useSearchParams } from "next/navigation";
@@ -43,7 +43,7 @@ function Inner() {
           <Link key={h.slug} href={`/heros/${h.slug}`} className="card group flex flex-col items-center gap-2 p-3 text-center transition hover:-translate-y-0.5 hover:border-primary/60">
             <HeroAvatar hero={h} size={64} className="transition group-hover:ring-2 group-hover:ring-gold" />
             <p className="font-semibold">
-              {h.name} {favs.has(h.slug) && <span className="text-gold">♥</span>}
+              {h.name} {favs.has(h.slug) && <span className="text-gold">♥</span>} {h.aVerifier && <AVerifier />}
             </p>
             <div className="flex flex-wrap justify-center gap-1">{h.roles.map((r) => <RoleBadge key={r} role={r} />)}</div>
             <p className="text-[11px] text-muted">{h.lanes.map((l) => LANE_FR[l]).join(" · ") || "Profil incomplet"}</p>

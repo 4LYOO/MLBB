@@ -141,7 +141,7 @@ export function mapHeroPage(page: any, out: Pkg, nameToSlug: (n: string) => stri
     name: h.hero_name,
     roles: toRoles(h.role),
     lanes: toLanes(h.lane),
-    portraitUrl: typeof h.img_src === "string" && h.img_src.startsWith("https://") ? h.img_src : undefined,
+    // Pas de portrait : aucune image officielle du jeu n'est utilisée par l'application.
     specialities: Array.isArray(h.speciality) ? h.speciality : undefined,
     damage: dmg.startsWith("phys") ? "P" : dmg.startsWith("mag") ? "M" : dmg ? "H" : undefined,
     range: /melee/i.test(h.basicAttackType ?? "") ? "M" : /ranged/i.test(h.basicAttackType ?? "") ? "R" : undefined,

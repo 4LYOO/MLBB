@@ -28,7 +28,7 @@ function Inner() {
   const drafts = me.drafts;
   const filters = me.filters;
   const recent = me.recent.slice(0, 15);
-  const pageOf: Record<string, string> = { stats: "/", meta: "/meta" };
+  const pageOf: Record<string, string> = { stats: "/statistiques", meta: "/meta" };
   return (
     <>
       <PageHeader kicker="Personnalisation" title="Favoris & historique" subtitle="Tes héros favoris, builds et drafts sauvegardés, filtres personnalisés et dernières analyses consultées." />

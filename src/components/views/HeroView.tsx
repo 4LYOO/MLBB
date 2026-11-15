@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Bar, Card, HeroAvatar, Notice, PageHeader, Provenance, RoleBadge, TierBadge, Unavailable, fmtDate, fmtPct } from "@/components/ui";
+import { AVerifier, Bar, Card, HeroAvatar, Notice, PageHeader, Provenance, RoleBadge, TierBadge, Unavailable, fmtDate, fmtPct } from "@/components/ui";
 import { FavoriteButton, TrackRecent } from "@/components/hero/FavoriteButton";
 import { ItemRow } from "@/components/hero/ItemRow";
 import { LineSeriesChart } from "@/components/charts/Charts";
@@ -154,7 +154,7 @@ function Inner({ slug }: { slug: string }) {
             <Unavailable reason="Aucune statistique importée pour ce héros (tous rangs, 7 jours)." />
           )}
         </Card>
-        <Card title="Profil de jeu" subtitle={`Référentiel éditorial (0–3) · confiance ${hero.confidence === "high" ? "élevée" : hero.confidence === "medium" ? "moyenne" : "faible"}`} className="lg:col-span-2">
+        <Card title={<span className="inline-flex items-center gap-2">Profil de jeu {hero.aVerifier && <AVerifier />}</span>} subtitle={`Référentiel éditorial (0–3) · confiance ${hero.confidence === "high" ? "élevée" : hero.confidence === "medium" ? "moyenne" : "faible"}`} className="lg:col-span-2">
           {hero.profile ? (
             <div className="grid gap-x-8 gap-y-2 sm:grid-cols-2">
               {PROFILE_LABELS.map(([k, l]) => (
@@ -306,7 +306,7 @@ function Inner({ slug }: { slug: string }) {
             <Unavailable reason="Profil incomplet : aucun modèle de build." action={false} />
           )}
         </Card>
-        <Card title="Emblème & sorts" subtitle={details?.extras?.emblemConsensus?.main ? "Consensus des builds de la source, avec échantillon" : "Recommandation éditoriale (talents à revérifier selon le patch)"}>
+        <Card title={<span className="inline-flex items-center gap-2">Emblème & sorts {!details?.extras?.emblemConsensus?.main && <AVerifier />}</span>} subtitle={details?.extras?.emblemConsensus?.main ? "Consensus des builds de la source, avec échantillon" : "Recommandation éditoriale (talents à revérifier selon le patch)"}>
           {details?.extras?.emblemConsensus?.main ? (
             <div className="space-y-3 text-sm">
               <div>

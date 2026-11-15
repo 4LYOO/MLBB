@@ -1,0 +1,530 @@
+{
+  "meta": {
+    "patch": "2.2.16a",
+    "saison": "Season 42",
+    "dateMaj": "2026-11-08",
+    "sources": ["Dossier de sources MLBB 2026 (rapport du 8 nov. 2026)", "Connaissance éditoriale MLBB Companion (à vérifier)"],
+    "note": "Noms, catégories et usages seulement : prix et stats des objets viennent de la synchro automatique."
+  },
+  "objets": [
+    {
+      "slug": "blade-of-despair",
+      "nom": "Blade of Despair",
+      "categorie": "attack",
+      "tags": ["physatk"],
+      "usage": "Gros pic d'attaque physique pour finir les cibles affaiblies."
+    },
+    {
+      "slug": "berserkers-fury",
+      "nom": "Berserker's Fury",
+      "categorie": "attack",
+      "tags": ["physatk", "crit"],
+      "usage": "Cœur des builds critiques de tireurs."
+    },
+    {
+      "slug": "windtalker",
+      "nom": "Windtalker",
+      "categorie": "attack",
+      "tags": ["atkspd", "ms"],
+      "usage": "Vitesse d'attaque et dégâts de zone sur attaques de base."
+    },
+    {
+      "slug": "corrosion-scythe",
+      "nom": "Corrosion Scythe",
+      "categorie": "attack",
+      "tags": ["atkspd", "slow"],
+      "usage": "Vitesse d'attaque et ralentissement sur attaques de base."
+    },
+    {
+      "slug": "haass-claws",
+      "nom": "Haas's Claws",
+      "categorie": "attack",
+      "tags": ["lifesteal", "crit"],
+      "usage": "Vol de vie pour tireurs et combattants à attaques de base."
+    },
+    {
+      "slug": "malefic-roar",
+      "nom": "Malefic Roar",
+      "categorie": "attack",
+      "tags": ["physatk", "physpen"],
+      "usage": "Pénétration physique contre les cibles très résistantes."
+    },
+    {
+      "slug": "demon-hunter-sword",
+      "nom": "Demon Hunter Sword",
+      "categorie": "attack",
+      "tags": ["atkspd", "antitank"],
+      "usage": "Dégâts en % des PV contre les tanks."
+    },
+    {
+      "slug": "golden-staff",
+      "nom": "Golden Staff",
+      "categorie": "attack",
+      "tags": ["atkspd"],
+      "usage": "Synergie avec les effets à l'impact."
+    },
+    {
+      "slug": "bloodlust-axe",
+      "nom": "Bloodlust Axe",
+      "categorie": "attack",
+      "tags": ["spellvamp", "cdr"],
+      "usage": "Sustain via vampirisme de sort pour combattants."
+    },
+    {
+      "slug": "hunter-strike",
+      "nom": "Hunter Strike",
+      "categorie": "attack",
+      "tags": ["physatk", "cdr", "physpen", "ms"],
+      "usage": "Pénétration et poursuite en début de partie."
+    },
+    {
+      "slug": "blade-of-the-heptaseas",
+      "nom": "Blade of the Heptaseas",
+      "categorie": "attack",
+      "tags": ["physatk", "physpen"],
+      "usage": "Burst en embuscade pour assassins physiques."
+    },
+    {
+      "slug": "great-dragon-spear",
+      "nom": "Great Dragon Spear",
+      "categorie": "attack",
+      "tags": ["physatk", "crit", "cdr", "ms"],
+      "usage": "Critique et mobilité après l'ultime."
+    },
+    {
+      "slug": "endless-battle",
+      "nom": "Endless Battle",
+      "categorie": "attack",
+      "tags": ["physatk", "cdr", "ms"],
+      "usage": "Polyvalence pour combattants à compétences."
+    },
+    {
+      "slug": "rose-gold-meteor",
+      "nom": "Rose Gold Meteor",
+      "categorie": "attack",
+      "tags": ["physatk", "magdef", "antiburst"],
+      "usage": "Bouclier anti-burst magique."
+    },
+    {
+      "slug": "sea-halberd",
+      "nom": "Sea Halberd",
+      "categorie": "attack",
+      "tags": ["physatk", "antiheal"],
+      "usage": "Réduction de soins côté physique."
+    },
+    {
+      "slug": "war-axe",
+      "nom": "War Axe",
+      "categorie": "attack",
+      "tags": ["physatk", "hp", "spellvamp"],
+      "usage": "Montée en puissance en combat prolongé."
+    },
+    {
+      "slug": "wind-of-nature",
+      "nom": "Wind of Nature",
+      "categorie": "attack",
+      "tags": ["physatk", "atkspd", "lifesteal", "antiburst"],
+      "usage": "Immunité temporaire aux dégâts physiques."
+    },
+    {
+      "slug": "malefic-gun",
+      "nom": "Malefic Gun",
+      "categorie": "attack",
+      "tags": ["physpen", "atkspd"],
+      "usage": "Pénétration pour tireurs à attaques de base."
+    },
+    {
+      "slug": "holy-crystal",
+      "nom": "Holy Crystal",
+      "categorie": "magic",
+      "tags": ["magpow"],
+      "usage": "Gros pic de pouvoir magique pour mages burst."
+    },
+    {
+      "slug": "blood-wings",
+      "nom": "Blood Wings",
+      "categorie": "magic",
+      "tags": ["magpow", "hp"],
+      "usage": "Pouvoir magique et bouclier."
+    },
+    {
+      "slug": "lightning-truncheon",
+      "nom": "Lightning Truncheon",
+      "categorie": "magic",
+      "tags": ["magpow", "mana", "cdr"],
+      "usage": "Dégâts rebondissants pour mages burst."
+    },
+    {
+      "slug": "concentrated-energy",
+      "nom": "Concentrated Energy",
+      "categorie": "magic",
+      "tags": ["magpow", "hp", "spellvamp"],
+      "usage": "Sustain pour mages de mêlée."
+    },
+    {
+      "slug": "genius-wand",
+      "nom": "Genius Wand",
+      "categorie": "magic",
+      "tags": ["magpow", "magpen", "ms"],
+      "usage": "Pénétration magique précoce."
+    },
+    {
+      "slug": "divine-glaive",
+      "nom": "Divine Glaive",
+      "categorie": "magic",
+      "tags": ["magpow", "magpen"],
+      "usage": "Pénétration magique contre les cibles résistantes."
+    },
+    {
+      "slug": "ice-queen-wand",
+      "nom": "Ice Queen Wand",
+      "categorie": "magic",
+      "tags": ["magpow", "slow", "spellvamp"],
+      "usage": "Ralentissement et sustain sur compétences."
+    },
+    {
+      "slug": "clock-of-destiny",
+      "nom": "Clock of Destiny",
+      "categorie": "magic",
+      "tags": ["magpow", "hp", "mana"],
+      "usage": "Montée en puissance avec le temps."
+    },
+    {
+      "slug": "glowing-wand",
+      "nom": "Glowing Wand",
+      "categorie": "magic",
+      "tags": ["magpow", "antiheal", "antitank"],
+      "usage": "Brûlure en % des PV et réduction de soins."
+    },
+    {
+      "slug": "fleeting-time",
+      "nom": "Fleeting Time",
+      "categorie": "magic",
+      "tags": ["magpow", "cdr"],
+      "usage": "Réduit le temps de recharge de l'ultime."
+    },
+    {
+      "slug": "starlium-scythe",
+      "nom": "Starlium Scythe",
+      "categorie": "magic",
+      "tags": ["magpow", "spellvamp"],
+      "usage": "Dégâts vrais bonus après compétence."
+    },
+    {
+      "slug": "enchanted-talisman",
+      "nom": "Enchanted Talisman",
+      "categorie": "magic",
+      "tags": ["magpow", "cdr", "mana"],
+      "usage": "Réduction de recharge et mana."
+    },
+    {
+      "slug": "winter-crown",
+      "nom": "Winter Crown",
+      "categorie": "magic",
+      "tags": ["magpow", "physdef", "antiburst"],
+      "usage": "Gel temporaire pour éviter un burst."
+    },
+    {
+      "slug": "feather-of-heaven",
+      "nom": "Feather of Heaven",
+      "categorie": "magic",
+      "tags": ["magpow", "atkspd"],
+      "usage": "Pour héros magiques à attaques de base."
+    },
+    {
+      "slug": "antique-cuirass",
+      "nom": "Antique Cuirass",
+      "categorie": "defense",
+      "tags": ["physdef", "hp"],
+      "usage": "Réduit l'attaque physique des ennemis touchés."
+    },
+    {
+      "slug": "athenas-shield",
+      "nom": "Athena's Shield",
+      "categorie": "defense",
+      "tags": ["magdef", "hp", "antiburst"],
+      "usage": "Bouclier contre le burst magique."
+    },
+    {
+      "slug": "blade-armor",
+      "nom": "Blade Armor",
+      "categorie": "defense",
+      "tags": ["physdef"],
+      "usage": "Renvoie les dégâts des attaques de base."
+    },
+    {
+      "slug": "brute-force-breastplate",
+      "nom": "Brute Force Breastplate",
+      "categorie": "defense",
+      "tags": ["physdef", "magdef", "ms"],
+      "usage": "Cumul de défenses en combat."
+    },
+    {
+      "slug": "cursed-helmet",
+      "nom": "Cursed Helmet",
+      "categorie": "defense",
+      "tags": ["hp", "magdef"],
+      "usage": "Dégâts de zone passifs pour tanks (vague, teamfight)."
+    },
+    {
+      "slug": "dominance-ice",
+      "nom": "Dominance Ice",
+      "categorie": "defense",
+      "tags": ["physdef", "antiheal", "antiatkspd", "antishield"],
+      "usage": "Anti-soins, anti-bouclier et anti-vitesse d'attaque."
+    },
+    {
+      "slug": "guardian-helmet",
+      "nom": "Guardian Helmet",
+      "categorie": "defense",
+      "tags": ["hp"],
+      "usage": "Régénération massive hors combat."
+    },
+    {
+      "slug": "immortality",
+      "nom": "Immortality",
+      "categorie": "defense",
+      "tags": ["hp", "physdef"],
+      "usage": "Résurrection : contre le burst et les picks."
+    },
+    {
+      "slug": "oracle",
+      "nom": "Oracle",
+      "categorie": "defense",
+      "tags": ["magdef", "hp", "cdr"],
+      "usage": "Augmente les soins et boucliers reçus."
+    },
+    {
+      "slug": "queens-wings",
+      "nom": "Queen's Wings",
+      "categorie": "defense",
+      "tags": ["hp", "spellvamp", "antiburst"],
+      "usage": "Réduction de dégâts à faible PV."
+    },
+    {
+      "slug": "radiant-armor",
+      "nom": "Radiant Armor",
+      "categorie": "defense",
+      "tags": ["magdef", "hp"],
+      "usage": "Résistance cumulative aux dégâts magiques continus."
+    },
+    {
+      "slug": "thunder-belt",
+      "nom": "Thunder Belt",
+      "categorie": "defense",
+      "tags": ["hp", "physdef", "mana"],
+      "usage": "Dégâts vrais et ralentissement après compétence."
+    },
+    {
+      "slug": "twilight-armor",
+      "nom": "Twilight Armor",
+      "categorie": "defense",
+      "tags": ["hp", "physdef", "antiburst"],
+      "usage": "Plafonne les gros coups physiques (critiques)."
+    },
+    {
+      "slug": "arcane-boots",
+      "nom": "Arcane Boots",
+      "categorie": "movement",
+      "tags": ["magpen", "ms"],
+      "usage": "Pénétration magique (mages)."
+    },
+    {
+      "slug": "demon-shoes",
+      "nom": "Demon Shoes",
+      "categorie": "movement",
+      "tags": ["mana", "ms"],
+      "usage": "Régénération de mana."
+    },
+    {
+      "slug": "magic-shoes",
+      "nom": "Magic Shoes",
+      "categorie": "movement",
+      "tags": ["cdr", "ms"],
+      "usage": "Réduction des temps de recharge."
+    },
+    {
+      "slug": "rapid-boots",
+      "nom": "Rapid Boots",
+      "categorie": "movement",
+      "tags": ["ms"],
+      "usage": "Vitesse hors combat pour rotations."
+    },
+    {
+      "slug": "swift-boots",
+      "nom": "Swift Boots",
+      "categorie": "movement",
+      "tags": ["atkspd", "ms"],
+      "usage": "Vitesse d'attaque (tireurs)."
+    },
+    {
+      "slug": "tough-boots",
+      "nom": "Tough Boots",
+      "categorie": "movement",
+      "tags": ["magdef", "ms"],
+      "usage": "Défense magique et résistance aux contrôles."
+    },
+    {
+      "slug": "warrior-boots",
+      "nom": "Warrior Boots",
+      "categorie": "movement",
+      "tags": ["physdef", "ms"],
+      "usage": "Défense physique."
+    }
+  ],
+  "sorts": [
+    {
+      "slug": "retribution",
+      "nom": "Retribution",
+      "nomFr": "Châtiment",
+      "usage": "Obligatoire en jungle : sécurise monstres, Tortue et Seigneur.",
+      "roles": ["jungle"]
+    },
+    {
+      "slug": "flicker",
+      "nom": "Flicker",
+      "nomFr": "Éclair",
+      "usage": "Mobilité instantanée : engage, fuite, repositionnement.",
+      "roles": ["Tank", "Support", "Mage", "Marksman", "Fighter"]
+    },
+    {
+      "slug": "execute",
+      "nom": "Execute",
+      "nomFr": "Exécution",
+      "usage": "Achève une cible à faibles PV.",
+      "roles": ["Fighter", "Assassin"]
+    },
+    {
+      "slug": "inspire",
+      "nom": "Inspire",
+      "nomFr": "Inspiration",
+      "usage": "Pic de vitesse d'attaque pour attaques de base.",
+      "roles": ["Marksman", "Fighter"]
+    },
+    {
+      "slug": "sprint",
+      "nom": "Sprint",
+      "nomFr": "Sprint",
+      "usage": "Vitesse de déplacement : poursuite ou fuite.",
+      "roles": ["Fighter", "Marksman"]
+    },
+    {
+      "slug": "revitalize",
+      "nom": "Revitalize",
+      "nomFr": "Revitalisation",
+      "usage": "Zone de soin : sustain d'équipe.",
+      "roles": ["Support"]
+    },
+    {
+      "slug": "aegis",
+      "nom": "Aegis",
+      "nomFr": "Égide",
+      "usage": "Bouclier contre le burst.",
+      "roles": ["Marksman", "Mage", "Tank"]
+    },
+    {
+      "slug": "petrify",
+      "nom": "Petrify",
+      "nomFr": "Pétrification",
+      "usage": "Contrôle de zone supplémentaire au contact.",
+      "roles": ["Tank", "Fighter"]
+    },
+    {
+      "slug": "purify",
+      "nom": "Purify",
+      "nomFr": "Purification",
+      "usage": "Supprime les contrôles : contre les compositions à CC.",
+      "roles": ["Marksman", "Mage", "Fighter"]
+    },
+    {
+      "slug": "flameshot",
+      "nom": "Flameshot",
+      "nomFr": "Tir enflammé",
+      "usage": "Achève ou repousse un plongeur à distance.",
+      "roles": ["Mage", "Marksman"]
+    },
+    {
+      "slug": "vengeance",
+      "nom": "Vengeance",
+      "nomFr": "Vengeance",
+      "usage": "Renvoie les dégâts en plongée.",
+      "roles": ["Tank", "Fighter"]
+    },
+    {
+      "slug": "arrival",
+      "nom": "Arrival",
+      "nomFr": "Arrivée",
+      "usage": "Téléportation vers une structure/sbire allié : split push.",
+      "roles": ["Fighter", "Tank"]
+    }
+  ],
+  "emblemes": [
+    {
+      "slug": "common",
+      "nom": "Common",
+      "nomFr": "Commun",
+      "roles": ["Tous"]
+    },
+    {
+      "slug": "tank",
+      "nom": "Tank",
+      "nomFr": "Tank",
+      "roles": ["Tank", "Support"]
+    },
+    {
+      "slug": "assassin",
+      "nom": "Assassin",
+      "nomFr": "Assassin",
+      "roles": ["Assassin", "Fighter"]
+    },
+    {
+      "slug": "mage",
+      "nom": "Mage",
+      "nomFr": "Mage",
+      "roles": ["Mage"]
+    },
+    {
+      "slug": "fighter",
+      "nom": "Fighter",
+      "nomFr": "Combattant",
+      "roles": ["Fighter"]
+    },
+    {
+      "slug": "support",
+      "nom": "Support",
+      "nomFr": "Support",
+      "roles": ["Support"]
+    },
+    {
+      "slug": "marksman",
+      "nom": "Marksman",
+      "nomFr": "Tireur",
+      "roles": ["Marksman"]
+    }
+  ],
+  "talents": [
+    {"palier": 1, "nom": "Agility", "usage": "Vitesse de déplacement.", "aVerifier": true},
+    {"palier": 1, "nom": "Firmness", "usage": "Défenses hybrides.", "aVerifier": true},
+    {"palier": 1, "nom": "Rupture", "usage": "Pénétration adaptative.", "aVerifier": true},
+    {"palier": 1, "nom": "Inspire", "usage": "Réduction des temps de recharge.", "aVerifier": true},
+    {"palier": 1, "nom": "Swift", "usage": "Vitesse d'attaque.", "aVerifier": true},
+    {"palier": 1, "nom": "Vitality", "usage": "PV.", "aVerifier": true},
+    {"palier": 2, "nom": "Weapons Master", "usage": "Bonus de statistiques des équipements.", "aVerifier": true},
+    {"palier": 2, "nom": "Festival of Blood", "usage": "Vampirisme de sort cumulatif.", "aVerifier": true},
+    {"palier": 2, "nom": "Wilderness Blessing", "usage": "Vitesse dans la rivière / jungle.", "aVerifier": true},
+    {"palier": 2, "nom": "Seasoned Hunter", "usage": "Dégâts sur Tortue et Seigneur.", "aVerifier": true},
+    {"palier": 2, "nom": "Tenacity", "usage": "Défenses bonus à faibles PV.", "aVerifier": true},
+    {"palier": 2, "nom": "Pull Yourself Together", "usage": "Réduction de recharge des sorts et objets actifs.", "aVerifier": true},
+    {"palier": 2, "nom": "Master Assassin", "usage": "Bonus contre une cible isolée.", "aVerifier": true},
+    {"palier": 3, "nom": "Lethal Ignition", "usage": "Brûlure burst après plusieurs coups (mages, assassins).", "aVerifier": true},
+    {"palier": 3, "nom": "Impure Rage", "usage": "Dégâts et mana sur compétences (mages).", "aVerifier": true},
+    {"palier": 3, "nom": "Killing Spree", "usage": "Soin et vitesse après un kill.", "aVerifier": true},
+    {"palier": 3, "nom": "Brave Smite", "usage": "Soin en infligeant des dégâts de compétence (combattants, tanks).", "aVerifier": true},
+    {"palier": 3, "nom": "Concussive Blast", "usage": "Dégâts de zone sur attaques (tanks).", "aVerifier": true},
+    {"palier": 3, "nom": "Quantum Charge", "usage": "Vitesse et soin sur attaques de base.", "aVerifier": true},
+    {"palier": 3, "nom": "War Cry", "usage": "Bonus de dégâts en combat prolongé.", "aVerifier": true},
+    {"palier": 3, "nom": "Temporal Reign", "usage": "Réduction de recharge après l'ultime.", "aVerifier": true},
+    {"palier": 3, "nom": "Focusing Mark", "usage": "Les alliés infligent plus de dégâts à la cible (supports).", "aVerifier": true},
+    {"palier": 3, "nom": "Weakness Finder", "usage": "Ralentit sur attaques de base (tireurs).", "aVerifier": true}
+  ]
+}

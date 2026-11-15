@@ -174,7 +174,7 @@ export function buildModel({ packages, userBuilds = [], userPatches = [] }: Buil
     for (const h of p.heroes ?? []) {
       let hero = heroes.get(h.slug);
       if (!hero) {
-        hero = { slug: h.slug, name: h.name, roles: h.roles ?? [], lanes: h.lanes ?? [], damage: null, range: null, difficulty: null, confidence: "medium", incomplete: !h.roles?.length, portraitUrl: null, profile: null, sourceId: src, updatedAt: cap };
+        hero = { slug: h.slug, name: h.name, roles: h.roles ?? [], lanes: h.lanes ?? [], damage: null, range: null, difficulty: null, confidence: "medium", incomplete: !h.roles?.length, aVerifier: true, portraitUrl: null, profile: null, sourceId: src, updatedAt: cap };
         heroes.set(h.slug, hero);
       } else if (h.roles?.length || h.lanes?.length) {
         hero.name = h.name;
@@ -203,6 +203,7 @@ export function buildModel({ packages, userBuilds = [], userPatches = [] }: Buil
         hero.profile = { ...d, early: 2, mid: 2, late: 2, tags: d.tags as Tag[] };
         hero.incomplete = false;
         hero.confidence = "low";
+        hero.aVerifier = true;
       }
     }
 

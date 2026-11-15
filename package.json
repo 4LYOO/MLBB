@@ -5,7 +5,7 @@
   "description": "MLBB Companion – analyse de la méta, draft et progression personnelle pour Mobile Legends: Bang Bang",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/build-sw.mjs",
     "preview": "node scripts/preview.mjs",
     "lint": "tsc --noEmit",
     "test": "vitest run",

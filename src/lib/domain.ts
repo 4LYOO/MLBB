@@ -128,6 +128,8 @@ export interface Hero {
   difficulty: number | null; // 1 facile – 3 difficile
   confidence: Confidence;
   incomplete: boolean;
+  /** Donnée incertaine (profil estimé, héros récent) : pastille « à vérifier » dans l'interface. */
+  aVerifier?: boolean;
   portraitUrl: string | null;
   profile: HeroProfile | null;
   sourceId: string;

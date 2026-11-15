@@ -3,6 +3,7 @@ import "./globals.css";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { CommandPalette } from "@/components/layout/CommandPalette";
 import { DataProvider } from "@/lib/client/data";
+import { ServiceWorker } from "@/components/layout/ServiceWorker";
 
 export const metadata: Metadata = {
   title: { default: "MLBB Companion", template: "%s · MLBB Companion" },
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#05060d",
+  themeColor: "#000000",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="fr">
       <body className="font-sans antialiased">
         <div className="liquid-bg" aria-hidden />
+        <ServiceWorker />
         <DataProvider>
           <Sidebar />
           <CommandPalette />

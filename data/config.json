@@ -1,0 +1,8 @@
+{
+  "meta": {"patch": "2.2.16a", "dateMaj": "2026-11-15", "sources": ["Réglages MLBB Companion"]},
+  "badge": {"joursAvantAvertissement": 21},
+  "draft": {
+    "_explication": "Poids des critères du score de draft (0 = ignoré). Plus un poids est grand, plus le critère compte.",
+    "poids": {"counter": 0.24, "synergy": 0.16, "needs": 0.28, "stats": 0.14, "meta": 0.06, "mastery": 0.06, "difficulty": 0.06}
+  }
+}

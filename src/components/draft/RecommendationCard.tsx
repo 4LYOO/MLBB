@@ -5,7 +5,7 @@ import { ChevronDown, ChevronUp, Check } from "lucide-react";
 import clsx from "clsx";
 import { CRITERIA_FR, type Recommendation, type Weights } from "@/lib/engine/draft";
 import { LANE_FR, ROLE_FR } from "@/lib/domain";
-import { Bar, HeroAvatar, RoleBadge } from "@/components/ui";
+import { AVerifier, Bar, HeroAvatar, RoleBadge } from "@/components/ui";
 
 const scoreColor = (s: number) => (s >= 70 ? "var(--color-gold)" : s >= 60 ? "var(--color-primary)" : s >= 50 ? "#8a93b8" : "var(--color-bad)");
 
@@ -22,6 +22,7 @@ export function RecommendationCard({ rec, rank, onPick, canPick }: { rec: Recomm
               {rec.hero.name}
             </Link>
             {rec.role && <RoleBadge role={rec.role} />}
+            {rec.hero.aVerifier && <AVerifier title="Profil de draft estimé pour ce héros : à vérifier" />}
             {rec.lane && <span className="chip">{LANE_FR[rec.lane]}</span>}
           </div>
           <div className="mt-1.5 flex items-center gap-2">
