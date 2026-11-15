@@ -64,7 +64,9 @@ export function RushJournal({ heroes }: { heroes: Hero[] }) {
   const me = usePersonal();
   const idx = useMemo(() => new Map(heroes.map((h) => [h.slug, h])), [heroes]);
   const lastOf = (id: Player["id"]) => me.matches.find((m) => (m.player ?? "moi") === id)?.hero ?? null; // matches : plus récent en premier
-  const [duo, setDuo] = useState(me.prefs.duo);
+  // Duo par défaut si le mode duo est activé et que ta conjointe a déjà un héros (journal ou pool).
+  const elle = me.players.find((p) => p.id === "elle");
+  const [duo, setDuo] = useState(me.prefs.duo && (!!lastOf("elle") || Object.values(elle?.pool ?? {}).flat().length > 0));
   const [pick, setPick] = useState<Record<Player["id"], string | null>>({ moi: lastOf("moi"), elle: lastOf("elle") });
   const [flash, setFlash] = useState<string | null>(null);
   const who: Player["id"][] = duo ? ["moi", "elle"] : ["moi"];

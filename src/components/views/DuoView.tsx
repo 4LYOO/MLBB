@@ -28,6 +28,7 @@ function Inner() {
       <Notice>
         Indique les héros que chacun maîtrise, par lane. Le draft leur donne un bonus et, en mode duo, propose le meilleur pick pour ta conjointe selon ton pick. Tout est enregistré sur ce téléphone.
       </Notice>
+      <BestPairs heroes={model.heroes} />
       {me.players.map((p) => (
         <Card key={p.id}>
           <div className="mb-3 flex items-center gap-2">
@@ -69,7 +70,6 @@ function Inner() {
           </div>
         </Card>
       ))}
-      <BestPairs heroes={model.heroes} />
 
       {sheet && (
         <PoolSheet
