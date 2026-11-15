@@ -89,6 +89,8 @@ export interface PersonalData {
   players: Player[];
   /** Préférences : anti-tilt, etc. */
   prefs: { duo: boolean };
+  /** Checklists du coaching, par rôle : cases cochées + réussites cumulées. */
+  checklists: Record<string, { coches: number[]; reussites: number[]; parties: number }>;
 }
 
 const KEY = "mlbb-companion:v1";
@@ -111,6 +113,7 @@ export const EMPTY: PersonalData = {
     { id: "elle", nom: "Ma conjointe", pool: { exp: [], jungle: [], mid: [], roam: [], gold: [] } },
   ],
   prefs: { duo: true },
+  checklists: {},
 };
 
 let state: PersonalData = EMPTY;
@@ -140,7 +143,7 @@ function withDefaults(d: Partial<PersonalData>): PersonalData {
     const p = d.players?.find((x) => x.id === def.id);
     return p ? { ...def, ...p, pool: { ...def.pool, ...p.pool } } : def;
   });
-  return { ...EMPTY, ...d, players, prefs: { ...EMPTY.prefs, ...(d.prefs ?? {}) } } as PersonalData;
+  return { ...EMPTY, ...d, players, prefs: { ...EMPTY.prefs, ...(d.prefs ?? {}) }, checklists: d.checklists ?? {} } as PersonalData;
 }
 
 /** Pool complet d'un joueur (toutes lanes confondues). */
@@ -284,6 +287,22 @@ export const personal = {
         return { ...p, pool: { ...p.pool, [lane]: list.includes(hero) ? list.filter((x) => x !== hero) : [...list, hero] } };
       }),
     }));
+  },
+  /** Coche / décoche un point de la checklist d'un rôle. */
+  toggleCheck(role: string, i: number) {
+    update((s) => {
+      const c = s.checklists[role] ?? { coches: [], reussites: [], parties: 0 };
+      const coches = c.coches.includes(i) ? c.coches.filter((x) => x !== i) : [...c.coches, i];
+      return { ...s, checklists: { ...s.checklists, [role]: { ...c, coches } } };
+    });
+  },
+  /** « Partie terminée » : ajoute les points cochés aux réussites, puis décoche tout. */
+  validerPartie(role: string, nbPoints: number) {
+    update((s) => {
+      const c = s.checklists[role] ?? { coches: [], reussites: [], parties: 0 };
+      const reussites = Array.from({ length: nbPoints }, (_, i) => (c.reussites[i] ?? 0) + (c.coches.includes(i) ? 1 : 0));
+      return { ...s, checklists: { ...s.checklists, [role]: { coches: [], reussites, parties: c.parties + 1 } } };
+    });
   },
   setPref<K extends keyof PersonalData["prefs"]>(key: K, value: PersonalData["prefs"][K]) {
     update((s) => ({ ...s, prefs: { ...s.prefs, [key]: value } }));

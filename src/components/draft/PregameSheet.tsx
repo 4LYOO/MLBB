@@ -172,7 +172,7 @@ export function PregameSheet({ heroes, idx, allies, enemies, owners, players, ma
               </div>
             )}
 
-            <Link href={`/coaching?role=${c.lane ?? ""}`} className="btn-ghost w-full">
+            <Link href={c.lane ? `/coaching/${c.lane}` : "/coaching"} className="btn-ghost w-full">
               <GraduationCap size={18} /> Coaching de mon rôle{c.lane ? ` (${LANE_FR[c.lane]})` : ""}
             </Link>
           </section>
