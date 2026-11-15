@@ -8,7 +8,9 @@ import clsx from "clsx";
 import { AVerifier, HeroAvatar } from "@/components/ui";
 import { personal, usePersonal, type Player } from "@/lib/client/store";
 import { aggregate } from "@/lib/engine/coach";
-import { currentStreak, duoPairs, sessionSummary, starsEstimate } from "@/lib/engine/rush";
+import { currentStreak, duoPairs, sessionSummary, starsEstimate, tagInsights, tagStats } from "@/lib/engine/rush";
+import { Lightbulb, X } from "lucide-react";
+import { TagChips } from "./TagPicker";
 import { ROLE_COLOR, ROLE_FR, type Hero, type Role } from "@/lib/domain";
 
 const wrColor = (wr: number) => (wr >= 55 ? "text-good" : wr < 45 ? "text-bad" : "text-ink");
@@ -86,6 +88,10 @@ export function RushStats({ heroes }: { heroes: Hero[] }) {
   const byHero = aggregate(mine, (m) => m.hero).slice(0, 8);
   const byRole = aggregate(mine, (m) => m.role);
   const pairs = duoPairs(me.matches).slice(0, 5);
+  const tStats = tagStats(mine);
+  const insights = tagInsights(mine);
+  const player = me.players.find((p) => p.id === who);
+  const gameStats = Object.entries(player?.heroStats ?? {}).sort((a, b) => (b[1].matches ?? 0) - (a[1].matches ?? 0));
   const nom = (id: Player["id"]) => me.players.find((p) => p.id === id)?.nom ?? id;
 
   return (
@@ -127,6 +133,53 @@ export function RushStats({ heroes }: { heroes: Hero[] }) {
           <p className="text-sm text-muted">Aucune partie pour {nom(who)}.</p>
         )}
       </section>
+
+      {/* Bilan des annotations */}
+      {tStats.length > 0 && (
+        <section className="card p-3">
+          <p className="label">Tes annotations</p>
+          <ul className="space-y-2">
+            {tStats.map((t) => (
+              <li key={t.tag.id} className="flex items-center gap-3">
+                <span className="min-w-0 flex-1">
+                  <TagChips tags={[t.tag.id]} />
+                </span>
+                <span className="text-xs text-muted">{t.games} p.</span>
+                <span className={clsx("w-16 shrink-0 whitespace-nowrap text-right text-lg font-bold tabular-nums", wrColor(t.winRate))}>{Math.round(t.winRate)} %</span>
+              </li>
+            ))}
+          </ul>
+          {insights.map((x) => (
+            <p key={x} className="mt-3 flex gap-2 rounded-2xl border border-gold/30 bg-gold/10 p-2.5 text-sm text-ink-2">
+              <Lightbulb size={16} className="mt-0.5 shrink-0 text-gold" /> {x}
+            </p>
+          ))}
+        </section>
+      )}
+
+      {/* Stats du profil du jeu (importées par capture) */}
+      {gameStats.length > 0 && (
+        <section className="card p-3">
+          <p className="label">Stats du jeu (profil) · {nom(who)}</p>
+          <ul className="space-y-2">
+            {gameStats.slice(0, 12).map(([slug, st]) => {
+              const h = idx.get(slug);
+              return (
+                <li key={slug} className="flex items-center gap-3">
+                  {h && <HeroAvatar hero={h} size={32} />}
+                  <span className="min-w-0 flex-1 truncate font-medium">{h?.name ?? slug}</span>
+                  <span className="text-xs text-muted">{st.matches ?? "?"} p.</span>
+                  <span className={clsx("w-16 shrink-0 whitespace-nowrap text-right text-lg font-bold tabular-nums", st.winRate != null ? wrColor(st.winRate) : "text-muted")}>{st.winRate != null ? `${Math.round(st.winRate)} %` : "—"}</span>
+                  <button className="text-muted" aria-label={`Retirer ${h?.name ?? slug}`} onClick={() => personal.removeHeroStat(who, slug)}>
+                    <X size={14} />
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+          <p className="mt-2 text-[11px] text-muted">Utilisées par le Draft pour le bonus de maîtrise de {nom(who)}.</p>
+        </section>
+      )}
 
       {byRole.length > 0 && (
         <section className="card p-3">

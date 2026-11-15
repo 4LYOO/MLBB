@@ -43,3 +43,19 @@ export function personalByHero(matches: { hero: string; result: "win" | "loss" }
   }
   return out;
 }
+
+/**
+ * Maîtrise d'un joueur par héros : journal de l'appli + statistiques du profil du jeu (capture).
+ * Pour chaque héros, on garde la source qui a le plus de parties (souvent le profil du jeu).
+ */
+export function masteryOf(
+  matches: { hero: string; result: "win" | "loss"; player?: string }[],
+  player: { id: string; heroStats?: Record<string, { matches: number | null; winRate: number | null }> } | undefined,
+): Record<string, { games: number; wins: number }> {
+  const own = personalByHero(player ? matches.filter((m) => (m.player ?? "moi") === player.id) : matches);
+  for (const [hero, st] of Object.entries(player?.heroStats ?? {})) {
+    if (st.matches == null || st.winRate == null) continue;
+    if (st.matches > (own[hero]?.games ?? 0)) own[hero] = { games: st.matches, wins: Math.round((st.matches * st.winRate) / 100) };
+  }
+  return own;
+}

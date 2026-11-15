@@ -29,7 +29,7 @@ import {
   type Team,
 } from "@/lib/engine/draft";
 import { computeTiers } from "@/lib/engine/tier";
-import { DEFAULT_RANK, personalByHero } from "@/lib/data/views";
+import { DEFAULT_RANK, masteryOf, personalByHero } from "@/lib/data/views";
 import { LANES, RANKS, RANK_FR, ROLES, ROLE_COLOR, ROLE_FR, type Hero, type HeroStat, type Lane, type Rank, type Role, type Tier } from "@/lib/domain";
 import { AVerifier, HeroAvatar, Notice } from "@/components/ui";
 import { personal, poolOf, usePersonal, type Player } from "@/lib/client/store";
@@ -166,7 +166,8 @@ export function DraftScreen(p: DraftScreenProps) {
         stats: statMap,
         tiers: tierMap,
         matchups: p.matchups,
-        personal: mastery,
+        // Maîtrise du joueur qui pick (journal + stats du profil du jeu), sinon journal global.
+        personal: pl ? masteryOf(me.matches, pl) : mastery,
         pool: pl ? (lanePool.length ? lanePool : poolOf(pl)) : undefined,
         poolOwner: pl && pl.id !== "moi" ? pl.nom : undefined,
         forLane,
@@ -175,7 +176,7 @@ export function DraftScreen(p: DraftScreenProps) {
       };
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [p.heroes, bans, statMap, tierMap, p.matchups, mastery, players, laneOfOwner, reservedLanes.join()],
+    [p.heroes, bans, statMap, tierMap, p.matchups, mastery, players, laneOfOwner, reservedLanes.join(), me.matches],
   );
 
   const analysis = useMemo(() => analyzeComposition(allies, enemies, p.heroes, combos, p.matchups), [allies, enemies, p.heroes, combos, p.matchups]);
