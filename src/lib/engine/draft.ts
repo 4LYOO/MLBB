@@ -13,6 +13,9 @@
  *   mastery     : historique personnel sur ce héros (journal)
  *   stats       : performance statistique (win rate ajusté) dans le rang choisi
  *   meta        : tier calculé
+ *   priority    : héros disputé à haut niveau (pick + ban rate) → à sécuriser tôt
+ *   safety      : pick sûr à l'aveugle (peu de counters disponibles, héros flex)
+ *                 priority et safety pèsent en début de draft et s'effacent au dernier pick
  *   difficulty  : pénalité si le héros dépasse la difficulté maximale choisie
  * Les poids viennent de data/config.json (draft.poids).
  * Score final = 50 + 50 × Σ(poids × critère) / Σ(poids actifs), borné à [0, 100].
@@ -44,6 +47,8 @@ export interface Weights {
   mastery: number;
   stats: number;
   meta: number;
+  priority: number;
+  safety: number;
   difficulty: number;
 }
 /** Poids par défaut : réglables dans data/config.json → draft.poids (clés en français). */
@@ -59,6 +64,8 @@ export const DEFAULT_WEIGHTS: Weights = {
   mastery: P_.maitrise,
   stats: P_.stats,
   meta: P_.meta,
+  priority: P_.priorite,
+  safety: P_.securite,
   difficulty: P_.difficulte,
 };
 
@@ -73,6 +80,8 @@ export const CRITERIA_FR: Record<keyof Weights, string> = {
   mastery: "Maîtrise (journal)",
   stats: "Performance statistique",
   meta: "Méta (tier)",
+  priority: "Priorité (héros disputé)",
+  safety: "Pick sûr (peu contrable, flex)",
   difficulty: "Prise en main",
 };
 
@@ -90,6 +99,8 @@ export interface DraftContext {
   /** Héros maîtrisés par le joueur qui choisit (bonus « pool ») et son nom affiché. */
   pool?: string[];
   poolOwner?: string;
+  /** Héros à protéger par les bans (pools des deux joueurs du duo). */
+  protect?: string[];
 }
 
 const fr = (v: number, d: number) => v.toFixed(d).replace(".", ",");
@@ -366,6 +377,30 @@ export function buildIndex(heroes: Hero[]) {
   return new Map(heroes.map((h) => [h.slug, h]));
 }
 
+// ------------------------------------------------------------------ Haut niveau : counters disponibles
+/**
+ * Pour chaque héros, la liste des héros qui le contrent fortement.
+ * Données de matchup synchronisées si présentes (indice élevé), sinon règles de mécaniques.
+ * Calcul mis en cache : il ne dépend que de la liste des héros et des matchups.
+ */
+const counterCache = new WeakMap<Hero[], { data: MatchupDatum[] | undefined; map: Map<string, string[]> }>();
+export function hardCounters(heroes: Hero[], data?: MatchupDatum[]): Map<string, string[]> {
+  const c = counterCache.get(heroes);
+  if (c && c.data === data) return c.map;
+  const map = new Map<string, string[]>();
+  for (const d of data ?? []) {
+    if (d.kind !== "counter" || normScore(d.score, d.unit, "counter") < 0.5) continue;
+    map.set(d.other, [...(map.get(d.other) ?? []), d.slug]);
+  }
+  for (const h of heroes) {
+    if (!h.profile || (map.get(h.slug)?.length ?? 0) >= 3) continue;
+    const byRules = heroes.filter((o) => o.slug !== h.slug && o.profile && ruleAdvantage(o, h).reduce((s2, r) => s2 + r.value, 0) >= 0.5).map((o) => o.slug);
+    map.set(h.slug, [...new Set([...(map.get(h.slug) ?? []), ...byRules])]);
+  }
+  counterCache.set(heroes, { data, map });
+  return map;
+}
+
 export function recommend(ctx: DraftContext, combos: Map<string, string>, limit = 10): Recommendation[] {
   const idx = buildIndex(ctx.heroes);
   const allies = ctx.allies.map((s) => idx.get(s)).filter(Boolean) as Hero[];
@@ -375,10 +410,19 @@ export function recommend(ctx: DraftContext, combos: Map<string, string>, limit 
   const hasStats = !!ctx.stats && Object.keys(ctx.stats).length > 0;
   const hasTiers = !!ctx.tiers && Object.keys(ctx.tiers).length > 0;
 
+  // Haut niveau : plus il reste de picks adverses à venir, plus il faut sécuriser les héros
+  // disputés et éviter ceux qui se font contrer facilement (early = 1 au premier pick, 0 au dernier).
+  const early = Math.max(0, Math.min(1, (5 - enemies.length) / 5));
+  const wEff: Weights = { ...w, priority: w.priority * early, safety: w.safety * early };
+  // Classement des héros les plus disputés (pick + ban rate) dans le rang choisi.
+  const contest = hasStats ? Object.values(ctx.stats!).map((s2) => ({ slug: s2.slug, v: s2.pickRate + s2.banRate })).sort((a, b) => a.v - b.v) : [];
+  const contestPct = new Map(contest.map((c2, i) => [c2.slug, contest.length > 1 ? i / (contest.length - 1) : 0.5]));
+  const counters = early > 0 ? hardCounters(ctx.heroes, ctx.matchups) : new Map<string, string[]>();
+
   const out: Recommendation[] = [];
   for (const h of ctx.heroes) {
     if (taken.has(h.slug) || h.incomplete || !h.profile) continue;
-    const comp: Record<keyof Weights, number | null> = { counter: null, synergy: null, lane: null, damage: null, cc: null, composition: null, pool: null, mastery: null, stats: null, meta: null, difficulty: null };
+    const comp: Record<keyof Weights, number | null> = { counter: null, synergy: null, lane: null, damage: null, cc: null, composition: null, pool: null, mastery: null, stats: null, meta: null, priority: null, safety: null, difficulty: null };
     const notes: string[] = [];
 
     const mus = enemies.map((e) => ({ hero: e, ...matchup(h, e, ctx.matchups) }));
@@ -402,6 +446,14 @@ export function recommend(ctx: DraftContext, combos: Map<string, string>, limit 
     if (hasTiers && ctx.tiers![h.slug]) comp.meta = tierValue(ctx.tiers![h.slug]);
     const me = ctx.personal?.[h.slug];
     if (me && me.games >= 3) comp.mastery = clamp(0.2 + (me.wins / me.games - 0.5) * 2);
+    let available: string[] = [];
+    if (early > 0) {
+      const pct = contestPct.get(h.slug);
+      if (pct != null) comp.priority = clamp((pct - 0.5) * 2, -0.3, 1);
+      available = (counters.get(h.slug) ?? []).filter((s2) => !taken.has(s2));
+      const n = available.length;
+      comp.safety = clamp((n === 0 ? 0.7 : n <= 2 ? 0.3 : n <= 4 ? -0.2 : -0.6) + (h.lanes.length >= 2 ? 0.3 : 0));
+    }
     if (ctx.maxDifficulty && h.difficulty && h.difficulty > ctx.maxDifficulty) comp.difficulty = -0.6;
     else if (ctx.maxDifficulty) comp.difficulty = 0;
 
@@ -409,8 +461,8 @@ export function recommend(ctx: DraftContext, combos: Map<string, string>, limit 
     let den = 0;
     (Object.keys(comp) as (keyof Weights)[]).forEach((k) => {
       if (comp[k] != null) {
-        num += w[k] * comp[k]!;
-        den += w[k];
+        num += wEff[k] * comp[k]!;
+        den += wEff[k];
       }
     });
     const score = Math.round(Math.max(0, Math.min(100, 50 + (50 * num) / (den || 1))));
@@ -425,7 +477,7 @@ export function recommend(ctx: DraftContext, combos: Map<string, string>, limit 
     if (x.mobility <= 0) weaknesses.push("Très peu mobile : dépend de son positionnement.");
     if (x.early <= 1) weaknesses.push("Faible en début de partie.");
     if (x.late <= 1) weaknesses.push("Perd en impact en fin de partie.");
-    if (h.difficulty === 3) weaknesses.push("Difficile à maîtriser.");
+    if (early >= 0.6 && available.length >= 4) weaknesses.push(`Facile à contrer (${available.slice(0, 3).map((s2) => idx.get(s2)?.name ?? s2).join(", ")}…) : plutôt en dernier pick.`);
 
     const explanation: string[] = [];
     if (favorable.length) explanation.push(`Avantagé contre ${favorable.map((f) => f.hero.name).join(", ")}.`);
@@ -453,12 +505,14 @@ export function recommend(ctx: DraftContext, combos: Map<string, string>, limit 
       mastery: me && me.games >= 3 ? `${Math.round((me.wins / me.games) * 100)} % sur ${me.games} parties` : null,
       stats: st ? `WR ${fr(st.winRate, 1)} %` : null,
       meta: hasTiers && ctx.tiers![h.slug] ? `tier ${ctx.tiers![h.slug]}` : null,
+      priority: st && (comp.priority ?? 0) > 0.5 ? `disputé (pick+ban ${fr(st.pickRate + st.banRate, 0)} %)` : null,
+      safety: (comp.safety ?? 0) > 0 ? (h.lanes.length >= 2 && available.length > 2 ? `flex ${h.lanes.map((l) => LANE_FR[l as Lane].replace(" Lane", "")).join("/")}` : "peu contrable") : null,
     };
     // La lane (déjà affichée à part) et le pool (étoile) ne servent qu'en dernier recours :
     // on préfère la raison qui distingue ce héros des autres candidats.
     const ranked = (Object.keys(shortOf) as (keyof Weights)[])
       .filter((k) => shortOf[k] && (comp[k] ?? 0) > 0)
-      .sort((a, b) => w[b] * (comp[b] ?? 0) - w[a] * (comp[a] ?? 0));
+      .sort((a, b) => wEff[b] * (comp[b] ?? 0) - wEff[a] * (comp[a] ?? 0));
     const best = ranked.find((k) => k !== "lane" && k !== "pool") ?? ranked[0];
     const short = best ? shortOf[best]! : "choix équilibré";
 
@@ -768,6 +822,15 @@ export function suggestSmartBans(ctx: DraftContext, record: EnemyRecord = {}, li
     if (r && r.games >= 2 && r.wins / r.games < 0.5) {
       const loss = Math.round((1 - r.wins / r.games) * 100);
       parts.push({ v: 0.5 + (0.5 - r.wins / r.games) * 2, short: `vous perdez ${loss} %`, reason: `Votre journal : ${r.games - r.wins} défaite(s) sur ${r.games} partie(s) contre lui.` });
+    }
+    // Haut niveau : bannir ce qui contre vos héros de confort (pools du duo) encore jouables.
+    if (ctx.protect?.length) {
+      const cmap = hardCounters(ctx.heroes, ctx.matchups);
+      const threatened = ctx.protect.filter((p2) => !taken.has(p2) && cmap.get(p2)?.includes(h.slug));
+      if (threatened.length) {
+        const names = threatened.slice(0, 3).map((p2) => idx.get(p2)?.name ?? p2);
+        parts.push({ v: Math.min(1, 0.35 + threatened.length * 0.2), short: `contre ${names[0]}${threatened.length > 1 ? ` +${threatened.length - 1}` : ""}`, reason: `Contre vos héros de pool : ${names.join(", ")}.` });
+      }
     }
     if (allies.length) {
       const hits = allies.map((a) => ({ a, m: matchup(h, a, ctx.matchups) })).filter((x) => x.m.value >= 0.3).sort((p, q) => q.m.value - p.m.value);

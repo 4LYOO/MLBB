@@ -89,7 +89,6 @@ export function DraftScreen(p: DraftScreenProps) {
   const [log, setLog] = useState<Action[]>([]);
   const [target, setTarget] = useState<Target>({ team: "ally", action: "pick", slot: 0 });
   const [rank, setRank] = useState<Rank>(p.statsByRank[DEFAULT_RANK]?.length ? DEFAULT_RANK : ((Object.keys(p.statsByRank)[0] as Rank) ?? "all"));
-  const [maxDiff, setMaxDiff] = useState(0);
   const [training, setTraining] = useState(false);
   const [owners, setOwners] = useState<Owner[]>(["moi", "elle", null, null, null]);
   const [roleFilter, setRoleFilter] = useState("");
@@ -156,12 +155,11 @@ export function DraftScreen(p: DraftScreenProps) {
         tiers: tierMap,
         matchups: p.matchups,
         personal: mastery,
-        maxDifficulty: maxDiff || undefined,
         pool: pl ? poolOf(pl) : undefined,
         poolOwner: pl && pl.id !== "moi" ? pl.nom : undefined,
       };
     },
-    [p.heroes, bans, statMap, tierMap, p.matchups, mastery, maxDiff, players],
+    [p.heroes, bans, statMap, tierMap, p.matchups, mastery, players],
   );
 
   const analysis = useMemo(() => analyzeComposition(allies, enemies, p.heroes, combos, p.matchups), [allies, enemies, p.heroes, combos, p.matchups]);
@@ -172,14 +170,16 @@ export function DraftScreen(p: DraftScreenProps) {
   const suggestions: { title: string; items: Sugg[] } = useMemo(() => {
     if (!activeTarget) return { title: "", items: [] };
     if (activeTarget.action === "ban") {
-      const bansS = suggestSmartBans(ctxFor(activeTarget.team === "ally" ? allies : enemies, activeTarget.team === "ally" ? enemies : allies), activeTarget.team === "ally" ? enemyRecord : {}, 3);
+      // Nos bans protègent les héros de pool du duo (moi + elle).
+      const protect = activeTarget.team === "ally" ? [...new Set(players.flatMap((pl) => poolOf(pl)))] : undefined;
+      const bansS = suggestSmartBans({ ...ctxFor(activeTarget.team === "ally" ? allies : enemies, activeTarget.team === "ally" ? enemies : allies), protect }, activeTarget.team === "ally" ? enemyRecord : {}, 3);
       return { title: activeTarget.team === "ally" ? "Bans conseillés" : "Bans probables de l'adversaire", items: bansS.map((b) => ({ hero: b.hero, score: b.score, short: b.short })) };
     }
     if (activeTarget.team === "enemy") return { title: "Picks probables de l'adversaire", items: recommend(ctxFor(enemies, allies), combos, 3) };
     const who = activeOwner ? ` · ${playerName(activeOwner)}` : "";
     return { title: `Meilleurs picks${who}`, items: recommend(ctxFor(allies, enemies, activeOwner), combos, 3) };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeTarget?.team, activeTarget?.action, activeTarget?.slot, allies, enemies, ctxFor, combos, enemyRecord, activeOwner]);
+  }, [activeTarget?.team, activeTarget?.action, activeTarget?.slot, allies, enemies, ctxFor, combos, enemyRecord, activeOwner, players]);
 
   // Mode duo : meilleur pick pour « elle » selon le pick de « moi ».
   const mySlot = owners.indexOf("moi");
@@ -439,14 +439,6 @@ export function DraftScreen(p: DraftScreenProps) {
                     {p.statsByRank[r]?.length ? "" : " (indispo.)"}
                   </option>
                 ))}
-              </select>
-            </label>
-            <label>
-              <span className="label">Difficulté max</span>
-              <select className="input" value={maxDiff} onChange={(e) => setMaxDiff(Number(e.target.value))}>
-                <option value={0}>Toutes</option>
-                <option value={1}>Facile</option>
-                <option value={2}>Moyenne</option>
               </select>
             </label>
             <label className="flex min-h-11 items-center gap-2 text-sm">
