@@ -7,6 +7,7 @@ import { useData } from "@/lib/client/data";
 import { personal, poolOf, usePersonal, type Player } from "@/lib/client/store";
 import { LANES, LANE_FR, type Hero, type Lane } from "@/lib/domain";
 import { DataGate } from "./Loading";
+import { duoPairs } from "@/lib/engine/rush";
 
 export function DuoView() {
   return (
@@ -68,9 +69,7 @@ function Inner() {
           </div>
         </Card>
       ))}
-      <Card title="Vos meilleures paires">
-        <p className="text-sm text-muted">Calculées à partir de votre journal de parties : arrive en phase 4.</p>
-      </Card>
+      <BestPairs heroes={model.heroes} />
 
       {sheet && (
         <PoolSheet
@@ -126,5 +125,43 @@ function PoolSheet({ heroes, player, lane, onClose }: { heroes: Hero[]; player: 
         })}
       </div>
     </div>
+  );
+}
+
+/** Nos meilleures paires de héros, d'après NOS parties jouées ensemble (journal « Duo »). */
+function BestPairs({ heroes }: { heroes: Hero[] }) {
+  const me = usePersonal();
+  const idx = useMemo(() => new Map(heroes.map((h) => [h.slug, h])), [heroes]);
+  const pairs = duoPairs(me.matches).slice(0, 8);
+  const nom = (id: Player["id"]) => me.players.find((p) => p.id === id)?.nom ?? id;
+  return (
+    <Card title="Vos meilleures paires" subtitle={`D'après vos parties en duo (${nom("moi")} + ${nom("elle")})`}>
+      {pairs.length ? (
+        <ul className="space-y-3">
+          {pairs.map((p, i) => {
+            const a = idx.get(p.moi);
+            const b = idx.get(p.elle);
+            return (
+              <li key={`${p.moi}+${p.elle}`} className="flex items-center gap-2">
+                <span className="w-5 text-sm font-bold text-muted">{i + 1}</span>
+                {a && <HeroAvatar hero={a} size={36} />}
+                {b && <HeroAvatar hero={b} size={36} />}
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate font-semibold">
+                    {a?.name ?? p.moi} + {b?.name ?? p.elle}
+                  </span>
+                  <span className="block text-xs text-muted">
+                    {p.wins} V / {p.games - p.wins} D
+                  </span>
+                </span>
+                <span className={clsx("text-xl font-bold tabular-nums", p.winRate >= 55 ? "text-good" : p.winRate < 45 ? "text-bad" : "text-ink")}>{Math.round(p.winRate)} %</span>
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <p className="text-sm text-muted">Enregistrez vos parties en mode « Duo » (onglet Stats ou fiche d&apos;avant-partie) : vos paires gagnantes apparaîtront ici.</p>
+      )}
+    </Card>
   );
 }

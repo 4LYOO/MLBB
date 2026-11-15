@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "Duo" };
 export default function DuoPage() {
   return (
     <>
-      <PageHeader kicker="À deux" title="Duo" subtitle="Vos pools de héros par lane. Ils servent au draft (bonus « pool » et mode duo)." />
+      <PageHeader kicker="À deux" title="Duo" subtitle="Vos meilleures paires et vos pools de héros par lane (bonus « pool » et mode duo du draft)." />
       <DuoView />
     </>
   );
