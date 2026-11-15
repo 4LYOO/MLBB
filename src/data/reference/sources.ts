@@ -6,8 +6,10 @@ import type { Source } from "@/lib/domain";
  * complété par la vérification d'accès effectuée le 2026-11-08.
  */
 export const VERIFIED_ON = "2026-11-08";
-export const REFERENCE_PATCH = "2.2.16a";
-export const REFERENCE_SEASON = "Season 42";
+import heroesData from "@data/heroes.json";
+/** Patch et saison de référence : lus dans l'en-tête de data/heroes.json. */
+export const REFERENCE_PATCH = heroesData.meta.patch;
+export const REFERENCE_SEASON = heroesData.meta.saison;
 
 type S = Omit<Source, "lastSyncAt">;
 

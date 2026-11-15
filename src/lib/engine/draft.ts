@@ -18,6 +18,7 @@
  */
 import { LANE_FR, ROLE_FR, type Hero, type HeroStat, type Lane, type Role, type Tag, type Tier } from "@/lib/domain";
 import { heroScore, tierValue } from "./tier";
+import config from "@data/config.json";
 
 export interface MatchupDatum {
   slug: string;
@@ -37,7 +38,8 @@ export interface Weights {
   mastery: number;
   difficulty: number;
 }
-export const DEFAULT_WEIGHTS: Weights = { counter: 0.24, synergy: 0.16, needs: 0.28, stats: 0.14, meta: 0.06, mastery: 0.06, difficulty: 0.06 };
+/** Poids par défaut : réglables dans data/config.json → draft.poids. */
+export const DEFAULT_WEIGHTS: Weights = config.draft.poids;
 
 export const CRITERIA_FR: Record<keyof Weights, string> = {
   counter: "Counter adverse",

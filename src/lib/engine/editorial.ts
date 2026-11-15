@@ -16,6 +16,7 @@ export function editorialHeroes(): Hero[] {
       difficulty: h.difficulty,
       confidence: h.confidence,
       incomplete: h.incomplete,
+      aVerifier: h.aVerifier,
       portraitUrl: null,
       profile: p
         ? { cc: p[0], mobility: p[1], durability: p[2], engage: p[3], peel: p[4], burst: p[5], sustain: p[6], early: p[7], mid: p[8], late: p[9], tags: h.tags as Tag[] }
