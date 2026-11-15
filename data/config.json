@@ -1,8 +1,45 @@
 {
-  "meta": {"patch": "2.2.16a", "dateMaj": "2026-11-15", "sources": ["Réglages MLBB Companion"]},
+  "meta": {
+    "patch": "2.2.16a",
+    "dateMaj": "2026-11-15",
+    "sources": ["Réglages MLBB Companion"]
+  },
   "badge": {"joursAvantAvertissement": 21},
   "draft": {
-    "_explication": "Poids des critères du score de draft (0 = ignoré). Plus un poids est grand, plus le critère compte.",
-    "poids": {"counter": 0.24, "synergy": 0.16, "needs": 0.28, "stats": 0.14, "meta": 0.06, "mastery": 0.06, "difficulty": 0.06}
+    "_explication": "Poids des critères du score de draft. 0 = critère ignoré ; plus le poids est grand, plus le critère compte. Les poids n'ont pas besoin de faire 1 au total.",
+    "poids": {
+      "counter": 0.22,
+      "synergie": 0.12,
+      "lane": 0.18,
+      "degats": 0.1,
+      "cc": 0.08,
+      "composition": 0.08,
+      "pool": 0.12,
+      "maitrise": 0.04,
+      "stats": 0.1,
+      "meta": 0.04,
+      "difficulte": 0.04
+    },
+    "_explicationCriteres": {
+      "counter": "Avantage contre les héros adverses déjà choisis",
+      "synergie": "Synergie avec les alliés déjà choisis",
+      "lane": "Occupe une lane / un rôle encore libre",
+      "degats": "Équilibre dégâts physiques / magiques",
+      "cc": "Apport de contrôle de foule (CC)",
+      "composition": "Frontline, engage, protection du carry",
+      "pool": "Héros dans le pool du joueur (onglet Duo)",
+      "maitrise": "Ton win rate sur ce héros (journal de parties)",
+      "stats": "Win rate du héros dans le rang choisi (synchro automatique)",
+      "meta": "Tier calculé du patch",
+      "difficulte": "Pénalité si le héros dépasse la difficulté maximale choisie"
+    }
+  },
+  "rush": {
+    "_explication": "Journal de rush. Étoiles gagnées/perdues par partie (approximation : le jeu ajoute protections et bonus selon le rang), seuil de l'anti-tilt.",
+    "etoilesVictoire": 1,
+    "etoilesDefaite": -1,
+    "etoilesAVerifier": true,
+    "antiTiltDefaitesDAffilee": 2,
+    "sessionNouvelleApresHeures": 4
   }
 }

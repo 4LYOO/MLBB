@@ -6,6 +6,24 @@
     "sources": ["Dossier de sources MLBB 2026 (rapport du 8 nov. 2026)", "Connaissance éditoriale MLBB Companion (à vérifier)"],
     "note": "Profils 0–3 et étiquettes : estimations éditoriales utilisées par le draft. Les stats chiffrées (win/pick/ban rate) viennent de la synchro automatique, pas de ce fichier."
   },
+  "metaParRole": {
+    "_explication": "Héros méta par lane, affichés dans le coaching. Liste initiale = 5 meilleurs tiers calculés sur les stats synchronisées (mlbb.io, Mythical Glory+, 7 jours, données du 08/11/2026). À revoir à chaque patch (voir MISE-A-JOUR.md).",
+    "source": "mlbb.io · Mythical Glory+ · 7 jours · 08/11/2026",
+    "aVerifier": true,
+    "exp": ["masha", "argus", "aulus", "lukas", "gloo"],
+    "jungle": ["aulus", "lukas", "sun", "saber", "ling"],
+    "mid": ["valir", "kadita", "gord", "eudora", "odette"],
+    "roam": ["marcel", "rafaela", "floryn", "carmilla", "khufra"],
+    "gold": ["obsidia", "bruno", "popol-and-kupa", "irithel", "moskov"]
+  },
+  "changements": {
+    "_explication": "Écran « Nouveautés du patch ». Recopie ici les changements des patch notes officielles (un objet par changement). type = buff, nerf, ajustement, nouveau ou objet. hero = slug du héros (facultatif). Exemple : {\"type\": \"buff\", \"hero\": \"layla\", \"texte\": \"Dégâts de la 2e compétence augmentés\"}",
+    "patch": "2.2.16a",
+    "date": null,
+    "source": null,
+    "aVerifier": true,
+    "liste": []
+  },
   "heroes": [
     {
       "slug": "aamon",

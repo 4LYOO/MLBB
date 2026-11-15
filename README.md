@@ -51,7 +51,9 @@ Interface iPhone : thème noir pur (OLED), 5 onglets en bas (Draft · Héros · 
 | --- | --- |
 | **Statistiques** | Totaux, répartition par rôle, WR/PR/BR moyens, tops (pick, ban, WR), tableau/cartes filtrables (rang, période, rôle, lane, seuils), tendances, évolution |
 | **Méta & Tier list** | Tier lists globale / rôle / lane / solo queue / compétitive (si stats e-sport importées), tendances (hausse, baisse, sous-estimés, surévalués, bans prioritaires, futurs méta), changements de tier, analyse d'un héros |
-| **Simulateur de draft** | Modes libre, classé 6 et 10 bans, tournoi ; côté bleu/rouge ; recommandations multicritères expliquées ; bans ; premier pick ; analyse de composition ; entraînement contre l'adversaire automatique ; sauvegarde, historique, comparaison |
+| **Draft** (écran d'accueil) | Plateau bans + 5 picks par équipe ; pour l'emplacement ciblé, 3 suggestions (score + une raison courte) choisies en 1 tap ; bans conseillés (forts du patch + héros contre lesquels votre journal montre des défaites) ; indicateurs en direct (lanes, physique/magique, CC, faiblesses) ; mode duo (picks « Moi » / « Ma conjointe », pools, meilleur pick pour elle) ; fiche d'avant-partie (build, emblème, sort, plan en 3 points, ennemi à surveiller) et résultat en 1 tap ; modes classé/tournoi, entraînement, sauvegarde. Poids du score réglables dans `data/config.json` |
+| **Duo** | Pools de héros maîtrisés par lane, pour toi et ta conjointe |
+| **Coaching** | Une page par rôle (EXP, Jungle, Mid, Roam, Gold) lue depuis `data/coaching.json` : rôle et responsabilités, early/mid/late, vision, erreurs fréquentes en Mythique, checklist de 5 points sauvegardée partie après partie, rush solo/duo, synergie duo, héros méta (`data/heroes.json` → `metaParRole`) et leurs counters, builds/emblèmes et items situationnels. Accès direct depuis la fiche d'avant-partie |
 | **Équipements & builds** | Builds par archétype, **builds adaptatifs** à la composition adverse, comparaison, builds perso, objets (prix, stats, passifs), emblèmes et talents actuels, sorts |
 | **Fiches héros** (133) | Rôles, lanes, compétences, stats de base, profil, forces/faiblesses, counters et synergies (données + règles), emblème/talents/sort les plus joués avec échantillon, stats par rang, évolution, patchs |
 | **Mes statistiques** | Profil, saisie de parties, import de capture (OCR expérimental), KDA, WR par rôle/héros, graphiques, coach |
@@ -74,6 +76,10 @@ Le connecteur mlbb.io lit des pages publiques (robots.txt : `Allow: /`), une req
 Détails : [`docs/SOURCES.md`](docs/SOURCES.md) · [`docs/DATA-FORMAT.md`](docs/DATA-FORMAT.md) · [`docs/METHODOLOGIE.md`](docs/METHODOLOGIE.md)
 
 ---
+
+## Mettre à jour les données
+
+À chaque patch, suis [MISE-A-JOUR.md](MISE-A-JOUR.md) : un fichier JSON à modifier, pas de code.
 
 ## Développement
 

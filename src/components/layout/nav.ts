@@ -1,4 +1,4 @@
-import { BarChart3, BookOpen, Crown, Database, GitCompare, GraduationCap, Heart, ScrollText, Shield, Swords, User, Users, Wrench } from "lucide-react";
+import { AlarmClock, Sparkles, BarChart3, BookOpen, Crown, Database, GitCompare, GraduationCap, Heart, ScrollText, Shield, Swords, User, Users, Wrench } from "lucide-react";
 
 /** Les 5 onglets du bas (à portée du pouce). Le Draft est aussi l'écran d'accueil « / ». */
 export const TABS = [
@@ -11,10 +11,12 @@ export const TABS = [
 
 /** Les autres pages : menu « Plus » en haut à droite (2 taps maximum). */
 export const MORE = [
+  { href: "/aide", label: "Aide-mémoire en partie", icon: AlarmClock, short: "Aide-mémoire" },
   { href: "/statistiques", label: "Statistiques globales", icon: BarChart3, short: "Stats globales" },
   { href: "/meta", label: "Méta & Tier list", icon: Crown, short: "Méta" },
   { href: "/builds", label: "Équipements & builds", icon: Wrench, short: "Builds" },
   { href: "/comparateur", label: "Comparateur", icon: GitCompare, short: "Comparer" },
+  { href: "/nouveautes", label: "Nouveautés du patch", icon: Sparkles, short: "Nouveautés" },
   { href: "/patchs", label: "Patch notes", icon: ScrollText, short: "Patchs" },
   { href: "/guides", label: "Base de connaissances", icon: BookOpen, short: "Guides" },
   { href: "/favoris", label: "Favoris & historique", icon: Heart, short: "Favoris" },

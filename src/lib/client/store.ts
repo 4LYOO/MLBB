@@ -8,6 +8,7 @@
 import { useSyncExternalStore } from "react";
 import { validatePackage } from "@/lib/data/schema";
 import type { Build, Patch } from "@/lib/data/model";
+import type { Lane } from "@/lib/domain";
 
 export interface Profile {
   nickname: string | null;
@@ -34,6 +35,17 @@ export interface Match {
   rank: string | null;
   notes: string | null;
   entry: string;
+  /** Joueur concerné (duo) — facultatif pour les anciennes parties. */
+  player?: "moi" | "elle";
+  /** Composition de la partie, enregistrée depuis le draft. */
+  allies?: string[];
+  enemies?: string[];
+  /** Identifiant commun aux lignes d'une même partie jouée en duo. */
+  gameId?: string | null;
+  /** Partie enregistrée sans K/D/A (depuis le draft) : exclue des moyennes de KDA. */
+  sansKda?: boolean;
+  /** Date et heure d'enregistrement (sert à découper les sessions de rush). */
+  createdAt?: string;
 }
 export interface SavedDraft {
   id: number;
@@ -57,6 +69,13 @@ export interface LocalPackage {
   label: string;
   data: unknown;
 }
+/** Joueur du duo : son nom et ses héros maîtrisés, rangés par lane. */
+export interface Player {
+  id: "moi" | "elle";
+  nom: string;
+  pool: Record<Lane, string[]>;
+}
+
 export interface PersonalData {
   version: 1;
   profile: Profile;
@@ -68,6 +87,14 @@ export interface PersonalData {
   builds: Build[];
   patches: Patch[];
   packages: LocalPackage[];
+  /** Les deux joueurs du duo (pools de héros). */
+  players: Player[];
+  /** Préférences : mode duo, anti-tilt, dernière bannière anti-tilt masquée. */
+  prefs: { duo: boolean; antiTilt: boolean; antiTiltMasqueA?: string | null };
+  /** Dernière draft (pour l'aide-mémoire en partie). */
+  derniereDraft?: { allies: string[]; enemies: string[]; at: string } | null;
+  /** Checklists du coaching, par rôle : cases cochées + réussites cumulées. */
+  checklists: Record<string, { coches: number[]; reussites: number[]; parties: number }>;
 }
 
 const KEY = "mlbb-companion:v1";
@@ -85,6 +112,13 @@ export const EMPTY: PersonalData = {
   builds: [],
   patches: [],
   packages: [],
+  players: [
+    { id: "moi", nom: "Moi", pool: { exp: [], jungle: [], mid: [], roam: [], gold: [] } },
+    { id: "elle", nom: "Ma conjointe", pool: { exp: [], jungle: [], mid: [], roam: [], gold: [] } },
+  ],
+  prefs: { duo: true, antiTilt: true, antiTiltMasqueA: null },
+  derniereDraft: null,
+  checklists: {},
 };
 
 let state: PersonalData = EMPTY;
@@ -96,17 +130,29 @@ function load() {
   loaded = true;
   try {
     const raw = localStorage.getItem(KEY);
-    if (raw) state = { ...EMPTY, ...JSON.parse(raw) };
+    if (raw) state = withDefaults(JSON.parse(raw));
   } catch {
     state = EMPTY;
   }
   window.addEventListener("storage", (e) => {
     if (e.key === KEY && e.newValue) {
-      state = { ...EMPTY, ...JSON.parse(e.newValue) };
+      state = withDefaults(JSON.parse(e.newValue));
       listeners.forEach((l) => l());
     }
   });
 }
+
+/** Complète une sauvegarde ancienne avec les champs ajoutés depuis (joueurs, préférences). */
+function withDefaults(d: Partial<PersonalData>): PersonalData {
+  const players = EMPTY.players.map((def) => {
+    const p = d.players?.find((x) => x.id === def.id);
+    return p ? { ...def, ...p, pool: { ...def.pool, ...p.pool } } : def;
+  });
+  return { ...EMPTY, ...d, players, prefs: { ...EMPTY.prefs, ...(d.prefs ?? {}) }, checklists: d.checklists ?? {} } as PersonalData;
+}
+
+/** Pool complet d'un joueur (toutes lanes confondues). */
+export const poolOf = (p: Player | undefined) => (p ? [...new Set(Object.values(p.pool).flat())] : []);
 
 export class StorageFullError extends Error {}
 
@@ -145,7 +191,7 @@ export const personal = {
     update((s) => ({ ...s, profile: { ...p, updatedAt: now() } }));
   },
   addMatch(m: Omit<Match, "id">) {
-    update((s) => ({ ...s, matches: [{ ...m, id: newId() }, ...s.matches].sort((a, b) => b.playedAt.localeCompare(a.playedAt) || b.id - a.id) }));
+    update((s) => ({ ...s, matches: [{ createdAt: now(), ...m, id: newId() }, ...s.matches].sort((a, b) => b.playedAt.localeCompare(a.playedAt) || b.id - a.id) }));
   },
   deleteMatch(id: number) {
     update((s) => ({ ...s, matches: s.matches.filter((m) => m.id !== id) }));
@@ -223,7 +269,7 @@ export const personal = {
     try {
       const d = JSON.parse(json);
       if (d?.version !== 1 || !Array.isArray(d.matches)) return { ok: false, error: "Ce fichier n'est pas une sauvegarde MLBB Companion." };
-      set({ ...EMPTY, ...d });
+      set(withDefaults(d));
       return { ok: true };
     } catch (e) {
       return { ok: false, error: e instanceof Error ? e.message : String(e) };
@@ -231,5 +277,46 @@ export const personal = {
   },
   reset() {
     set(EMPTY);
+  },
+  /** Renomme un joueur du duo. */
+  renamePlayer(id: Player["id"], nom: string) {
+    update((s) => ({ ...s, players: s.players.map((p) => (p.id === id ? { ...p, nom: nom.slice(0, 24) || p.nom } : p)) }));
+  },
+  /** Ajoute ou retire un héros du pool d'un joueur pour une lane. */
+  togglePool(id: Player["id"], lane: Lane, hero: string) {
+    update((s) => ({
+      ...s,
+      players: s.players.map((p) => {
+        if (p.id !== id) return p;
+        const list = p.pool[lane] ?? [];
+        return { ...p, pool: { ...p.pool, [lane]: list.includes(hero) ? list.filter((x) => x !== hero) : [...list, hero] } };
+      }),
+    }));
+  },
+  /** Coche / décoche un point de la checklist d'un rôle. */
+  toggleCheck(role: string, i: number) {
+    update((s) => {
+      const c = s.checklists[role] ?? { coches: [], reussites: [], parties: 0 };
+      const coches = c.coches.includes(i) ? c.coches.filter((x) => x !== i) : [...c.coches, i];
+      return { ...s, checklists: { ...s.checklists, [role]: { ...c, coches } } };
+    });
+  },
+  /** « Partie terminée » : ajoute les points cochés aux réussites, puis décoche tout. */
+  validerPartie(role: string, nbPoints: number) {
+    update((s) => {
+      const c = s.checklists[role] ?? { coches: [], reussites: [], parties: 0 };
+      const reussites = Array.from({ length: nbPoints }, (_, i) => (c.reussites[i] ?? 0) + (c.coches.includes(i) ? 1 : 0));
+      return { ...s, checklists: { ...s.checklists, [role]: { coches: [], reussites, parties: c.parties + 1 } } };
+    });
+  },
+  /** Mémorise la dernière draft (compo alliée et ennemie). */
+  setDerniereDraft(allies: string[], enemies: string[]) {
+    load();
+    const d = state.derniereDraft;
+    if (d && d.allies.join() === allies.join() && d.enemies.join() === enemies.join()) return;
+    update((s) => ({ ...s, derniereDraft: { allies, enemies, at: now() } }));
+  },
+  setPref<K extends keyof PersonalData["prefs"]>(key: K, value: PersonalData["prefs"][K]) {
+    update((s) => ({ ...s, prefs: { ...s.prefs, [key]: value } }));
   },
 };
