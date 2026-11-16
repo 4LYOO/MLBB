@@ -16,7 +16,8 @@ import { personal, usePersonal, type Player } from "@/lib/client/store";
 import { AnnotateSheet } from "@/components/rush/RecentGames";
 import { adaptBuild, archetypeOf, EMBLEM_BY_ARCHETYPE } from "@/lib/engine/builds";
 import { analyzeComposition, matchup, type MatchupDatum } from "@/lib/engine/draft";
-import { EDITORIAL_EMBLEMS, EDITORIAL_SPELLS } from "@/data/reference/items";
+import { EDITORIAL_SPELLS, talentFr } from "@/data/reference/items";
+import { EmblemChip, SpellChip } from "@/components/ui/GameBits";
 import { LANE_FR, type Hero, type Lane, type Role } from "@/lib/domain";
 
 /** Rôle « principal » associé à une lane (pour le journal et le coaching). */
@@ -143,25 +144,27 @@ export function PregameSheet({ heroes, idx, allies, enemies, owners, players, ma
               <div>
                 <p className="label">Emblème</p>
                 {c.consensus?.main ? (
-                  <p>
-                    <b>{c.consensus.main.name}</b>
-                    <span className="block text-xs text-muted">{c.consensus.talents?.map((t) => t.name).join(" · ")}</span>
-                  </p>
+                  <div className="space-y-1">
+                    <EmblemChip name={c.consensus.main.name} />
+                    <span className="block text-xs text-ink-2">{c.consensus.talents?.map((t) => talentFr(t.name)).join(" · ")}</span>
+                  </div>
                 ) : c.editorialEmblem ? (
-                  <p>
-                    <b>{EDITORIAL_EMBLEMS.find((e) => e.slug === c.editorialEmblem!.emblem)?.nameFr}</b> <AVerifier />
-                    <span className="block text-xs text-muted">{c.editorialEmblem.talents.join(" · ")}</span>
-                  </p>
+                  <div className="space-y-1">
+                    <span className="flex items-center gap-1">
+                      <EmblemChip name={c.editorialEmblem.emblem} /> <AVerifier />
+                    </span>
+                    <span className="block text-xs text-ink-2">{c.editorialEmblem.talents.map(talentFr).join(" · ")}</span>
+                  </div>
                 ) : (
                   <p className="text-muted">—</p>
                 )}
               </div>
               <div>
                 <p className="label">Sort de combat</p>
-                <p>
-                  <b>{c.lane === "jungle" ? "Retribution" : (spellName(c.build.spell.slug) ?? c.spellCons?.primary?.name)}</b>
+                <div className="space-y-1">
+                  <SpellChip slugOrName={c.lane === "jungle" ? "retribution" : spellName(c.build.spell.slug) ? c.build.spell.slug : (c.spellCons?.primary?.name ?? c.build.spell.slug)} />
                   <span className="block text-xs text-muted">{c.build.spell.reason}</span>
-                </p>
+                </div>
               </div>
             </div>
 

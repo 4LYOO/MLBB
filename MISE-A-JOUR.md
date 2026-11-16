@@ -66,6 +66,8 @@ Chaque fichier commence par un en-tête `meta` :
 - **Icône et nom français d'un objet** : champs `"image"` et `"nomFr"` dans `data/items.json`
   (`objets` pour les objets utilisés par les builds, `autresObjets` pour les autres).
   Les noms français sont des traductions : corrige-les si le jeu utilise un autre nom.
+- **Sorts, emblèmes, talents** : champs `"image"` (et `"nomFr"` pour les talents) dans `data/items.json`
+  → sections `sorts`, `emblemes`, `talents`.
 - Si une image ne s'affiche pas (adresse changée, hors ligne), l'appli montre les initiales à la place : rien ne casse.
 
 ## Vérifier que tout va bien

@@ -32,3 +32,26 @@ export function RemoteImage({ src, alt = "", className }: { src: string; alt?: s
     />
   );
 }
+
+/**
+ * Icône de jeu (sort, emblème, talent) : image si disponible, sinon pastille avec l'initiale.
+ */
+export function GameIcon({ src, label, size = 32, color = "#6b8cff", round = false }: { src?: string | null; label: string; size?: number; color?: string; round?: boolean }) {
+  return (
+    <span
+      className="relative grid shrink-0 place-items-center overflow-hidden font-bold text-white"
+      style={{
+        width: size,
+        height: size,
+        borderRadius: round ? 999 : Math.round(size * 0.3),
+        fontSize: size * 0.4,
+        background: `linear-gradient(150deg, ${color}66, #0b0c12)`,
+        boxShadow: `inset 0 0 0 1px ${color}88, inset 0 1px 0 rgba(255,255,255,0.25)`,
+      }}
+      aria-hidden
+    >
+      {label.slice(0, 1).toUpperCase()}
+      {src && <RemoteImage src={src} className="absolute inset-0 h-full w-full object-cover" />}
+    </span>
+  );
+}

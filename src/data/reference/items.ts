@@ -72,13 +72,59 @@ export interface EditorialSpell {
   nameFr: string;
   use: string;
   roles: string[];
+  image: string | null;
 }
-export const EDITORIAL_SPELLS: EditorialSpell[] = data.sorts.map((s) => ({ slug: s.slug, name: s.nom, nameFr: s.nomFr, use: s.usage, roles: s.roles }));
+export const EDITORIAL_SPELLS: EditorialSpell[] = data.sorts.map((s) => ({ slug: s.slug, name: s.nom, nameFr: s.nomFr, use: s.usage, roles: s.roles, image: s.image ?? null }));
 
 // --- Emblèmes ---
-export const EDITORIAL_EMBLEMS: { slug: string; name: string; nameFr: string; roles: string[] }[] = data.emblemes.map((e) => ({ slug: e.slug, name: e.nom, nameFr: e.nomFr, roles: e.roles }));
+export const EDITORIAL_EMBLEMS: { slug: string; name: string; nameFr: string; roles: string[]; image: string | null }[] = data.emblemes.map((e) => ({ slug: e.slug, name: e.nom, nameFr: e.nomFr, roles: e.roles, image: e.image ?? null }));
+/** Emblème par slug ou par nom anglais (ex. « Assassin »). */
+export const emblemOf = (key: string) => EDITORIAL_EMBLEMS.find((e) => e.slug === key.toLowerCase() || e.name.toLowerCase() === key.toLowerCase());
 
 /** Talents : liste 2023–2025 marquée « à vérifier » (remplacée par la synchro quand elle existe). */
-export const EDITORIAL_TALENTS: { tier: 1 | 2 | 3; name: string; use: string; aVerifier: boolean }[] = data.talents.map((t) => ({ tier: t.palier as 1 | 2 | 3, name: t.nom, use: t.usage, aVerifier: t.aVerifier }));
+export const EDITORIAL_TALENTS: { tier: 1 | 2 | 3; name: string; nameFr: string; use: string; aVerifier: boolean; image: string | null }[] = data.talents.map((t) => ({
+  tier: t.palier as 1 | 2 | 3,
+  name: t.nom,
+  nameFr: t.nomFr ?? t.nom,
+  use: t.usage,
+  aVerifier: t.aVerifier,
+  image: t.image ?? null,
+}));
+/** Attributs d'emblème en français (« Adaptive Attack +22.00 » → « Attaque adaptative +22 »). */
+const ATTR_FR: Record<string, string> = {
+  "adaptive attack": "Attaque adaptative",
+  "adaptive penetration": "Pénétration adaptative",
+  "attack speed": "Vitesse d'attaque",
+  "cooldown reduction": "Réduction des délais",
+  hp: "PV",
+  "hp regen": "Régénération de PV",
+  "healing effect": "Effet de soin",
+  "hybrid defens": "Défense hybride",
+  "hybrid defense": "Défense hybride",
+  "hybrid regen": "Régénération hybride",
+  lifesteal: "Vol de vie",
+  "magic penetration": "Pénétration magique",
+  "magic power": "Puissance magique",
+  "moevement speed": "Vitesse de déplacement",
+  "movement speed": "Vitesse de déplacement",
+  "spell vamp": "Vol de vie des sorts",
+};
+export function attributeFr(attr: string): string {
+  const m = attr.match(/^(.*?)\s*([+-])\s*([\d.]+)(%?)$/);
+  if (!m) return attr;
+  const label = ATTR_FR[m[1].trim().toLowerCase()] ?? m[1].trim();
+  const value = String(Number(m[3])).replace(".", ",");
+  return `${label} ${m[2]}${value}${m[4] ? " %" : ""}`;
+}
+
+/** Talent par nom anglais (tolère l'ancien « Weapons Master »). */
+export const talentOf = (name: string) => {
+  const n = name.trim().toLowerCase().replace("weapons master", "weapon master");
+  return EDITORIAL_TALENTS.find((t) => t.name.toLowerCase() === n);
+};
+/** Nom français d'un talent (ou le nom d'origine s'il est inconnu). */
+export const talentFr = (name: string) => talentOf(name)?.nameFr ?? name;
+/** Traduit une liste de talents écrite dans un texte (« Agility · Seasoned Hunter » ou « Agility, Seasoned Hunter »). */
+export const talentsFr = (text: string) => text.split(/\s*[·,]\s*/).map(talentFr).join(" · ");
 
 export const ITEMS_META = data.meta;
