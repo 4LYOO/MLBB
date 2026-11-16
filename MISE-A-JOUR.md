@@ -59,6 +59,17 @@ Chaque fichier commence par un en-tête `meta` :
 9. **Enregistre** (« Commit changes » sur GitHub). Le site se reconstruit tout seul en quelques minutes ;
    sur l'iPhone, ferme et rouvre l'appli pour charger la nouvelle version.
 
+## Images et noms français des objets
+
+- **Portrait d'un héros** : champ `"image"` du héros dans `data/heroes.json` (adresse d'une image en ligne).
+  Pour un nouveau héros, copie l'adresse de son portrait depuis une page publique (par exemple mlbb.io).
+- **Icône et nom français d'un objet** : champs `"image"` et `"nomFr"` dans `data/items.json`
+  (`objets` pour les objets utilisés par les builds, `autresObjets` pour les autres).
+  Les noms français sont des traductions : corrige-les si le jeu utilise un autre nom.
+- **Sorts, emblèmes, talents** : champs `"image"` (et `"nomFr"` pour les talents) dans `data/items.json`
+  → sections `sorts`, `emblemes`, `talents`.
+- Si une image ne s'affiche pas (adresse changée, hors ligne), l'appli montre les initiales à la place : rien ne casse.
+
 ## Vérifier que tout va bien
 
 - Onglet *Actions* du dépôt : le dernier passage doit être vert. S'il est rouge, c'est souvent une virgule ou un guillemet

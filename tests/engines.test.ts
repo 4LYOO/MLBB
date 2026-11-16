@@ -76,3 +76,14 @@ describe("items de contre (aide-mémoire)", () => {
     expect(counterItems([])).toEqual([]);
   });
 });
+
+import { attributeFr, talentFr, itemFr } from "@/data/reference/items";
+describe("traductions", () => {
+  it("traduit objets, talents et attributs d'emblème", () => {
+    expect(itemFr("Sea Halberd")).toBe("Hallebarde des mers");
+    expect(itemFr("Sort Purify")).toBe("Sort Purify");
+    expect(talentFr("Weapons Master")).toBe("Maître d'armes");
+    expect(attributeFr("Adaptive Attack +22.00")).toBe("Attaque adaptative +22");
+    expect(attributeFr("Spell Vamp +10.00%")).toBe("Vol de vie des sorts +10 %");
+  });
+});

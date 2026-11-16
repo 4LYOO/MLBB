@@ -1,3 +1,4 @@
+import { itemFr } from "@/data/reference/items";
 /**
  * Builds éditoriaux par archétype + moteur d'adaptation à la composition adverse.
  * Source « editorial » / « computed » : ce ne sont PAS des builds statistiques.
@@ -179,7 +180,8 @@ export function counterItems(enemies: Hero[]): CounterNeed[] {
   if (tanks.length >= 2) out.push({ besoin: "Pénétration / % PV", items: ["Malefic Roar", "Divine Glaive", "Demon Hunter Sword"], pourquoi: `Héros très résistants : ${names(tanks)}` });
   if (burst.length >= 2) out.push({ besoin: "Survie contre le burst", items: ["Immortality", "Wind of Nature", "Winter Crown", "Sort Aegis"], pourquoi: `Gros burst : ${names(burst)}` });
   if (ccTotal >= 10) out.push({ besoin: "Contre les contrôles", items: ["Tough Boots", "Sort Purify"], pourquoi: `Beaucoup de contrôles (total ${ccTotal})` });
-  return out;
+  // Noms d'objets en français (data/items.json → nomFr)
+  return out.map((n) => ({ ...n, items: n.items.map(itemFr) }));
 }
 
 export const EMBLEM_BY_ARCHETYPE: Record<Archetype, { emblem: string; talents: [string, string, string]; why: string }> = {

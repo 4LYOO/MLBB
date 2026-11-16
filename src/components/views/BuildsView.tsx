@@ -10,7 +10,8 @@ import { useData } from "@/lib/client/data";
 import { useRouter, useSearchParams } from "next/navigation";
 import { DataGate } from "./Loading";
 import { ARCHETYPE_FR, EMBLEM_BY_ARCHETYPE, archetypeOf, editorialVariants, type Archetype } from "@/lib/engine/builds";
-import { EDITORIAL_EMBLEMS, EDITORIAL_SPELLS, EDITORIAL_TALENTS, ITEM_CATEGORY_FR, ITEM_TAGS, type ItemCategory, type ItemTag } from "@/data/reference/items";
+import { EmblemChip, SpellChip, TalentChip, TalentList } from "@/components/ui/GameBits";
+import { EDITORIAL_EMBLEMS, EDITORIAL_SPELLS, EDITORIAL_TALENTS, talentFr, talentOf, attributeFr, ITEM_CATEGORY_FR, ITEM_TAGS, type ItemCategory, type ItemTag } from "@/data/reference/items";
 import { DAMAGE_FR, LANE_FR } from "@/lib/domain";
 
 
@@ -111,7 +112,10 @@ function Inner() {
               <div className="mt-4 border-t border-line pt-3 text-sm">
                 <p className="label">Emblème conseillé (éditorial) <AVerifier /></p>
                 <p>
-                  {EDITORIAL_EMBLEMS.find((e) => e.slug === EMBLEM_BY_ARCHETYPE[archetypeOf(hero)].emblem)?.nameFr} — {EMBLEM_BY_ARCHETYPE[archetypeOf(hero)].talents.join(" · ")}
+                  <EmblemChip name={EMBLEM_BY_ARCHETYPE[archetypeOf(hero)].emblem} />
+                  <span className="mt-1 block">
+                    <TalentList names={EMBLEM_BY_ARCHETYPE[archetypeOf(hero)].talents} />
+                  </span>
                 </p>
                 <p className="mt-1 text-xs text-muted">{EMBLEM_BY_ARCHETYPE[archetypeOf(hero)].why}</p>
               </div>
@@ -166,24 +170,22 @@ function Inner() {
       )}
 
       {tab === "emblems" && (
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="grid gap-4 lg:grid-cols-2 [&>*]:min-w-0">
           <Card title="Emblèmes principaux" subtitle={emblemCat.length ? "Attributs importés de la source" : "Les 7 emblèmes du système actuel"}>
             {emblemCat.length > 0 && (
               <ul className="mb-3 space-y-2 text-sm">
                 {emblemCat.map((e) => (
                   <li key={e.slug} className="glass-inset rounded-2xl p-2.5">
-                    <b>{e.data.name}</b>
-                    <span className="block text-xs text-ink-2">{(e.data.attributes ?? []).join(" · ")}</span>
+                    <EmblemChip name={e.data.name} showEn />
+                    <span className="block text-xs text-ink-2">{(e.data.attributes ?? []).map(attributeFr).join(" · ")}</span>
                   </li>
                 ))}
               </ul>
             )}
             <ul className={emblemCat.length ? "hidden" : "space-y-2 text-sm"}>
               {EDITORIAL_EMBLEMS.map((e) => (
-                <li key={e.slug} className="flex justify-between rounded-xl border border-line p-2">
-                  <span className="font-medium">
-                    {e.nameFr} <span className="text-muted">({e.name})</span>
-                  </span>
+                <li key={e.slug} className="flex items-center justify-between rounded-xl border border-line p-2">
+                  <EmblemChip name={e.slug} showEn />
                   <span className="text-xs text-muted">{e.roles.join(", ")}</span>
                 </li>
               ))}
@@ -199,7 +201,8 @@ function Inner() {
                       .filter((t) => t.data.tier === tier)
                       .map((t) => (
                         <li key={t.slug}>
-                          <b>{t.data.name}</b> {t.data.benefits && <span className="text-ink-2">— {t.data.benefits}</span>}
+                          <TalentChip name={t.data.name} size={26} /> {talentOf(t.data.name)?.use && <span className="text-ink-2">— {talentOf(t.data.name)!.use}</span>}
+                          {t.data.benefits && <span className="block pl-7 text-[11px] text-muted">{t.data.benefits}</span>}
                         </li>
                       ))}
                   </ul>
@@ -215,7 +218,7 @@ function Inner() {
                   <ul className="grid gap-1 text-sm sm:grid-cols-2">
                     {EDITORIAL_TALENTS.filter((t) => t.tier === tier).map((t) => (
                       <li key={t.name}>
-                        <b>{t.name}</b> <span className="text-ink-2">— {t.use}</span>
+                        <TalentChip name={t.name} size={26} /> <span className="text-xs text-muted">({t.name})</span> <span className="text-ink-2">— {t.use}</span>
                       </li>
                     ))}
                   </ul>
@@ -239,15 +242,17 @@ function Inner() {
                   {(Object.keys(EMBLEM_BY_ARCHETYPE) as Archetype[]).map((a) => (
                     <tr key={a}>
                       <td>{ARCHETYPE_FR[a]}</td>
-                      <td>{EDITORIAL_EMBLEMS.find((e) => e.slug === EMBLEM_BY_ARCHETYPE[a].emblem)?.nameFr}</td>
-                      <td className="text-xs">{EMBLEM_BY_ARCHETYPE[a].talents.join(" · ")}</td>
+                      <td>
+                        <EmblemChip name={EMBLEM_BY_ARCHETYPE[a].emblem} size={22} />
+                      </td>
+                      <td className="text-xs">{EMBLEM_BY_ARCHETYPE[a].talents.map(talentFr).join(" · ")}</td>
                       <td className="text-xs text-ink-2">{EMBLEM_BY_ARCHETYPE[a].why}</td>
                       <td className="text-xs text-muted">
                         {a.startsWith("mm") || a.startsWith("mage") || a.startsWith("assassin")
-                          ? "Contre beaucoup de burst : Firmness/Vitality au palier 1."
+                          ? "Contre beaucoup de burst : Fermeté / Vitalité au palier 1."
                           : a === "tank" || a === "support"
-                            ? "Contre une équipe très mobile : Agility pour suivre les rotations."
-                            : "Contre beaucoup de contrôles : Tenacity au palier 2."}
+                            ? "Contre une équipe très mobile : Agilité pour suivre les rotations."
+                            : "Contre beaucoup de contrôles : Ténacité au palier 2."}
                       </td>
                     </tr>
                   ))}
@@ -264,7 +269,7 @@ function Inner() {
             {EDITORIAL_SPELLS.map((s) => (
               <li key={s.slug} className="rounded-2xl border border-line bg-surface-2/50 p-3">
                 <p className="font-medium">
-                  {s.name} <span className="text-muted">· {s.nameFr}</span>
+                  <SpellChip slugOrName={s.slug} size={36} showEn />
                 </p>
                 <p className="text-sm text-ink-2">{s.use}</p>
                 <p className="mt-1 text-xs text-muted">Pour : {s.roles.map((r) => (r === "jungle" ? "Jungle" : r)).join(", ")}</p>

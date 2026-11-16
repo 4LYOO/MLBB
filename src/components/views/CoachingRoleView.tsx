@@ -15,6 +15,8 @@ import { computeTiers } from "@/lib/engine/tier";
 import { matchup, normScore } from "@/lib/engine/draft";
 import { COACHING_META, META_PAR_ROLE, aVerifierDe, texteDe, type CoachingRole, type Point } from "@/data/reference/coaching";
 import { HEROES_META } from "@/data/reference/heroes";
+import { itemFr, talentsFr } from "@/data/reference/items";
+import { EmblemChip } from "@/components/ui/GameBits";
 import type { Hero } from "@/lib/domain";
 
 /** Bloc repliable (élément natif <details> : fonctionne au doigt, sans survol). */
@@ -193,7 +195,7 @@ export function CoachingRoleView({ role }: { role: CoachingRole }) {
         <ul className="mb-3 space-y-2 text-[15px]">
           {s.builds.emblemes.map((e) => (
             <li key={e.nom}>
-              <b>{e.nom}</b> <span className="text-ink-2">— {e.talents}</span>
+              <EmblemChip name={e.nom} size={24} /> <span className="text-ink-2">— {talentsFr(e.talents)}</span>
               <span className="block text-xs text-muted">{e.pourquoi}</span>
             </li>
           ))}
@@ -201,7 +203,7 @@ export function CoachingRoleView({ role }: { role: CoachingRole }) {
         <p className="label">Build de base (ordre d&apos;achat)</p>
         <ol className="mb-3 list-decimal space-y-1 pl-5 text-[15px] text-ink-2">
           {s.builds.base.map((b) => (
-            <li key={b}>{b}</li>
+            <li key={b}>{itemFr(b)}</li>
           ))}
         </ol>
         <p className="label">Items situationnels</p>
@@ -209,7 +211,7 @@ export function CoachingRoleView({ role }: { role: CoachingRole }) {
           {s.builds.situationnels.map((x) => (
             <li key={x.contre} className="rounded-2xl border border-white/10 p-3 text-sm">
               <p className="font-semibold">Contre : {x.contre}</p>
-              <p className="text-gold">{x.items.join(" · ")}</p>
+              <p className="text-gold">{x.items.map(itemFr).join(" · ")}</p>
               <p className="text-xs text-muted">Quand : {x.quand}</p>
             </li>
           ))}

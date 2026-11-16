@@ -10,6 +10,8 @@ import data from "@data/heroes.json";
 export interface EditorialHeroRow {
   slug: string;
   name: string;
+  /** Adresse du portrait (data/heroes.json → image), chargé directement par le téléphone. */
+  image: string | null;
   roles: string[];
   lanes: string[];
   damage: string | null;
@@ -37,12 +39,14 @@ interface HeroJson {
   tags: string[];
   confiance: string;
   aVerifier?: boolean;
+  image?: string;
 }
 
 export function parseEditorialHeroes(): EditorialHeroRow[] {
   return (data.heroes as HeroJson[]).map((h) => ({
     slug: h.slug,
     name: h.nom,
+    image: h.image ?? null,
     roles: h.roles,
     lanes: h.lanes,
     damage: h.degats,

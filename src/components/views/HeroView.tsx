@@ -13,7 +13,8 @@ import { matchup, synergy } from "@/lib/engine/draft";
 import { comboMap } from "@/lib/engine/editorial";
 import { EMBLEM_BY_ARCHETYPE, archetypeOf, ARCHETYPE_FR, editorialVariants } from "@/lib/engine/builds";
 import { EDITORIAL_COMBOS } from "@/data/reference/heroes";
-import { EDITORIAL_EMBLEMS, EDITORIAL_SPELLS } from "@/data/reference/items";
+import { EDITORIAL_SPELLS } from "@/data/reference/items";
+import { EmblemChip, SpellChip, TalentChip, TalentList } from "@/components/ui/GameBits";
 import { DAMAGE_FR, LANE_FR, PERIODS, PERIOD_FR, RANKS, RANK_FR, RANGE_FR, type Hero, type Lane } from "@/lib/domain";
 
 const PROFILE_LABELS: [keyof NonNullable<Hero["profile"]>, string][] = [
@@ -312,7 +313,7 @@ function Inner({ slug }: { slug: string }) {
               <div>
                 <span className="label">Emblème le plus utilisé</span>
                 <p>
-                  <b>{details.extras.emblemConsensus.main.name}</b>{" "}
+                  <EmblemChip name={details.extras.emblemConsensus.main.name} />{" "}
                   <span className="text-muted">
                     ({details.extras.emblemConsensus.main.count}/{details.extras.emblemConsensus.main.sampleSize} builds)
                   </span>
@@ -324,7 +325,7 @@ function Inner({ slug }: { slug: string }) {
                   <ul className="space-y-0.5">
                     {details.extras.emblemConsensus.talents.map((t) => (
                       <li key={t.section}>
-                        Palier {t.section} : <b>{t.name}</b> <span className="text-muted">({t.count}/{t.sampleSize})</span>
+                        Palier {t.section} : <TalentChip name={t.name} /> <span className="text-muted">({t.count}/{t.sampleSize})</span>
                       </li>
                     ))}
                   </ul>
@@ -334,11 +335,11 @@ function Inner({ slug }: { slug: string }) {
                 <div>
                   <span className="label">Sort de combat</span>
                   <p>
-                    <b>{details.extras.battleSpellConsensus.primary.name}</b> <span className="text-muted">({Math.round(details.extras.battleSpellConsensus.primary.share * 100)} %)</span>
+                    <SpellChip slugOrName={details.extras.battleSpellConsensus.primary.name} /> <span className="text-muted">({Math.round(details.extras.battleSpellConsensus.primary.share * 100)} %)</span>
                     {details.extras.battleSpellConsensus.alternative && (
                       <>
                         {" "}
-                        · alternative <b>{details.extras.battleSpellConsensus.alternative.name}</b>{" "}
+                        · alternative <SpellChip slugOrName={details.extras.battleSpellConsensus.alternative.name} size={22} />{" "}
                         <span className="text-muted">({Math.round(details.extras.battleSpellConsensus.alternative.share * 100)} %)</span>
                       </>
                     )}
@@ -354,11 +355,11 @@ function Inner({ slug }: { slug: string }) {
             <div className="space-y-3 text-sm">
               <p>
                 <span className="label">Emblème</span>
-                {EDITORIAL_EMBLEMS.find((e) => e.slug === emblem.emblem)?.nameFr}
+                <EmblemChip name={emblem.emblem} showEn />
               </p>
               <p>
                 <span className="label">Talents</span>
-                {emblem.talents.join(" · ")}
+                <TalentList names={emblem.talents} />
               </p>
               <p className="text-ink-2">{emblem.why}</p>
               <div>
@@ -366,7 +367,7 @@ function Inner({ slug }: { slug: string }) {
                 <ul className="space-y-1">
                   {spells.map((s) => (
                     <li key={s.slug}>
-                      <b>{s.name}</b> <span className="text-muted">({s.nameFr})</span> — <span className="text-ink-2">{s.use}</span>
+                      <SpellChip slugOrName={s.slug} size={24} showEn /> — <span className="text-ink-2">{s.use}</span>
                     </li>
                   ))}
                 </ul>

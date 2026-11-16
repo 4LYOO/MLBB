@@ -12,6 +12,7 @@
  */
 import { DataPackageSchema, deriveProfile, type DataPackage } from "./schema";
 import { editorialHeroes } from "@/lib/engine/editorial";
+import { ITEM_DISPLAY } from "@/data/reference/items";
 import { EDITORIAL_ITEMS } from "@/data/reference/items";
 import { SOURCES, VERIFIED_ON } from "@/data/reference/sources";
 import type { Hero, HeroStat, Period, Rank, Source, Tag } from "@/lib/domain";
@@ -51,6 +52,8 @@ export interface Item {
   stats: Record<string, number> | null;
   passive: string | null;
   imageUrl: string | null;
+  /** Nom anglais (celui du jeu en anglais), affiché en petit sous le nom français. */
+  nameEn: string;
   sourceId: string;
   updatedAt: string;
 }
@@ -149,7 +152,7 @@ export function buildModel({ packages, userBuilds = [], userPatches = [] }: Buil
   const stats: HeroStat[] = [];
   const matchups = new Map<string, Matchup>();
   const items = new Map<string, Item>(
-    EDITORIAL_ITEMS.map((i) => [i.slug, { slug: i.slug, name: i.name, category: i.category, tags: i.tags, use: i.use, price: null, stats: null, passive: null, imageUrl: null, sourceId: "editorial", updatedAt: EDITORIAL_TS }]),
+    EDITORIAL_ITEMS.map((i) => [i.slug, { slug: i.slug, name: i.name, nameEn: i.name, category: i.category, tags: i.tags, use: i.use, price: null, stats: null, passive: null, imageUrl: null, sourceId: "editorial", updatedAt: EDITORIAL_TS }]),
   );
   const builds: Build[] = [];
   const patches = new Map<string, Patch>();
@@ -183,7 +186,8 @@ export function buildModel({ packages, userBuilds = [], userPatches = [] }: Buil
         hero.sourceId = src;
         hero.updatedAt = cap;
       }
-      if (h.portraitUrl) hero.portraitUrl = h.portraitUrl;
+      // Le portrait de data/heroes.json (relevé à la main) reste prioritaire.
+      if (h.portraitUrl && !hero.portraitUrl) hero.portraitUrl = h.portraitUrl;
       if (h.damage) hero.damage = h.damage;
       if (h.range) hero.range = h.range;
       if (h.ratings?.difficulty != null && hero.difficulty == null) hero.difficulty = h.ratings.difficulty <= 3 ? 1 : h.ratings.difficulty <= 6 ? 2 : 3;
@@ -229,6 +233,7 @@ export function buildModel({ packages, userBuilds = [], userPatches = [] }: Buil
       items.set(it.slug, {
         slug: it.slug,
         name: it.name,
+        nameEn: it.name,
         category: it.category,
         tags: it.tags?.length ? it.tags : (prev?.tags ?? []),
         use: prev?.use ?? null,
@@ -268,7 +273,8 @@ export function buildModel({ packages, userBuilds = [], userPatches = [] }: Buil
     details,
     stats,
     matchups: [...matchups.values()],
-    items: [...items.values()].sort((a, b) => a.category.localeCompare(b.category) || a.name.localeCompare(b.name)),
+    // Noms français + icônes (data/items.json) appliqués à tous les objets, synchronisés ou non.
+    items: [...items.values()].map(withItemDisplay).sort((a, b) => a.category.localeCompare(b.category) || a.name.localeCompare(b.name)),
     builds: [...userBuilds, ...builds],
     patches: [...patches.values()].sort((a, b) => (b.date ?? b.capturedAt).localeCompare(a.date ?? a.capturedAt)),
     proStats,
@@ -364,3 +370,10 @@ export function catalogOf(m: Model, kind: string) {
 
 export const STALE_HOURS = 48;
 export const isStale = (iso: string | null) => !iso || Date.now() - new Date(iso).getTime() > STALE_HOURS * 3600_000;
+
+/** Applique le nom français et l'icône de data/items.json à un objet (le nom anglais est gardé à part). */
+function withItemDisplay(it: Item): Item {
+  const d = ITEM_DISPLAY.get(it.slug);
+  if (!d) return it;
+  return { ...it, nameEn: it.nameEn || it.name, name: d.fr ?? it.name, imageUrl: it.imageUrl ?? d.image };
+}

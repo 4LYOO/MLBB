@@ -4,7 +4,8 @@
     "saison": "Season 42",
     "dateMaj": "2026-11-08",
     "sources": ["Dossier de sources MLBB 2026 (rapport du 8 nov. 2026)", "Connaissance éditoriale MLBB Companion (à vérifier)"],
-    "note": "Profils 0–3 et étiquettes : estimations éditoriales utilisées par le draft. Les stats chiffrées (win/pick/ban rate) viennent de la synchro automatique, pas de ce fichier."
+    "note": "Profils 0–3 et étiquettes : estimations éditoriales utilisées par le draft. Les stats chiffrées (win/pick/ban rate) viennent de la synchro automatique, pas de ce fichier.",
+    "images": "Portraits des héros : CDN officiel du site Mobile Legends (adresses relevées à la main via la liste mlbb.io le 16/11/2026). Les images ne sont pas copiées dans le dépôt : l'iPhone les charge directement."
   },
   "metaParRole": {
     "_explication": "Héros méta par lane, affichés dans le coaching. Liste initiale = 5 meilleurs tiers calculés sur les stats synchronisées (mlbb.io, Mythical Glory+, 7 jours, données du 08/11/2026). À revoir à chaque patch (voir MISE-A-JOUR.md).",
@@ -36,7 +37,8 @@
       "profil": {"cc": 0, "mobilite": 2, "resistance": 1, "engage": 1, "protection": 0, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 3},
       "tags": ["invis", "burst"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_b3a7602fe7ffd1e54bf8ea79ceadfa72.png"
     },
     {
       "slug": "akai",
@@ -49,7 +51,8 @@
       "profil": {"cc": 3, "mobilite": 2, "resistance": 3, "engage": 3, "protection": 2, "burst": 0, "sustain": 1, "early": 2, "mid": 3, "late": 2},
       "tags": ["aoecc", "engage"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_28f223447f0174336ff0922d364d81d3.png"
     },
     {
       "slug": "aldous",
@@ -62,7 +65,8 @@
       "profil": {"cc": 2, "mobilite": 2, "resistance": 2, "engage": 2, "protection": 0, "burst": 3, "sustain": 0, "early": 1, "mid": 2, "late": 3},
       "tags": ["global", "burst", "latecarry"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_0eb32187d08f14779585a8be53b83f01.png"
     },
     {
       "slug": "alice",
@@ -75,7 +79,8 @@
       "profil": {"cc": 2, "mobilite": 2, "resistance": 3, "engage": 2, "protection": 0, "burst": 2, "sustain": 3, "early": 2, "mid": 3, "late": 3},
       "tags": ["selfheal", "antitank"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_18300163a5a912a84adb52b8d59b4618.png"
     },
     {
       "slug": "alpha",
@@ -88,7 +93,8 @@
       "profil": {"cc": 2, "mobilite": 2, "resistance": 2, "engage": 2, "protection": 0, "burst": 2, "sustain": 2, "early": 3, "mid": 3, "late": 2},
       "tags": ["engage", "dash"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_86c9f91f530727db6498f920d19180d1.png"
     },
     {
       "slug": "alucard",
@@ -101,7 +107,8 @@
       "profil": {"cc": 0, "mobilite": 2, "resistance": 2, "engage": 1, "protection": 0, "burst": 2, "sustain": 3, "early": 2, "mid": 3, "late": 2},
       "tags": ["selfheal", "dash"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_0f51b6906e08897aa02330d65b0deeac.png"
     },
     {
       "slug": "angela",
@@ -114,7 +121,8 @@
       "profil": {"cc": 2, "mobilite": 1, "resistance": 1, "engage": 0, "protection": 3, "burst": 0, "sustain": 2, "early": 2, "mid": 3, "late": 3},
       "tags": ["heal", "shield", "protect"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_c7e0183956b2c2fd6d3fa0b18fe46917.png"
     },
     {
       "slug": "argus",
@@ -127,7 +135,8 @@
       "profil": {"cc": 0, "mobilite": 2, "resistance": 1, "engage": 1, "protection": 0, "burst": 2, "sustain": 2, "early": 2, "mid": 3, "late": 3},
       "tags": ["immune", "dash"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_0bd96658e5b8ec578226ea1622bd7231.png"
     },
     {
       "slug": "arlott",
@@ -140,7 +149,8 @@
       "profil": {"cc": 3, "mobilite": 3, "resistance": 2, "engage": 2, "protection": 0, "burst": 2, "sustain": 2, "early": 3, "mid": 3, "late": 2},
       "tags": ["dash", "lockdown", "selfheal"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_f666faa5ec6be5353f10dcd1d8997a42.png"
     },
     {
       "slug": "atlas",
@@ -153,7 +163,8 @@
       "profil": {"cc": 3, "mobilite": 2, "resistance": 3, "engage": 3, "protection": 2, "burst": 0, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["aoecc", "engage"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_d974ac796678180ff8724b88e192898b.png"
     },
     {
       "slug": "aulus",
@@ -166,7 +177,8 @@
       "profil": {"cc": 1, "mobilite": 1, "resistance": 2, "engage": 1, "protection": 0, "burst": 2, "sustain": 2, "early": 1, "mid": 2, "late": 3},
       "tags": ["latecarry"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_1366d775809e52ee6526b5b58d93cdff.png"
     },
     {
       "slug": "aurora",
@@ -179,7 +191,8 @@
       "profil": {"cc": 3, "mobilite": 0, "resistance": 1, "engage": 2, "protection": 0, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["aoecc", "lockdown", "burst"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_f9b2be0150361018bb98f941b9667c42.png"
     },
     {
       "slug": "badang",
@@ -192,7 +205,8 @@
       "profil": {"cc": 3, "mobilite": 2, "resistance": 2, "engage": 2, "protection": 0, "burst": 3, "sustain": 0, "early": 3, "mid": 3, "late": 2},
       "tags": ["lockdown", "burst"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_a81815e34246147b672d48209089da9c.png"
     },
     {
       "slug": "balmond",
@@ -205,7 +219,8 @@
       "profil": {"cc": 1, "mobilite": 1, "resistance": 3, "engage": 2, "protection": 0, "burst": 2, "sustain": 2, "early": 3, "mid": 2, "late": 1},
       "tags": ["selfheal", "earlygame"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_df9a6990b1946d045e4d3a46c90725cf.png"
     },
     {
       "slug": "bane",
@@ -218,7 +233,8 @@
       "profil": {"cc": 1, "mobilite": 1, "resistance": 2, "engage": 1, "protection": 0, "burst": 2, "sustain": 1, "early": 2, "mid": 3, "late": 2},
       "tags": ["poke", "splitpush"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_7e4e74bb161da0f477cc0d1819fa39e6.png"
     },
     {
       "slug": "barats",
@@ -231,7 +247,8 @@
       "profil": {"cc": 2, "mobilite": 1, "resistance": 3, "engage": 2, "protection": 1, "burst": 1, "sustain": 2, "early": 2, "mid": 3, "late": 3},
       "tags": ["selfheal"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_6495be044c2d28106e200f6918391d54.png"
     },
     {
       "slug": "baxia",
@@ -244,7 +261,8 @@
       "profil": {"cc": 2, "mobilite": 3, "resistance": 3, "engage": 2, "protection": 1, "burst": 0, "sustain": 2, "early": 3, "mid": 3, "late": 2},
       "tags": ["antiheal", "engage"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_80e408203869ca99302af195ac4f756c.png"
     },
     {
       "slug": "beatrix",
@@ -257,7 +275,8 @@
       "profil": {"cc": 1, "mobilite": 1, "resistance": 1, "engage": 0, "protection": 0, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 3},
       "tags": ["burst"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_4687eca874feec9017b448a0b9110d65.png"
     },
     {
       "slug": "belerick",
@@ -270,7 +289,8 @@
       "profil": {"cc": 3, "mobilite": 1, "resistance": 3, "engage": 2, "protection": 2, "burst": 0, "sustain": 2, "early": 2, "mid": 3, "late": 2},
       "tags": ["taunt", "antidive"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_5f2a9eca0bafd4ed8dc39a93c771b3af.png"
     },
     {
       "slug": "benedetta",
@@ -283,7 +303,8 @@
       "profil": {"cc": 1, "mobilite": 3, "resistance": 2, "engage": 1, "protection": 0, "burst": 2, "sustain": 1, "early": 2, "mid": 3, "late": 2},
       "tags": ["immune", "dash", "splitpush"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_b4a5e537894bdc00787e80e4d3ada5dd.png"
     },
     {
       "slug": "brody",
@@ -296,7 +317,8 @@
       "profil": {"cc": 1, "mobilite": 1, "resistance": 1, "engage": 0, "protection": 0, "burst": 3, "sustain": 0, "early": 3, "mid": 3, "late": 2},
       "tags": ["burst"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_cbb309b63cdf838fce79bd9cb95d4ed7.png"
     },
     {
       "slug": "bruno",
@@ -309,7 +331,8 @@
       "profil": {"cc": 1, "mobilite": 2, "resistance": 1, "engage": 0, "protection": 0, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 3},
       "tags": ["burst"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_2a733ac5b7d1f97093e82940af6f5008.png"
     },
     {
       "slug": "carmilla",
@@ -322,7 +345,8 @@
       "profil": {"cc": 3, "mobilite": 2, "resistance": 2, "engage": 2, "protection": 1, "burst": 1, "sustain": 1, "early": 2, "mid": 3, "late": 2},
       "tags": ["aoecc", "engage"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_6fb8f120dafdcbc1b5da2a2667016ad5.png"
     },
     {
       "slug": "cecilion",
@@ -335,7 +359,8 @@
       "profil": {"cc": 2, "mobilite": 0, "resistance": 1, "engage": 1, "protection": 0, "burst": 3, "sustain": 0, "early": 1, "mid": 2, "late": 3},
       "tags": ["poke", "latecarry"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_045399c265021d47da6512e6de20b64f.png"
     },
     {
       "slug": "change",
@@ -348,7 +373,8 @@
       "profil": {"cc": 1, "mobilite": 1, "resistance": 1, "engage": 0, "protection": 0, "burst": 2, "sustain": 0, "early": 2, "mid": 3, "late": 3},
       "tags": ["poke", "shield"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_46cfe9c30e8a14f85b4d022496aca274.png"
     },
     {
       "slug": "chip",
@@ -361,7 +387,8 @@
       "profil": {"cc": 2, "mobilite": 2, "resistance": 2, "engage": 1, "protection": 2, "burst": 0, "sustain": 1, "early": 2, "mid": 3, "late": 2},
       "tags": ["global", "protect"],
       "confiance": "medium",
-      "aVerifier": true
+      "aVerifier": true,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_79224d297f14377ad2eda8543432330d.png"
     },
     {
       "slug": "chou",
@@ -374,7 +401,8 @@
       "profil": {"cc": 3, "mobilite": 3, "resistance": 2, "engage": 3, "protection": 1, "burst": 2, "sustain": 0, "early": 3, "mid": 3, "late": 2},
       "tags": ["lockdown", "dash", "immune", "pick"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_158209b180032c4564b8f3bde8c48888.png"
     },
     {
       "slug": "cici",
@@ -387,7 +415,8 @@
       "profil": {"cc": 1, "mobilite": 3, "resistance": 2, "engage": 1, "protection": 0, "burst": 1, "sustain": 3, "early": 2, "mid": 3, "late": 2},
       "tags": ["selfheal", "dash"],
       "confiance": "medium",
-      "aVerifier": true
+      "aVerifier": true,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_60e3e11da30f404c77fff9e22d3bdc72.png"
     },
     {
       "slug": "claude",
@@ -400,7 +429,8 @@
       "profil": {"cc": 1, "mobilite": 3, "resistance": 1, "engage": 0, "protection": 0, "burst": 3, "sustain": 1, "early": 2, "mid": 3, "late": 3},
       "tags": ["dash"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_e1097b9d3e1d5e9f14600d32e8b18acd.png"
     },
     {
       "slug": "clint",
@@ -413,7 +443,8 @@
       "profil": {"cc": 1, "mobilite": 2, "resistance": 1, "engage": 0, "protection": 0, "burst": 3, "sustain": 0, "early": 3, "mid": 3, "late": 2},
       "tags": ["burst", "earlygame"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_fd120c3e9261a233442ee88a1d7c9f58.png"
     },
     {
       "slug": "cyclops",
@@ -426,7 +457,8 @@
       "profil": {"cc": 2, "mobilite": 1, "resistance": 1, "engage": 1, "protection": 0, "burst": 3, "sustain": 0, "early": 3, "mid": 3, "late": 2},
       "tags": ["lockdown", "burst"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_6b62c64ce43e682ee7660652d5b057e4.png"
     },
     {
       "slug": "diggie",
@@ -439,7 +471,8 @@
       "profil": {"cc": 2, "mobilite": 1, "resistance": 1, "engage": 0, "protection": 3, "burst": 0, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["protect"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_b1bdf46136cb8a7903dae6d58e8349cb.png"
     },
     {
       "slug": "dyrroth",
@@ -452,7 +485,8 @@
       "profil": {"cc": 1, "mobilite": 2, "resistance": 2, "engage": 2, "protection": 0, "burst": 3, "sustain": 1, "early": 3, "mid": 3, "late": 2},
       "tags": ["burst", "antitank", "dash"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_8ec13b59871b2862d773beac2d69fa3e.png"
     },
     {
       "slug": "edith",
@@ -465,7 +499,8 @@
       "profil": {"cc": 3, "mobilite": 1, "resistance": 3, "engage": 2, "protection": 1, "burst": 1, "sustain": 1, "early": 2, "mid": 3, "late": 2},
       "tags": ["aoecc", "engage"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_daab57918de01a6d5bb2ed6f45808a7e.png"
     },
     {
       "slug": "esmeralda",
@@ -478,7 +513,8 @@
       "profil": {"cc": 1, "mobilite": 2, "resistance": 3, "engage": 1, "protection": 0, "burst": 2, "sustain": 3, "early": 2, "mid": 3, "late": 3},
       "tags": ["shield", "selfheal"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_4661a64a2c6b724e7b67032fcbface27.png"
     },
     {
       "slug": "estes",
@@ -491,7 +527,8 @@
       "profil": {"cc": 2, "mobilite": 0, "resistance": 1, "engage": 0, "protection": 3, "burst": 0, "sustain": 3, "early": 1, "mid": 3, "late": 3},
       "tags": ["heal", "protect"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_ff4de3b0aabd1d2f6e184db1c831f6a9.png"
     },
     {
       "slug": "eudora",
@@ -504,7 +541,8 @@
       "profil": {"cc": 2, "mobilite": 0, "resistance": 1, "engage": 1, "protection": 0, "burst": 3, "sustain": 0, "early": 3, "mid": 3, "late": 1},
       "tags": ["lockdown", "burst"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_87b2a655b254c136dce8976e21935a80.png"
     },
     {
       "slug": "fanny",
@@ -517,7 +555,8 @@
       "profil": {"cc": 1, "mobilite": 3, "resistance": 1, "engage": 2, "protection": 0, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 3},
       "tags": ["dash", "burst"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_3391df36d6dcc54dd1c417098e15ec59.png"
     },
     {
       "slug": "faramis",
@@ -530,7 +569,8 @@
       "profil": {"cc": 1, "mobilite": 1, "resistance": 1, "engage": 1, "protection": 2, "burst": 2, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["poke", "protect"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_04e575d648d7f7ac1174f4369595c3a2.png"
     },
     {
       "slug": "floryn",
@@ -543,7 +583,8 @@
       "profil": {"cc": 1, "mobilite": 1, "resistance": 1, "engage": 0, "protection": 2, "burst": 0, "sustain": 3, "early": 2, "mid": 3, "late": 3},
       "tags": ["heal", "global"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_5a57b91e4914cf071a3849e352e530a5.png"
     },
     {
       "slug": "franco",
@@ -556,7 +597,8 @@
       "profil": {"cc": 3, "mobilite": 1, "resistance": 3, "engage": 3, "protection": 1, "burst": 1, "sustain": 0, "early": 3, "mid": 3, "late": 1},
       "tags": ["lockdown", "pick", "engage"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_9bed3c0095335606e0ce616c6e5a8553.png"
     },
     {
       "slug": "fredrinn",
@@ -569,7 +611,8 @@
       "profil": {"cc": 3, "mobilite": 1, "resistance": 3, "engage": 2, "protection": 1, "burst": 2, "sustain": 2, "early": 2, "mid": 3, "late": 3},
       "tags": ["taunt", "selfheal"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_dea170bfd5f26c41fb04e5edf72afedb.png"
     },
     {
       "slug": "freya",
@@ -582,7 +625,8 @@
       "profil": {"cc": 2, "mobilite": 2, "resistance": 2, "engage": 2, "protection": 0, "burst": 2, "sustain": 2, "early": 2, "mid": 3, "late": 2},
       "tags": ["dash", "shield"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_b9c34c88762ca8e66ccd4d84071bf0bc.png"
     },
     {
       "slug": "gatotkaca",
@@ -595,7 +639,8 @@
       "profil": {"cc": 3, "mobilite": 1, "resistance": 3, "engage": 3, "protection": 1, "burst": 1, "sustain": 1, "early": 2, "mid": 3, "late": 2},
       "tags": ["aoecc", "engage", "taunt"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_96f9dbbc096e0f0a28f9b9e587d06a9c.png"
     },
     {
       "slug": "gloo",
@@ -608,7 +653,8 @@
       "profil": {"cc": 3, "mobilite": 2, "resistance": 3, "engage": 2, "protection": 1, "burst": 0, "sustain": 2, "early": 2, "mid": 3, "late": 2},
       "tags": ["engage", "selfheal"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_c472fe0233e5ef84a3ac9ba4a229d09f.png"
     },
     {
       "slug": "gord",
@@ -621,7 +667,8 @@
       "profil": {"cc": 2, "mobilite": 0, "resistance": 1, "engage": 0, "protection": 1, "burst": 2, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["poke"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_9513f5e10ec33f76747732eaf2082259.png"
     },
     {
       "slug": "granger",
@@ -634,7 +681,8 @@
       "profil": {"cc": 0, "mobilite": 2, "resistance": 1, "engage": 0, "protection": 0, "burst": 3, "sustain": 0, "early": 3, "mid": 3, "late": 2},
       "tags": ["burst"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_a7729262d5b4abdc34ae5181e964c235.png"
     },
     {
       "slug": "grock",
@@ -647,7 +695,8 @@
       "profil": {"cc": 3, "mobilite": 1, "resistance": 3, "engage": 2, "protection": 2, "burst": 1, "sustain": 1, "early": 3, "mid": 3, "late": 2},
       "tags": ["engage"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_f8b8c8964d3202b7b762947ac96f1ed3.png"
     },
     {
       "slug": "guinevere",
@@ -660,7 +709,8 @@
       "profil": {"cc": 3, "mobilite": 2, "resistance": 2, "engage": 3, "protection": 0, "burst": 3, "sustain": 0, "early": 3, "mid": 3, "late": 2},
       "tags": ["aoecc", "burst", "dash"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_901bdd5d4432a2c0290dfc71df615a5a.png"
     },
     {
       "slug": "gusion",
@@ -673,7 +723,8 @@
       "profil": {"cc": 1, "mobilite": 3, "resistance": 1, "engage": 1, "protection": 0, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["dash", "burst"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_c6cd232de60da5372a7101a203e56554.png"
     },
     {
       "slug": "hanabi",
@@ -686,7 +737,8 @@
       "profil": {"cc": 1, "mobilite": 0, "resistance": 1, "engage": 0, "protection": 0, "burst": 2, "sustain": 1, "early": 1, "mid": 2, "late": 3},
       "tags": ["shield", "latecarry"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_8a9c1966feb34e85d7bdcc1ed01ffb5d.png"
     },
     {
       "slug": "hanzo",
@@ -699,7 +751,8 @@
       "profil": {"cc": 0, "mobilite": 1, "resistance": 1, "engage": 0, "protection": 0, "burst": 3, "sustain": 0, "early": 1, "mid": 2, "late": 3},
       "tags": ["latecarry"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_d2d28d2fcb060726fa27553920ca1a33.png"
     },
     {
       "slug": "harith",
@@ -712,7 +765,8 @@
       "profil": {"cc": 0, "mobilite": 3, "resistance": 1, "engage": 1, "protection": 0, "burst": 2, "sustain": 0, "early": 1, "mid": 3, "late": 3},
       "tags": ["dash", "shield", "latecarry"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_d228a823b477fdf6c458c829c2e62bcf.png"
     },
     {
       "slug": "harley",
@@ -725,7 +779,8 @@
       "profil": {"cc": 0, "mobilite": 2, "resistance": 1, "engage": 1, "protection": 0, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["burst", "dash"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_3aa6964c07a70f9b125da447f320e1ac.png"
     },
     {
       "slug": "hayabusa",
@@ -738,7 +793,8 @@
       "profil": {"cc": 0, "mobilite": 3, "resistance": 1, "engage": 1, "protection": 0, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 3},
       "tags": ["immune", "dash", "splitpush", "burst"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_9cc074562291a02644a0ddae28eeaa42.png"
     },
     {
       "slug": "helcurt",
@@ -751,7 +807,8 @@
       "profil": {"cc": 1, "mobilite": 2, "resistance": 1, "engage": 2, "protection": 0, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["silence", "burst"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_6abf0c552b59b8ca4cbc1af3662ef176.png"
     },
     {
       "slug": "hilda",
@@ -764,7 +821,8 @@
       "profil": {"cc": 2, "mobilite": 2, "resistance": 3, "engage": 2, "protection": 1, "burst": 2, "sustain": 2, "early": 3, "mid": 2, "late": 1},
       "tags": ["selfheal", "earlygame"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_acd700708dc515f5c63a08f8835a9941.png"
     },
     {
       "slug": "hylos",
@@ -777,7 +835,8 @@
       "profil": {"cc": 3, "mobilite": 1, "resistance": 3, "engage": 2, "protection": 2, "burst": 0, "sustain": 2, "early": 2, "mid": 3, "late": 2},
       "tags": ["lockdown", "selfheal"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_195ad9af866afaab415ae23a6be13b45.png"
     },
     {
       "slug": "irithel",
@@ -790,7 +849,8 @@
       "profil": {"cc": 1, "mobilite": 2, "resistance": 1, "engage": 0, "protection": 0, "burst": 2, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": [],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_a65d1e2ced64fbfdfcefdcfba719b3fd.png"
     },
     {
       "slug": "ixia",
@@ -803,7 +863,8 @@
       "profil": {"cc": 2, "mobilite": 1, "resistance": 1, "engage": 0, "protection": 0, "burst": 2, "sustain": 2, "early": 1, "mid": 2, "late": 3},
       "tags": ["selfheal", "latecarry"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_f070d82521ecd2e14d4ef3f25880830a.png"
     },
     {
       "slug": "jawhead",
@@ -816,7 +877,8 @@
       "profil": {"cc": 3, "mobilite": 2, "resistance": 2, "engage": 3, "protection": 1, "burst": 2, "sustain": 0, "early": 3, "mid": 3, "late": 2},
       "tags": ["lockdown", "pick", "engage"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_bd87c30b6c7de6ae3b5aa56162c48c8b.png"
     },
     {
       "slug": "johnson",
@@ -829,7 +891,8 @@
       "profil": {"cc": 3, "mobilite": 3, "resistance": 3, "engage": 3, "protection": 1, "burst": 2, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["global", "engage"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_85ff988c6660b4d04f8dd3d40df988bb.png"
     },
     {
       "slug": "joy",
@@ -842,7 +905,8 @@
       "profil": {"cc": 1, "mobilite": 3, "resistance": 1, "engage": 2, "protection": 0, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["immune", "dash"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_d3a3a55c22000ae78732fed8cba2efef.png"
     },
     {
       "slug": "julian",
@@ -855,7 +919,8 @@
       "profil": {"cc": 2, "mobilite": 2, "resistance": 2, "engage": 2, "protection": 0, "burst": 3, "sustain": 1, "early": 3, "mid": 3, "late": 2},
       "tags": ["burst", "dash"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_5511ddc0ad2789b525f32ef572b017eb.png"
     },
     {
       "slug": "kadita",
@@ -868,7 +933,8 @@
       "profil": {"cc": 3, "mobilite": 2, "resistance": 1, "engage": 2, "protection": 0, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["aoecc", "immune"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_99c0a77d0e01b06ad3f4351f8ef2869c.png"
     },
     {
       "slug": "kagura",
@@ -881,7 +947,8 @@
       "profil": {"cc": 2, "mobilite": 3, "resistance": 1, "engage": 1, "protection": 1, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["burst", "dash"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_da424b020b8ac8235d64a1b8a09aa749.png"
     },
     {
       "slug": "kaja",
@@ -894,7 +961,8 @@
       "profil": {"cc": 3, "mobilite": 2, "resistance": 2, "engage": 2, "protection": 1, "burst": 2, "sustain": 1, "early": 3, "mid": 3, "late": 2},
       "tags": ["lockdown", "pick"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_d558bb881e18a070eaeda1e1fdc248a8.png"
     },
     {
       "slug": "kalea",
@@ -907,7 +975,8 @@
       "profil": {"cc": 2, "mobilite": 2, "resistance": 2, "engage": 2, "protection": 2, "burst": 1, "sustain": 2, "early": 2, "mid": 3, "late": 2},
       "tags": ["heal"],
       "confiance": "low",
-      "aVerifier": true
+      "aVerifier": true,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_4f3d4649e301c76daf20bd8811f3095c.png"
     },
     {
       "slug": "karina",
@@ -920,7 +989,8 @@
       "profil": {"cc": 0, "mobilite": 2, "resistance": 1, "engage": 1, "protection": 0, "burst": 3, "sustain": 1, "early": 2, "mid": 3, "late": 2},
       "tags": ["burst", "execute", "dash"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_f49394186dc0e55d545da8377be83280.png"
     },
     {
       "slug": "karrie",
@@ -933,7 +1003,8 @@
       "profil": {"cc": 1, "mobilite": 2, "resistance": 1, "engage": 0, "protection": 0, "burst": 2, "sustain": 0, "early": 2, "mid": 3, "late": 3},
       "tags": ["antitank"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_294576f2bd0dcbcc9041031969d0eb09.png"
     },
     {
       "slug": "khaleed",
@@ -946,7 +1017,8 @@
       "profil": {"cc": 2, "mobilite": 2, "resistance": 3, "engage": 2, "protection": 0, "burst": 2, "sustain": 2, "early": 3, "mid": 3, "late": 2},
       "tags": ["aoecc", "selfheal"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_540a6a9d343842674ce002082366ec9d.png"
     },
     {
       "slug": "khufra",
@@ -959,7 +1031,8 @@
       "profil": {"cc": 3, "mobilite": 2, "resistance": 3, "engage": 3, "protection": 2, "burst": 0, "sustain": 1, "early": 2, "mid": 3, "late": 2},
       "tags": ["antidash", "engage"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_2fe99f4001211d18b3d2b95d0d3dc395.png"
     },
     {
       "slug": "kimmy",
@@ -972,7 +1045,8 @@
       "profil": {"cc": 1, "mobilite": 2, "resistance": 1, "engage": 0, "protection": 0, "burst": 2, "sustain": 0, "early": 2, "mid": 3, "late": 3},
       "tags": ["poke"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_61295dfefd369004e5e4a7f4fc86647b.png"
     },
     {
       "slug": "lancelot",
@@ -985,7 +1059,8 @@
       "profil": {"cc": 0, "mobilite": 3, "resistance": 1, "engage": 1, "protection": 0, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["immune", "dash", "burst"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_dc4b821e49b904715172136017798da3.png"
     },
     {
       "slug": "lapu-lapu",
@@ -998,7 +1073,8 @@
       "profil": {"cc": 2, "mobilite": 2, "resistance": 2, "engage": 2, "protection": 0, "burst": 2, "sustain": 2, "early": 2, "mid": 3, "late": 2},
       "tags": ["aoecc", "dash"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_28036c4584c914c5aad4d2feeafb2452.png"
     },
     {
       "slug": "layla",
@@ -1011,7 +1087,8 @@
       "profil": {"cc": 0, "mobilite": 0, "resistance": 1, "engage": 0, "protection": 0, "burst": 2, "sustain": 0, "early": 1, "mid": 2, "late": 3},
       "tags": ["poke", "latecarry"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_b2b38e9406ea0de0b866db7674feea0f.png"
     },
     {
       "slug": "leomord",
@@ -1024,7 +1101,8 @@
       "profil": {"cc": 1, "mobilite": 3, "resistance": 2, "engage": 2, "protection": 0, "burst": 2, "sustain": 2, "early": 2, "mid": 3, "late": 3},
       "tags": ["dash"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_554cdf13a7587fe08c5deed60132c61c.png"
     },
     {
       "slug": "lesley",
@@ -1037,7 +1115,8 @@
       "profil": {"cc": 0, "mobilite": 1, "resistance": 1, "engage": 0, "protection": 0, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 3},
       "tags": ["poke", "execute", "burst"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_08770893183018333f54a98e63c41ee3.png"
     },
     {
       "slug": "ling",
@@ -1050,7 +1129,8 @@
       "profil": {"cc": 0, "mobilite": 3, "resistance": 1, "engage": 1, "protection": 0, "burst": 3, "sustain": 0, "early": 1, "mid": 3, "late": 3},
       "tags": ["immune", "dash", "burst"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_017bade52b9fc94bbc12615de6d75c08.png"
     },
     {
       "slug": "lolita",
@@ -1063,7 +1143,8 @@
       "profil": {"cc": 3, "mobilite": 1, "resistance": 3, "engage": 2, "protection": 3, "burst": 0, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["aoecc", "shield", "protect"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_474cea36a4bfdc7bf7d94530853a99b2.png"
     },
     {
       "slug": "lukas",
@@ -1076,7 +1157,8 @@
       "profil": {"cc": 2, "mobilite": 2, "resistance": 3, "engage": 2, "protection": 0, "burst": 2, "sustain": 2, "early": 2, "mid": 3, "late": 2},
       "tags": [],
       "confiance": "low",
-      "aVerifier": true
+      "aVerifier": true,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_63040edd0cf15b815fcbbb8b2d08d7f7.png"
     },
     {
       "slug": "lunox",
@@ -1089,7 +1171,8 @@
       "profil": {"cc": 1, "mobilite": 2, "resistance": 1, "engage": 1, "protection": 0, "burst": 3, "sustain": 2, "early": 2, "mid": 3, "late": 3},
       "tags": ["antitank", "immune", "dash"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_e162688afdcaf3f6498af30badfe31c5.png"
     },
     {
       "slug": "luo-yi",
@@ -1102,7 +1185,8 @@
       "profil": {"cc": 3, "mobilite": 1, "resistance": 1, "engage": 2, "protection": 0, "burst": 2, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["aoecc", "global"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_26e03fd72532d11c7b32911b95b8d559.png"
     },
     {
       "slug": "lylia",
@@ -1115,7 +1199,8 @@
       "profil": {"cc": 2, "mobilite": 2, "resistance": 1, "engage": 1, "protection": 0, "burst": 3, "sustain": 0, "early": 3, "mid": 3, "late": 2},
       "tags": ["poke", "burst"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_706573f138055c3df3df94948b4f26bd.png"
     },
     {
       "slug": "martis",
@@ -1128,7 +1213,8 @@
       "profil": {"cc": 2, "mobilite": 2, "resistance": 2, "engage": 2, "protection": 0, "burst": 2, "sustain": 1, "early": 3, "mid": 3, "late": 2},
       "tags": ["immune", "dash", "execute"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_cc8124b0eb6ca22d950b000744d69fbf.png"
     },
     {
       "slug": "masha",
@@ -1141,7 +1227,8 @@
       "profil": {"cc": 1, "mobilite": 2, "resistance": 3, "engage": 2, "protection": 0, "burst": 2, "sustain": 1, "early": 2, "mid": 3, "late": 3},
       "tags": ["splitpush", "antitank"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_4d79ba6ebb0a0f2bf542917f0b19d056.png"
     },
     {
       "slug": "mathilda",
@@ -1154,7 +1241,8 @@
       "profil": {"cc": 1, "mobilite": 3, "resistance": 1, "engage": 2, "protection": 2, "burst": 1, "sustain": 0, "early": 3, "mid": 3, "late": 2},
       "tags": ["shield", "dash", "protect"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_24d08ed788a9f5984bcf3b732ddcaf04.png"
     },
     {
       "slug": "melissa",
@@ -1167,7 +1255,8 @@
       "profil": {"cc": 1, "mobilite": 1, "resistance": 1, "engage": 0, "protection": 1, "burst": 2, "sustain": 0, "early": 2, "mid": 3, "late": 3},
       "tags": ["antidive"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_1fa7436301fea3f13fbcd4772051d22d.png"
     },
     {
       "slug": "minotaur",
@@ -1180,7 +1269,8 @@
       "profil": {"cc": 3, "mobilite": 1, "resistance": 3, "engage": 3, "protection": 3, "burst": 0, "sustain": 2, "early": 2, "mid": 3, "late": 2},
       "tags": ["aoecc", "engage", "heal"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_3ecd2c0843df7ec85044dafff6bf4553.png"
     },
     {
       "slug": "minsitthar",
@@ -1193,7 +1283,8 @@
       "profil": {"cc": 3, "mobilite": 2, "resistance": 2, "engage": 3, "protection": 1, "burst": 1, "sustain": 0, "early": 3, "mid": 3, "late": 2},
       "tags": ["antidash", "engage"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_c5d24a1dad6cef21de2698a4ed1d80ce.png"
     },
     {
       "slug": "miya",
@@ -1206,7 +1297,8 @@
       "profil": {"cc": 1, "mobilite": 1, "resistance": 1, "engage": 0, "protection": 0, "burst": 1, "sustain": 0, "early": 1, "mid": 2, "late": 3},
       "tags": ["latecarry"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_da894b37bfb5cadb32307f371f31918a.png"
     },
     {
       "slug": "moskov",
@@ -1219,7 +1311,8 @@
       "profil": {"cc": 2, "mobilite": 2, "resistance": 1, "engage": 0, "protection": 0, "burst": 2, "sustain": 0, "early": 2, "mid": 3, "late": 3},
       "tags": ["lockdown"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_a60a866ab6752a7f66766e720da987ea.png"
     },
     {
       "slug": "nana",
@@ -1232,7 +1325,8 @@
       "profil": {"cc": 3, "mobilite": 1, "resistance": 1, "engage": 2, "protection": 2, "burst": 2, "sustain": 0, "early": 3, "mid": 3, "late": 1},
       "tags": ["aoecc", "poke"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_ee1e0d80d87bb614a0c552ef028f85ce.png"
     },
     {
       "slug": "natalia",
@@ -1245,7 +1339,8 @@
       "profil": {"cc": 1, "mobilite": 2, "resistance": 1, "engage": 1, "protection": 0, "burst": 3, "sustain": 0, "early": 3, "mid": 3, "late": 1},
       "tags": ["invis", "burst", "silence"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_fbb5065b6ff174d1a20ccf5b7f523514.png"
     },
     {
       "slug": "natan",
@@ -1258,7 +1353,8 @@
       "profil": {"cc": 1, "mobilite": 2, "resistance": 1, "engage": 0, "protection": 0, "burst": 2, "sustain": 1, "early": 1, "mid": 2, "late": 3},
       "tags": ["latecarry"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_da02742f59013365923b216420bc4082.png"
     },
     {
       "slug": "nolan",
@@ -1271,7 +1367,8 @@
       "profil": {"cc": 1, "mobilite": 3, "resistance": 1, "engage": 1, "protection": 0, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["dash", "burst"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_9012ee9f73fbb4db4e1953e5fb5172e1.png"
     },
     {
       "slug": "novaria",
@@ -1284,7 +1381,8 @@
       "profil": {"cc": 1, "mobilite": 1, "resistance": 1, "engage": 1, "protection": 0, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["poke"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_57eeea6d5bd8d21229de8df79751db9f.png"
     },
     {
       "slug": "odette",
@@ -1297,7 +1395,8 @@
       "profil": {"cc": 2, "mobilite": 1, "resistance": 1, "engage": 2, "protection": 0, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["teamfightult"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_d9251718a8894546ba04cfa9ca68dedc.png"
     },
     {
       "slug": "paquito",
@@ -1310,7 +1409,8 @@
       "profil": {"cc": 2, "mobilite": 2, "resistance": 2, "engage": 2, "protection": 0, "burst": 3, "sustain": 1, "early": 3, "mid": 3, "late": 2},
       "tags": ["burst", "dash"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_5ab87805b9107b126a3bab64a8a199ad.png"
     },
     {
       "slug": "pharsa",
@@ -1323,7 +1423,8 @@
       "profil": {"cc": 1, "mobilite": 2, "resistance": 1, "engage": 1, "protection": 0, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["poke", "teamfightult"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_10151d43910e62f7aa9ce08df481a20f.png"
     },
     {
       "slug": "phoveus",
@@ -1336,7 +1437,8 @@
       "profil": {"cc": 2, "mobilite": 2, "resistance": 3, "engage": 2, "protection": 0, "burst": 2, "sustain": 2, "early": 2, "mid": 3, "late": 2},
       "tags": ["antidash"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_af21c0dd8b5308c27974bff900803a9a.png"
     },
     {
       "slug": "popol-and-kupa",
@@ -1349,7 +1451,8 @@
       "profil": {"cc": 2, "mobilite": 1, "resistance": 2, "engage": 0, "protection": 1, "burst": 2, "sustain": 0, "early": 3, "mid": 3, "late": 2},
       "tags": [],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_f37281ad588cf152cfafdd662f7edc9b.png"
     },
     {
       "slug": "rafaela",
@@ -1362,7 +1465,8 @@
       "profil": {"cc": 2, "mobilite": 2, "resistance": 1, "engage": 1, "protection": 2, "burst": 1, "sustain": 2, "early": 2, "mid": 3, "late": 2},
       "tags": ["heal"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_68277dce415742c4a98883151c693a07.png"
     },
     {
       "slug": "roger",
@@ -1375,7 +1479,8 @@
       "profil": {"cc": 1, "mobilite": 2, "resistance": 1, "engage": 1, "protection": 0, "burst": 3, "sustain": 1, "early": 3, "mid": 3, "late": 2},
       "tags": ["burst", "execute"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_b40e578f13465b3ae99d0a9baac7ecc9.png"
     },
     {
       "slug": "ruby",
@@ -1388,7 +1493,8 @@
       "profil": {"cc": 3, "mobilite": 2, "resistance": 3, "engage": 2, "protection": 1, "burst": 1, "sustain": 3, "early": 2, "mid": 3, "late": 2},
       "tags": ["aoecc", "selfheal", "dash"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_4b96c75b136290576d849309722d4d20.png"
     },
     {
       "slug": "saber",
@@ -1401,7 +1507,8 @@
       "profil": {"cc": 3, "mobilite": 2, "resistance": 1, "engage": 2, "protection": 0, "burst": 3, "sustain": 0, "early": 3, "mid": 3, "late": 1},
       "tags": ["lockdown", "burst", "pick"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_6bbfac806f29d29f17fea9e98d2d2fee.png"
     },
     {
       "slug": "selena",
@@ -1414,7 +1521,8 @@
       "profil": {"cc": 3, "mobilite": 2, "resistance": 1, "engage": 2, "protection": 0, "burst": 3, "sustain": 0, "early": 3, "mid": 3, "late": 2},
       "tags": ["pick", "burst"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_c3f967121519ae40509c5b2fdf52b19d.png"
     },
     {
       "slug": "silvanna",
@@ -1427,7 +1535,8 @@
       "profil": {"cc": 3, "mobilite": 2, "resistance": 2, "engage": 3, "protection": 1, "burst": 2, "sustain": 1, "early": 3, "mid": 3, "late": 2},
       "tags": ["lockdown", "engage"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_5e7b297af7c6e32a420b897aa4998071.png"
     },
     {
       "slug": "sun",
@@ -1440,7 +1549,8 @@
       "profil": {"cc": 0, "mobilite": 2, "resistance": 2, "engage": 1, "protection": 0, "burst": 1, "sustain": 2, "early": 2, "mid": 3, "late": 3},
       "tags": ["splitpush", "selfheal"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_117b5cdcc13232157075ce7b7f6177e9.png"
     },
     {
       "slug": "suyou",
@@ -1453,7 +1563,8 @@
       "profil": {"cc": 2, "mobilite": 3, "resistance": 1, "engage": 1, "protection": 0, "burst": 3, "sustain": 1, "early": 2, "mid": 3, "late": 2},
       "tags": ["dash", "burst"],
       "confiance": "low",
-      "aVerifier": true
+      "aVerifier": true,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_5e4ca70172332dde18bb1dc158ccc5c8.png"
     },
     {
       "slug": "terizla",
@@ -1466,7 +1577,8 @@
       "profil": {"cc": 3, "mobilite": 1, "resistance": 3, "engage": 2, "protection": 1, "burst": 2, "sustain": 2, "early": 2, "mid": 3, "late": 2},
       "tags": ["aoecc", "selfheal"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_c4bb270c28c7be663f57e993b0d6d3d8.png"
     },
     {
       "slug": "thamuz",
@@ -1479,7 +1591,8 @@
       "profil": {"cc": 1, "mobilite": 2, "resistance": 3, "engage": 2, "protection": 0, "burst": 2, "sustain": 3, "early": 2, "mid": 3, "late": 2},
       "tags": ["selfheal", "antitank"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_b5ad55e408b68acf6a86e7ff76f5f569.png"
     },
     {
       "slug": "tigreal",
@@ -1492,7 +1605,8 @@
       "profil": {"cc": 3, "mobilite": 1, "resistance": 3, "engage": 3, "protection": 2, "burst": 0, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["aoecc", "engage"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_8b30576754be1a4f8bebd09df8d6bec7.png"
     },
     {
       "slug": "uranus",
@@ -1505,7 +1619,8 @@
       "profil": {"cc": 1, "mobilite": 2, "resistance": 3, "engage": 1, "protection": 0, "burst": 0, "sustain": 3, "early": 2, "mid": 3, "late": 3},
       "tags": ["selfheal", "splitpush"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_2e15a0a506aaecd9b3de40a8cc9f7ec7.png"
     },
     {
       "slug": "vale",
@@ -1518,7 +1633,8 @@
       "profil": {"cc": 3, "mobilite": 1, "resistance": 1, "engage": 2, "protection": 0, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["aoecc", "burst"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_2a7a8d1531a1c4f8524880413535348d.png"
     },
     {
       "slug": "valentina",
@@ -1531,7 +1647,8 @@
       "profil": {"cc": 2, "mobilite": 2, "resistance": 1, "engage": 2, "protection": 0, "burst": 3, "sustain": 2, "early": 2, "mid": 3, "late": 3},
       "tags": ["selfheal", "dash"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_24837021ec9d7aaf41b13fa55b6d13c9.png"
     },
     {
       "slug": "valir",
@@ -1544,7 +1661,8 @@
       "profil": {"cc": 3, "mobilite": 1, "resistance": 1, "engage": 1, "protection": 3, "burst": 2, "sustain": 0, "early": 3, "mid": 3, "late": 2},
       "tags": ["poke", "protect", "antidive"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_bf16690876761b80822df90eb3320d69.png"
     },
     {
       "slug": "vexana",
@@ -1557,7 +1675,8 @@
       "profil": {"cc": 2, "mobilite": 0, "resistance": 1, "engage": 1, "protection": 0, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["poke", "burst"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_743edd1702084c4ed247908d698bca77.png"
     },
     {
       "slug": "wanwan",
@@ -1570,7 +1689,8 @@
       "profil": {"cc": 0, "mobilite": 3, "resistance": 1, "engage": 0, "protection": 0, "burst": 2, "sustain": 0, "early": 1, "mid": 3, "late": 3},
       "tags": ["dash", "immune"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_44bfa1dc44deb8d7620605faaa9ffae7.png"
     },
     {
       "slug": "x-borg",
@@ -1583,7 +1703,8 @@
       "profil": {"cc": 1, "mobilite": 2, "resistance": 3, "engage": 1, "protection": 0, "burst": 2, "sustain": 2, "early": 3, "mid": 3, "late": 2},
       "tags": ["antitank"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_efe9c7ed8d8f84f1bb0f88a3e08de5fc.png"
     },
     {
       "slug": "xavier",
@@ -1596,7 +1717,8 @@
       "profil": {"cc": 2, "mobilite": 1, "resistance": 1, "engage": 1, "protection": 0, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 3},
       "tags": ["poke", "global"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_df0a8dfc494f85ed9bbc4512cc1e5d3c.png"
     },
     {
       "slug": "yi-sun-shin",
@@ -1609,7 +1731,8 @@
       "profil": {"cc": 1, "mobilite": 2, "resistance": 1, "engage": 1, "protection": 0, "burst": 2, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["global"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_961378be3f498d42c25b3defd1635ad1.png"
     },
     {
       "slug": "yin",
@@ -1622,7 +1745,8 @@
       "profil": {"cc": 3, "mobilite": 2, "resistance": 2, "engage": 2, "protection": 0, "burst": 3, "sustain": 1, "early": 3, "mid": 3, "late": 2},
       "tags": ["lockdown", "burst", "pick"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_ee1c12c84f49514a30e405fb5c617796.png"
     },
     {
       "slug": "yu-zhong",
@@ -1635,7 +1759,8 @@
       "profil": {"cc": 2, "mobilite": 2, "resistance": 3, "engage": 2, "protection": 0, "burst": 2, "sustain": 3, "early": 2, "mid": 3, "late": 2},
       "tags": ["selfheal", "aoecc"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_9823ce4fe5eb89c0082b24f6d5ea67f6.png"
     },
     {
       "slug": "yve",
@@ -1648,7 +1773,8 @@
       "profil": {"cc": 3, "mobilite": 0, "resistance": 1, "engage": 1, "protection": 1, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["poke", "aoecc", "teamfightult"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_d9b0a1d92b1c4b3643d6332fd66aa8e6.png"
     },
     {
       "slug": "zetian",
@@ -1661,7 +1787,8 @@
       "profil": {"cc": 2, "mobilite": 1, "resistance": 1, "engage": 1, "protection": 0, "burst": 3, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["poke"],
       "confiance": "low",
-      "aVerifier": true
+      "aVerifier": true,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_8d965f05f84621a51f799aeb8fb5f4c4.png"
     },
     {
       "slug": "zhask",
@@ -1674,7 +1801,8 @@
       "profil": {"cc": 1, "mobilite": 0, "resistance": 1, "engage": 0, "protection": 0, "burst": 2, "sustain": 0, "early": 2, "mid": 3, "late": 2},
       "tags": ["poke", "splitpush"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_d8f170087cb2d5b71bb22a0a4664a927.png"
     },
     {
       "slug": "zhuxin",
@@ -1687,7 +1815,8 @@
       "profil": {"cc": 3, "mobilite": 1, "resistance": 1, "engage": 1, "protection": 1, "burst": 2, "sustain": 1, "early": 2, "mid": 3, "late": 2},
       "tags": ["aoecc", "lockdown"],
       "confiance": "medium",
-      "aVerifier": true
+      "aVerifier": true,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_595f85bc90df3889c711c6b1f02dc02d.png"
     },
     {
       "slug": "zilong",
@@ -1700,7 +1829,8 @@
       "profil": {"cc": 1, "mobilite": 2, "resistance": 1, "engage": 1, "protection": 0, "burst": 2, "sustain": 1, "early": 2, "mid": 3, "late": 3},
       "tags": ["splitpush", "dash"],
       "confiance": "high",
-      "aVerifier": false
+      "aVerifier": false,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_9db57da4f0daef6d432676e4f19101ed.png"
     },
     {
       "slug": "obsidia",
@@ -1713,7 +1843,8 @@
       "profil": null,
       "tags": [],
       "confiance": "low",
-      "aVerifier": true
+      "aVerifier": true,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_9c3daef5625bfade5c4cb8a219845dd3.png"
     },
     {
       "slug": "sora",
@@ -1726,7 +1857,8 @@
       "profil": null,
       "tags": [],
       "confiance": "low",
-      "aVerifier": true
+      "aVerifier": true,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_8143d7bbd4318d7c699908e808de885e.png"
     },
     {
       "slug": "marcel",
@@ -1739,7 +1871,8 @@
       "profil": null,
       "tags": [],
       "confiance": "low",
-      "aVerifier": true
+      "aVerifier": true,
+      "image": "https://akmweb.youngjoygame.com/web/svnres/img/test/homepage_2_2_16_1235_1/100_df7603c292198bf4aa7b551d401ea5c1.png"
     }
   ],
   "combos": [
