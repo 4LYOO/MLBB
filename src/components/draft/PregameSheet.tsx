@@ -6,6 +6,8 @@
  * En bas : enregistrement du résultat (Victoire / Défaite) en 1 tap.
  */
 import Link from "next/link";
+import clsx from "clsx";
+import { ItemIcon } from "@/components/hero/ItemRow";
 import { useMemo, useState } from "react";
 import { AlarmClock, GraduationCap, PencilLine, Trophy, X, XCircle } from "lucide-react";
 import { AVerifier, HeroAvatar } from "@/components/ui";
@@ -52,6 +54,7 @@ export function PregameSheet({ heroes, idx, allies, enemies, owners, players, ma
   const allySlugs = allies.filter(Boolean) as string[];
   const analysis = useMemo(() => analyzeComposition(allySlugs, enemies, heroes, combos, matchups), [allySlugs, enemies, heroes, combos, matchups]);
   const itemName = (slug: string) => model.items.find((i) => i.slug === slug)?.name ?? slug;
+  const itemOf = (slug: string) => model.items.find((i) => i.slug === slug);
 
   // Joueurs ayant un héros sur le plateau
   const cards = owners
@@ -126,8 +129,9 @@ export function PregameSheet({ heroes, idx, allies, enemies, owners, players, ma
             <p className="label">Build {c.build.changes.length > 0 && "(adapté à leur compo)"} <AVerifier title="Build éditorial adapté par règles : vérifie les items du patch" /></p>
             <ol className="mb-3 grid grid-cols-2 gap-x-3 gap-y-1 text-sm">
               {c.build.adapted.map((it, i) => (
-                <li key={i} className={c.build.changes.some((ch) => ch.add === it && ch.replace) ? "text-gold" : ""}>
-                  {i + 1}. {itemName(it)}
+                <li key={i} className={clsx("flex min-w-0 items-center gap-1.5", c.build.changes.some((ch) => ch.add === it && ch.replace) && "text-gold")}>
+                  {itemOf(it) ? <ItemIcon item={itemOf(it)!} size={24} /> : <span className="w-6 text-center text-muted">{i + 1}</span>}
+                  <span className="truncate">{itemName(it)}</span>
                 </li>
               ))}
             </ol>

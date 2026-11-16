@@ -39,7 +39,7 @@ iPhone (Safari)
 
 Dans Safari, ouvre l'adresse, puis **Partager → Sur l'écran d'accueil**. L'appli s'ouvre en plein écran, avec son icône, comme une application native.
 
-Interface iPhone : thème noir pur (OLED), 5 onglets en bas (Draft · Héros · Coaching · Duo · Stats) + menu « Plus » en haut pour les autres pages, badge « Patch X · mis à jour le JJ/MM » (orange au-delà de 21 jours), zones de sécurité (encoche, barre d'accueil), cibles tactiles ≥ 44 px, héros représentés par initiales + couleur du rôle (aucune image officielle).
+Interface iPhone : thème noir pur (OLED), 5 onglets en bas (Draft · Héros · Coaching · Duo · Stats) + menu « Plus » en haut pour les autres pages, badge « Patch X · mis à jour le JJ/MM » (orange au-delà de 21 jours), zones de sécurité (encoche, barre d'accueil), cibles tactiles ≥ 44 px, portraits des héros et icônes des objets chargés directement par le téléphone depuis mlbb.io / le CDN du site officiel (adresses dans `data/heroes.json` et `data/items.json`, images non copiées dans le dépôt ; initiales + couleur du rôle si l'image ne charge pas, par exemple hors ligne).
 
 **Hors ligne** : après la première ouverture, l'appli fonctionne sans réseau (service worker généré au build : cœur précaché ≈ 3,5 Mo, fiches héros en arrière-plan).
 

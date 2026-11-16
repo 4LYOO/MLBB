@@ -1,5 +1,6 @@
 import Link from "next/link";
 import clsx from "clsx";
+import { RemoteImage } from "./Portrait";
 import { AlertTriangle, Clock, Database, Info } from "lucide-react";
 import { RANK_FR, PERIOD_FR, ROLE_COLOR, ROLE_FR, SOURCE_KIND_FR, TIER_COLOR, UNAVAILABLE, type Hero, type Period, type Rank, type Role, type Source, type Tier } from "@/lib/domain";
 
@@ -132,7 +133,7 @@ export function TierBadge({ tier, size = "md" }: { tier: Tier | null | undefined
  * Avatar d'un héros : initiales + pastille de la couleur du rôle principal.
  * Volontairement AUCUNE image officielle du jeu (portraits, icônes).
  */
-export function HeroAvatar({ hero, size = 40, className }: { hero: Pick<Hero, "name" | "roles">; size?: number; className?: string }) {
+export function HeroAvatar({ hero, size = 40, className }: { hero: Pick<Hero, "name" | "roles"> & { portraitUrl?: string | null }; size?: number; className?: string }) {
   const c = ROLE_COLOR[hero.roles[0] as Role] ?? "#71717a";
   const c2 = hero.roles[1] ? (ROLE_COLOR[hero.roles[1] as Role] ?? null) : null;
   const initials = hero.name
@@ -144,22 +145,25 @@ export function HeroAvatar({ hero, size = 40, className }: { hero: Pick<Hero, "n
     .join("")
     .toUpperCase();
   const dot = Math.max(8, Math.round(size * 0.24));
+  const radius = Math.round(size * 0.32);
   return (
-    <span
-      className={clsx("relative inline-grid shrink-0 place-items-center font-bold text-white", className)}
-      style={{
-        width: size,
-        height: size,
-        borderRadius: Math.round(size * 0.32),
-        fontSize: size * 0.36,
-        textShadow: "0 1px 2px rgba(0,0,0,0.6)",
-        // Verre teinté de la couleur du rôle : reflet en haut, liseré coloré, ombre douce
-        background: `linear-gradient(160deg, ${c}66 0%, ${c}1f 55%, #0b0c12 100%)`,
-        boxShadow: `inset 0 0 0 1.5px ${c}cc, inset 0 1px 0 rgba(255,255,255,0.35), 0 6px 14px -6px ${c}99`,
-      }}
-      aria-hidden
-    >
-      {initials}
+    <span className={clsx("relative inline-block shrink-0", className)} style={{ width: size, height: size }} aria-hidden>
+      {/* Cadre en verre teinté de la couleur du rôle ; initiales dessous, portrait par-dessus s'il charge */}
+      <span
+        className="absolute inset-0 grid place-items-center overflow-hidden font-bold text-white"
+        style={{
+          borderRadius: radius,
+          fontSize: size * 0.36,
+          textShadow: "0 1px 2px rgba(0,0,0,0.6)",
+          background: `linear-gradient(160deg, ${c}66 0%, ${c}1f 55%, #0b0c12 100%)`,
+          boxShadow: `0 6px 14px -6px ${c}99`,
+        }}
+      >
+        {initials}
+        {hero.portraitUrl && <RemoteImage src={hero.portraitUrl} className="absolute inset-0 h-full w-full object-cover" />}
+      </span>
+      {/* Liseré + reflet au-dessus de l'image */}
+      <span className="pointer-events-none absolute inset-0" style={{ borderRadius: radius, boxShadow: `inset 0 0 0 1.5px ${c}cc, inset 0 1px 0 rgba(255,255,255,0.35)` }} />
       {/* Pastille du rôle principal (et du rôle secondaire s'il existe) */}
       <span className="absolute -bottom-0.5 -right-0.5 flex">
         {c2 && <span className="-mr-1 rounded-full ring-2 ring-[#0b0c12]" style={{ width: dot, height: dot, background: c2 }} />}

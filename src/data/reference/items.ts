@@ -52,6 +52,17 @@ export interface EditorialItem {
 import data from "@data/items.json";
 
 // Les données viennent de data/items.json (modifiable à la main, voir MISE-A-JOUR.md).
+/** Nom français et icône de chaque objet (objets éditoriaux + autres objets du jeu), par slug. */
+export const ITEM_DISPLAY = new Map<string, { fr: string | null; image: string | null; en: string }>(
+  [...data.objets, ...(data.autresObjets ?? [])].map((o) => [o.slug, { fr: o.nomFr ?? null, image: o.image ?? null, en: o.nom }]),
+);
+const FR_BY_EN = new Map([...ITEM_DISPLAY.values()].filter((d) => d.fr).map((d) => [d.en.toLowerCase(), d.fr!]));
+/**
+ * Traduit un nom d'objet anglais trouvé dans un texte (ex. « Sea Halberd » → « Hallebarde des mers »).
+ * Laisse le texte tel quel s'il n'est pas reconnu (ex. « Sort Purify »).
+ */
+export const itemFr = (name: string) => FR_BY_EN.get(name.trim().toLowerCase()) ?? name;
+
 export const EDITORIAL_ITEMS: EditorialItem[] = data.objets.map((i) => ({ slug: i.slug, name: i.nom, category: i.categorie as ItemCategory, tags: i.tags as ItemTag[], use: i.usage }));
 
 // --- Sorts de combat (Battle Spells) ---

@@ -4,7 +4,9 @@
     "saison": "Season 42",
     "dateMaj": "2026-11-08",
     "sources": ["Dossier de sources MLBB 2026 (rapport du 8 nov. 2026)", "Connaissance éditoriale MLBB Companion (à vérifier)"],
-    "note": "Noms, catégories et usages seulement : prix et stats des objets viennent de la synchro automatique."
+    "note": "Noms, catégories et usages seulement : prix et stats des objets viennent de la synchro automatique.",
+    "traductions": "Noms français des objets : traduction MLBB Companion, à vérifier (le nom officiel dans le jeu en français peut différer). Le nom anglais reste affiché en petit.",
+    "images": "Icônes des objets : mlbb.io (adresses relevées à la main le 16/11/2026). Les images ne sont pas copiées dans le dépôt : l'iPhone les charge directement."
   },
   "objets": [
     {
@@ -12,364 +14,468 @@
       "nom": "Blade of Despair",
       "categorie": "attack",
       "tags": ["physatk"],
-      "usage": "Gros pic d'attaque physique pour finir les cibles affaiblies."
+      "usage": "Gros pic d'attaque physique pour finir les cibles affaiblies.",
+      "nomFr": "Lame du désespoir",
+      "image": "https://mlbb.io/images/items/Blade%20of%20Despair.png"
     },
     {
       "slug": "berserkers-fury",
       "nom": "Berserker's Fury",
       "categorie": "attack",
       "tags": ["physatk", "crit"],
-      "usage": "Cœur des builds critiques de tireurs."
+      "usage": "Cœur des builds critiques de tireurs.",
+      "nomFr": "Fureur du berserker",
+      "image": "https://mlbb.io/images/items/Berserkers%20Fury.png"
     },
     {
       "slug": "windtalker",
       "nom": "Windtalker",
       "categorie": "attack",
       "tags": ["atkspd", "ms"],
-      "usage": "Vitesse d'attaque et dégâts de zone sur attaques de base."
+      "usage": "Vitesse d'attaque et dégâts de zone sur attaques de base.",
+      "nomFr": "Parle-au-vent",
+      "image": "https://mlbb.io/images/items/Windtalker.png"
     },
     {
       "slug": "corrosion-scythe",
       "nom": "Corrosion Scythe",
       "categorie": "attack",
       "tags": ["atkspd", "slow"],
-      "usage": "Vitesse d'attaque et ralentissement sur attaques de base."
+      "usage": "Vitesse d'attaque et ralentissement sur attaques de base.",
+      "nomFr": "Faux de corrosion",
+      "image": "https://mlbb.io/images/items/Corrosion%20Scythe.png"
     },
     {
       "slug": "haass-claws",
       "nom": "Haas's Claws",
       "categorie": "attack",
       "tags": ["lifesteal", "crit"],
-      "usage": "Vol de vie pour tireurs et combattants à attaques de base."
+      "usage": "Vol de vie pour tireurs et combattants à attaques de base.",
+      "nomFr": "Griffes de Haas",
+      "image": "https://mlbb.io/images/items/Haas%20Claws.png"
     },
     {
       "slug": "malefic-roar",
       "nom": "Malefic Roar",
       "categorie": "attack",
       "tags": ["physatk", "physpen"],
-      "usage": "Pénétration physique contre les cibles très résistantes."
+      "usage": "Pénétration physique contre les cibles très résistantes.",
+      "nomFr": "Rugissement maléfique",
+      "image": "https://mlbb.io/images/items/Malefic%20Roar.png"
     },
     {
       "slug": "demon-hunter-sword",
       "nom": "Demon Hunter Sword",
       "categorie": "attack",
       "tags": ["atkspd", "antitank"],
-      "usage": "Dégâts en % des PV contre les tanks."
+      "usage": "Dégâts en % des PV contre les tanks.",
+      "nomFr": "Épée du chasseur de démons",
+      "image": "https://mlbb.io/images/items/Demon%20Hunter%20Sword.png"
     },
     {
       "slug": "golden-staff",
       "nom": "Golden Staff",
       "categorie": "attack",
       "tags": ["atkspd"],
-      "usage": "Synergie avec les effets à l'impact."
+      "usage": "Synergie avec les effets à l'impact.",
+      "nomFr": "Bâton d'or",
+      "image": "https://mlbb.io/images/items/Golden%20Staff.png"
     },
     {
       "slug": "bloodlust-axe",
       "nom": "Bloodlust Axe",
       "categorie": "attack",
       "tags": ["spellvamp", "cdr"],
-      "usage": "Sustain via vampirisme de sort pour combattants."
+      "usage": "Sustain via vampirisme de sort pour combattants.",
+      "nomFr": "Hache sanguinaire",
+      "image": null
     },
     {
       "slug": "hunter-strike",
       "nom": "Hunter Strike",
       "categorie": "attack",
       "tags": ["physatk", "cdr", "physpen", "ms"],
-      "usage": "Pénétration et poursuite en début de partie."
+      "usage": "Pénétration et poursuite en début de partie.",
+      "nomFr": "Frappe du chasseur",
+      "image": "https://mlbb.io/images/items/Hunter%20Strike.png"
     },
     {
       "slug": "blade-of-the-heptaseas",
       "nom": "Blade of the Heptaseas",
       "categorie": "attack",
       "tags": ["physatk", "physpen"],
-      "usage": "Burst en embuscade pour assassins physiques."
+      "usage": "Burst en embuscade pour assassins physiques.",
+      "nomFr": "Lame des Sept Mers",
+      "image": "https://mlbb.io/images/items/Blade%20of%20the%20Heptaseas.png"
     },
     {
       "slug": "great-dragon-spear",
       "nom": "Great Dragon Spear",
       "categorie": "attack",
       "tags": ["physatk", "crit", "cdr", "ms"],
-      "usage": "Critique et mobilité après l'ultime."
+      "usage": "Critique et mobilité après l'ultime.",
+      "nomFr": "Lance du grand dragon",
+      "image": "https://mlbb.io/images/items/Great%20Dragon%20Spear.png"
     },
     {
       "slug": "endless-battle",
       "nom": "Endless Battle",
       "categorie": "attack",
       "tags": ["physatk", "cdr", "ms"],
-      "usage": "Polyvalence pour combattants à compétences."
+      "usage": "Polyvalence pour combattants à compétences.",
+      "nomFr": "Bataille sans fin",
+      "image": "https://mlbb.io/images/items/Endless%20Battle.png"
     },
     {
       "slug": "rose-gold-meteor",
       "nom": "Rose Gold Meteor",
       "categorie": "attack",
       "tags": ["physatk", "magdef", "antiburst"],
-      "usage": "Bouclier anti-burst magique."
+      "usage": "Bouclier anti-burst magique.",
+      "nomFr": "Météore d'or rose",
+      "image": "https://mlbb.io/images/items/Rose%20Gold%20Meteor.png"
     },
     {
       "slug": "sea-halberd",
       "nom": "Sea Halberd",
       "categorie": "attack",
       "tags": ["physatk", "antiheal"],
-      "usage": "Réduction de soins côté physique."
+      "usage": "Réduction de soins côté physique.",
+      "nomFr": "Hallebarde des mers",
+      "image": "https://mlbb.io/images/items/Sea%20Halberd.png"
     },
     {
       "slug": "war-axe",
       "nom": "War Axe",
       "categorie": "attack",
       "tags": ["physatk", "hp", "spellvamp"],
-      "usage": "Montée en puissance en combat prolongé."
+      "usage": "Montée en puissance en combat prolongé.",
+      "nomFr": "Hache de guerre",
+      "image": "https://mlbb.io/images/items/War%20Axe.png"
     },
     {
       "slug": "wind-of-nature",
       "nom": "Wind of Nature",
       "categorie": "attack",
       "tags": ["physatk", "atkspd", "lifesteal", "antiburst"],
-      "usage": "Immunité temporaire aux dégâts physiques."
+      "usage": "Immunité temporaire aux dégâts physiques.",
+      "nomFr": "Vent de la nature",
+      "image": "https://mlbb.io/images/items/Wind%20of%20Nature.png"
     },
     {
       "slug": "malefic-gun",
       "nom": "Malefic Gun",
       "categorie": "attack",
       "tags": ["physpen", "atkspd"],
-      "usage": "Pénétration pour tireurs à attaques de base."
+      "usage": "Pénétration pour tireurs à attaques de base.",
+      "nomFr": "Fusil maléfique",
+      "image": "https://mlbb.io/images/items/Malefic%20Gun.png"
     },
     {
       "slug": "holy-crystal",
       "nom": "Holy Crystal",
       "categorie": "magic",
       "tags": ["magpow"],
-      "usage": "Gros pic de pouvoir magique pour mages burst."
+      "usage": "Gros pic de pouvoir magique pour mages burst.",
+      "nomFr": "Cristal sacré",
+      "image": "https://mlbb.io/images/items/Holy%20Crystal.png"
     },
     {
       "slug": "blood-wings",
       "nom": "Blood Wings",
       "categorie": "magic",
       "tags": ["magpow", "hp"],
-      "usage": "Pouvoir magique et bouclier."
+      "usage": "Pouvoir magique et bouclier.",
+      "nomFr": "Ailes de sang",
+      "image": "https://mlbb.io/images/items/Blood%20Wings.png"
     },
     {
       "slug": "lightning-truncheon",
       "nom": "Lightning Truncheon",
       "categorie": "magic",
       "tags": ["magpow", "mana", "cdr"],
-      "usage": "Dégâts rebondissants pour mages burst."
+      "usage": "Dégâts rebondissants pour mages burst.",
+      "nomFr": "Matraque de foudre",
+      "image": "https://mlbb.io/images/items/Lightning%20Truncheon.png"
     },
     {
       "slug": "concentrated-energy",
       "nom": "Concentrated Energy",
       "categorie": "magic",
       "tags": ["magpow", "hp", "spellvamp"],
-      "usage": "Sustain pour mages de mêlée."
+      "usage": "Sustain pour mages de mêlée.",
+      "nomFr": "Énergie concentrée",
+      "image": "https://mlbb.io/images/items/Concentrated%20Energy.png"
     },
     {
       "slug": "genius-wand",
       "nom": "Genius Wand",
       "categorie": "magic",
       "tags": ["magpow", "magpen", "ms"],
-      "usage": "Pénétration magique précoce."
+      "usage": "Pénétration magique précoce.",
+      "nomFr": "Baguette du génie",
+      "image": "https://mlbb.io/images/items/Genius%20Wand.png"
     },
     {
       "slug": "divine-glaive",
       "nom": "Divine Glaive",
       "categorie": "magic",
       "tags": ["magpow", "magpen"],
-      "usage": "Pénétration magique contre les cibles résistantes."
+      "usage": "Pénétration magique contre les cibles résistantes.",
+      "nomFr": "Glaive divin",
+      "image": "https://mlbb.io/images/items/Divine%20Glaive.png"
     },
     {
       "slug": "ice-queen-wand",
       "nom": "Ice Queen Wand",
       "categorie": "magic",
       "tags": ["magpow", "slow", "spellvamp"],
-      "usage": "Ralentissement et sustain sur compétences."
+      "usage": "Ralentissement et sustain sur compétences.",
+      "nomFr": "Baguette de la Reine des glaces",
+      "image": "https://mlbb.io/images/items/Ice%20Queen%20Wand.png"
     },
     {
       "slug": "clock-of-destiny",
       "nom": "Clock of Destiny",
       "categorie": "magic",
       "tags": ["magpow", "hp", "mana"],
-      "usage": "Montée en puissance avec le temps."
+      "usage": "Montée en puissance avec le temps.",
+      "nomFr": "Horloge du destin",
+      "image": "https://mlbb.io/images/items/Clock%20of%20Destiny.png"
     },
     {
       "slug": "glowing-wand",
       "nom": "Glowing Wand",
       "categorie": "magic",
       "tags": ["magpow", "antiheal", "antitank"],
-      "usage": "Brûlure en % des PV et réduction de soins."
+      "usage": "Brûlure en % des PV et réduction de soins.",
+      "nomFr": "Baguette ardente",
+      "image": "https://mlbb.io/images/items/Glowing%20Wand.png"
     },
     {
       "slug": "fleeting-time",
       "nom": "Fleeting Time",
       "categorie": "magic",
       "tags": ["magpow", "cdr"],
-      "usage": "Réduit le temps de recharge de l'ultime."
+      "usage": "Réduit le temps de recharge de l'ultime.",
+      "nomFr": "Temps fugace",
+      "image": "https://mlbb.io/images/items/Fleeting%20Time.png"
     },
     {
       "slug": "starlium-scythe",
       "nom": "Starlium Scythe",
       "categorie": "magic",
       "tags": ["magpow", "spellvamp"],
-      "usage": "Dégâts vrais bonus après compétence."
+      "usage": "Dégâts vrais bonus après compétence.",
+      "nomFr": "Faux de starlium",
+      "image": "https://mlbb.io/images/items/Starlium%20Scythe.png"
     },
     {
       "slug": "enchanted-talisman",
       "nom": "Enchanted Talisman",
       "categorie": "magic",
       "tags": ["magpow", "cdr", "mana"],
-      "usage": "Réduction de recharge et mana."
+      "usage": "Réduction de recharge et mana.",
+      "nomFr": "Talisman enchanté",
+      "image": "https://mlbb.io/images/items/Enchanted%20Talisman.png"
     },
     {
       "slug": "winter-crown",
       "nom": "Winter Crown",
       "categorie": "magic",
       "tags": ["magpow", "physdef", "antiburst"],
-      "usage": "Gel temporaire pour éviter un burst."
+      "usage": "Gel temporaire pour éviter un burst.",
+      "nomFr": "Couronne d'hiver",
+      "image": "https://mlbb.io/images/items/Winter%20Crown.png"
     },
     {
       "slug": "feather-of-heaven",
       "nom": "Feather of Heaven",
       "categorie": "magic",
       "tags": ["magpow", "atkspd"],
-      "usage": "Pour héros magiques à attaques de base."
+      "usage": "Pour héros magiques à attaques de base.",
+      "nomFr": "Plume céleste",
+      "image": "https://mlbb.io/images/items/Feather%20of%20Heaven.png"
     },
     {
       "slug": "antique-cuirass",
       "nom": "Antique Cuirass",
       "categorie": "defense",
       "tags": ["physdef", "hp"],
-      "usage": "Réduit l'attaque physique des ennemis touchés."
+      "usage": "Réduit l'attaque physique des ennemis touchés.",
+      "nomFr": "Cuirasse antique",
+      "image": "https://mlbb.io/images/items/Antique%20Cuirass.png"
     },
     {
       "slug": "athenas-shield",
       "nom": "Athena's Shield",
       "categorie": "defense",
       "tags": ["magdef", "hp", "antiburst"],
-      "usage": "Bouclier contre le burst magique."
+      "usage": "Bouclier contre le burst magique.",
+      "nomFr": "Bouclier d'Athéna",
+      "image": "https://mlbb.io/images/items/Athenas%20Shield.png"
     },
     {
       "slug": "blade-armor",
       "nom": "Blade Armor",
       "categorie": "defense",
       "tags": ["physdef"],
-      "usage": "Renvoie les dégâts des attaques de base."
+      "usage": "Renvoie les dégâts des attaques de base.",
+      "nomFr": "Armure à lames",
+      "image": "https://mlbb.io/images/items/Blade%20Armor.png"
     },
     {
       "slug": "brute-force-breastplate",
       "nom": "Brute Force Breastplate",
       "categorie": "defense",
       "tags": ["physdef", "magdef", "ms"],
-      "usage": "Cumul de défenses en combat."
+      "usage": "Cumul de défenses en combat.",
+      "nomFr": "Plastron de force brute",
+      "image": "https://mlbb.io/images/items/Brute%20Force%20Breastplate.png"
     },
     {
       "slug": "cursed-helmet",
       "nom": "Cursed Helmet",
       "categorie": "defense",
       "tags": ["hp", "magdef"],
-      "usage": "Dégâts de zone passifs pour tanks (vague, teamfight)."
+      "usage": "Dégâts de zone passifs pour tanks (vague, teamfight).",
+      "nomFr": "Casque maudit",
+      "image": "https://mlbb.io/images/items/Cursed%20Helmet.png"
     },
     {
       "slug": "dominance-ice",
       "nom": "Dominance Ice",
       "categorie": "defense",
       "tags": ["physdef", "antiheal", "antiatkspd", "antishield"],
-      "usage": "Anti-soins, anti-bouclier et anti-vitesse d'attaque."
+      "usage": "Anti-soins, anti-bouclier et anti-vitesse d'attaque.",
+      "nomFr": "Glace de domination",
+      "image": "https://mlbb.io/images/items/Dominance%20Ice.png"
     },
     {
       "slug": "guardian-helmet",
       "nom": "Guardian Helmet",
       "categorie": "defense",
       "tags": ["hp"],
-      "usage": "Régénération massive hors combat."
+      "usage": "Régénération massive hors combat.",
+      "nomFr": "Casque du gardien",
+      "image": "https://mlbb.io/images/items/Guardian%20Helmet.png"
     },
     {
       "slug": "immortality",
       "nom": "Immortality",
       "categorie": "defense",
       "tags": ["hp", "physdef"],
-      "usage": "Résurrection : contre le burst et les picks."
+      "usage": "Résurrection : contre le burst et les picks.",
+      "nomFr": "Immortalité",
+      "image": "https://mlbb.io/images/items/Immortality.png"
     },
     {
       "slug": "oracle",
       "nom": "Oracle",
       "categorie": "defense",
       "tags": ["magdef", "hp", "cdr"],
-      "usage": "Augmente les soins et boucliers reçus."
+      "usage": "Augmente les soins et boucliers reçus.",
+      "nomFr": "Oracle",
+      "image": "https://mlbb.io/images/items/Oracle.png"
     },
     {
       "slug": "queens-wings",
       "nom": "Queen's Wings",
       "categorie": "defense",
       "tags": ["hp", "spellvamp", "antiburst"],
-      "usage": "Réduction de dégâts à faible PV."
+      "usage": "Réduction de dégâts à faible PV.",
+      "nomFr": "Ailes de la reine",
+      "image": "https://mlbb.io/images/items/Queens%20Wings.png"
     },
     {
       "slug": "radiant-armor",
       "nom": "Radiant Armor",
       "categorie": "defense",
       "tags": ["magdef", "hp"],
-      "usage": "Résistance cumulative aux dégâts magiques continus."
+      "usage": "Résistance cumulative aux dégâts magiques continus.",
+      "nomFr": "Armure radieuse",
+      "image": "https://mlbb.io/images/items/Radiant%20Armor.png"
     },
     {
       "slug": "thunder-belt",
       "nom": "Thunder Belt",
       "categorie": "defense",
       "tags": ["hp", "physdef", "mana"],
-      "usage": "Dégâts vrais et ralentissement après compétence."
+      "usage": "Dégâts vrais et ralentissement après compétence.",
+      "nomFr": "Ceinture du tonnerre",
+      "image": "https://mlbb.io/images/items/Thunder%20Belt.png"
     },
     {
       "slug": "twilight-armor",
       "nom": "Twilight Armor",
       "categorie": "defense",
       "tags": ["hp", "physdef", "antiburst"],
-      "usage": "Plafonne les gros coups physiques (critiques)."
+      "usage": "Plafonne les gros coups physiques (critiques).",
+      "nomFr": "Armure du crépuscule",
+      "image": null
     },
     {
       "slug": "arcane-boots",
       "nom": "Arcane Boots",
       "categorie": "movement",
       "tags": ["magpen", "ms"],
-      "usage": "Pénétration magique (mages)."
+      "usage": "Pénétration magique (mages).",
+      "nomFr": "Bottes arcaniques",
+      "image": "https://mlbb.io/images/items/Arcane%20Boots.png"
     },
     {
       "slug": "demon-shoes",
       "nom": "Demon Shoes",
       "categorie": "movement",
       "tags": ["mana", "ms"],
-      "usage": "Régénération de mana."
+      "usage": "Régénération de mana.",
+      "nomFr": "Chaussures démoniaques",
+      "image": "https://mlbb.io/images/items/Demon%20Shoes.png"
     },
     {
       "slug": "magic-shoes",
       "nom": "Magic Shoes",
       "categorie": "movement",
       "tags": ["cdr", "ms"],
-      "usage": "Réduction des temps de recharge."
+      "usage": "Réduction des temps de recharge.",
+      "nomFr": "Chaussures magiques",
+      "image": "https://mlbb.io/images/items/Magic%20Shoes.png"
     },
     {
       "slug": "rapid-boots",
       "nom": "Rapid Boots",
       "categorie": "movement",
       "tags": ["ms"],
-      "usage": "Vitesse hors combat pour rotations."
+      "usage": "Vitesse hors combat pour rotations.",
+      "nomFr": "Bottes rapides",
+      "image": "https://mlbb.io/images/items/Rapid%20Boots.png"
     },
     {
       "slug": "swift-boots",
       "nom": "Swift Boots",
       "categorie": "movement",
       "tags": ["atkspd", "ms"],
-      "usage": "Vitesse d'attaque (tireurs)."
+      "usage": "Vitesse d'attaque (tireurs).",
+      "nomFr": "Bottes véloces",
+      "image": "https://mlbb.io/images/items/Swift%20Boots.png"
     },
     {
       "slug": "tough-boots",
       "nom": "Tough Boots",
       "categorie": "movement",
       "tags": ["magdef", "ms"],
-      "usage": "Défense magique et résistance aux contrôles."
+      "usage": "Défense magique et résistance aux contrôles.",
+      "nomFr": "Bottes robustes",
+      "image": "https://mlbb.io/images/items/Tough%20Boots.png"
     },
     {
       "slug": "warrior-boots",
       "nom": "Warrior Boots",
       "categorie": "movement",
       "tags": ["physdef", "ms"],
-      "usage": "Défense physique."
+      "usage": "Défense physique.",
+      "nomFr": "Bottes de guerrier",
+      "image": "https://mlbb.io/images/items/Warrior%20Boots.png"
     }
   ],
   "sorts": [
@@ -526,5 +632,86 @@
     {"palier": 3, "nom": "Temporal Reign", "usage": "Réduction de recharge après l'ultime.", "aVerifier": true},
     {"palier": 3, "nom": "Focusing Mark", "usage": "Les alliés infligent plus de dégâts à la cible (supports).", "aVerifier": true},
     {"palier": 3, "nom": "Weakness Finder", "usage": "Ralentit sur attaques de base (tireurs).", "aVerifier": true}
+  ],
+  "autresObjets": [
+    {"slug": "ares-belt", "nom": "Ares Belt", "nomFr": "Ceinture d'Arès", "image": "https://mlbb.io/images/items/Ares%20Belt.png"},
+    {"slug": "azure-blade", "nom": "Azure Blade", "nomFr": "Lame d'azur", "image": "https://mlbb.io/images/items/Azure%20Blade.png"},
+    {
+      "slug": "black-ice-shield",
+      "nom": "Black Ice Shield",
+      "nomFr": "Bouclier de glace noire",
+      "image": "https://mlbb.io/images/items/Black%20Ice%20Shield.png"
+    },
+    {"slug": "book-of-sages", "nom": "Book of Sages", "nomFr": "Livre des sages", "image": "https://mlbb.io/images/items/Book%20of%20Sages.png"},
+    {"slug": "boots", "nom": "Boots", "nomFr": "Bottes", "image": "https://mlbb.io/images/items/Boots.png"},
+    {
+      "slug": "chastise-pauldron",
+      "nom": "Chastise Pauldron",
+      "nomFr": "Épaulière du châtiment",
+      "image": "https://mlbb.io/images/items/Chastise%20Pauldron.png"
+    },
+    {"slug": "dagger", "nom": "Dagger", "nomFr": "Dague", "image": "https://mlbb.io/images/items/Dagger.png"},
+    {
+      "slug": "dreadnaught-armor",
+      "nom": "Dreadnaught Armor",
+      "nomFr": "Armure du cuirassé",
+      "image": "https://mlbb.io/images/items/Dreadnaught%20Armor.png"
+    },
+    {"slug": "elegant-gem", "nom": "Elegant Gem", "nomFr": "Gemme élégante", "image": "https://mlbb.io/images/items/Elegant%20Gem.png"},
+    {"slug": "exotic-veil", "nom": "Exotic Veil", "nomFr": "Voile exotique", "image": "https://mlbb.io/images/items/Exotic%20Veil.png"},
+    {"slug": "expert-gloves", "nom": "Expert Gloves", "nomFr": "Gants d'expert", "image": "https://mlbb.io/images/items/Expert%20Gloves.png"},
+    {
+      "slug": "flask-of-the-oasis",
+      "nom": "Flask of the Oasis",
+      "nomFr": "Fiole de l'oasis",
+      "image": "https://mlbb.io/images/items/Flask%20of%20the%20Oasis.png"
+    },
+    {"slug": "fury-hammer", "nom": "Fury Hammer", "nomFr": "Marteau de fureur", "image": "https://mlbb.io/images/items/Fury%20Hammer.png"},
+    {"slug": "healing-necklace", "nom": "Healing Necklace", "nomFr": "Collier de soin", "image": "https://mlbb.io/images/items/Healing%20Necklace.png"},
+    {"slug": "heros-ring", "nom": "Hero's Ring", "nomFr": "Anneau du héros", "image": "https://mlbb.io/images/items/Heros%20Ring.png"},
+    {
+      "slug": "iron-hunting-bow",
+      "nom": "Iron Hunting Bow",
+      "nomFr": "Arc de chasse en fer",
+      "image": "https://mlbb.io/images/items/Iron%20Hunting%20Bow.png"
+    },
+    {"slug": "javelin", "nom": "Javelin", "nomFr": "Javelot", "image": "https://mlbb.io/images/items/Javelin.png"},
+    {"slug": "knife", "nom": "Knife", "nomFr": "Couteau", "image": "https://mlbb.io/images/items/Knife.png"},
+    {"slug": "leather-jerkin", "nom": "Leather Jerkin", "nomFr": "Pourpoint de cuir", "image": "https://mlbb.io/images/items/Leather%20Jerkin.png"},
+    {"slug": "legion-sword", "nom": "Legion Sword", "nomFr": "Épée de légion", "image": "https://mlbb.io/images/items/Legion%20Sword.png"},
+    {"slug": "magic-blade", "nom": "Magic Blade", "nomFr": "Lame magique", "image": "https://mlbb.io/images/items/Magic%20Blade.png"},
+    {"slug": "magic-necklace", "nom": "Magic Necklace", "nomFr": "Collier magique", "image": "https://mlbb.io/images/items/Magic%20Necklace.png"},
+    {
+      "slug": "magic-resist-cloak",
+      "nom": "Magic Resist Cloak",
+      "nomFr": "Cape de résistance magique",
+      "image": "https://mlbb.io/images/items/Magic%20Resist%20Cloak.png"
+    },
+    {"slug": "magic-wand", "nom": "Magic Wand", "nomFr": "Baguette magique", "image": "https://mlbb.io/images/items/Magic%20Wand.png"},
+    {"slug": "molten-essence", "nom": "Molten Essence", "nomFr": "Essence en fusion", "image": "https://mlbb.io/images/items/Molten%20Essence.png"},
+    {"slug": "mystery-codex", "nom": "Mystery Codex", "nomFr": "Codex mystérieux", "image": "https://mlbb.io/images/items/Mystery%20Codex.png"},
+    {
+      "slug": "mystic-container",
+      "nom": "Mystic Container",
+      "nomFr": "Réceptacle mystique",
+      "image": "https://mlbb.io/images/items/Mystic%20Container.png"
+    },
+    {"slug": "ogre-tomahawk", "nom": "Ogre Tomahawk", "nomFr": "Tomahawk d'ogre", "image": "https://mlbb.io/images/items/Ogre%20Tomahawk.png"},
+    {"slug": "power-crystal", "nom": "Power Crystal", "nomFr": "Cristal de puissance", "image": "https://mlbb.io/images/items/Power%20Crystal.png"},
+    {"slug": "regular-spear", "nom": "Regular Spear", "nomFr": "Lance ordinaire", "image": "https://mlbb.io/images/items/Regular%20Spear.png"},
+    {"slug": "rogue-meteor", "nom": "Rogue Meteor", "nomFr": "Météore vagabond", "image": "https://mlbb.io/images/items/Rogue%20Meteor.png"},
+    {"slug": "silence-robe", "nom": "Silence Robe", "nomFr": "Robe du silence", "image": "https://mlbb.io/images/items/Silence%20Robe.png"},
+    {"slug": "sky-piercer", "nom": "Sky Piercer", "nomFr": "Perce-ciel", "image": "https://mlbb.io/images/items/Sky%20Piercer.png"},
+    {"slug": "steel-legplates", "nom": "Steel Legplates", "nomFr": "Jambières d'acier", "image": "https://mlbb.io/images/items/Steel%20Legplates.png"},
+    {"slug": "swift-crossbow", "nom": "Swift Crossbow", "nomFr": "Arbalète véloce", "image": "https://mlbb.io/images/items/Swift%20Crossbow.png"},
+    {"slug": "tome-of-evil", "nom": "Tome of Evil", "nomFr": "Tome du mal", "image": "https://mlbb.io/images/items/Tome%20of%20Evil.png"},
+    {"slug": "vampire-mallet", "nom": "Vampire Mallet", "nomFr": "Maillet vampirique", "image": "https://mlbb.io/images/items/Vampire%20Mallet.png"},
+    {
+      "slug": "vitality-crystal",
+      "nom": "Vitality Crystal",
+      "nomFr": "Cristal de vitalité",
+      "image": "https://mlbb.io/images/items/Vitality%20Crystal.png"
+    },
+    {"slug": "wishing-lantern", "nom": "Wishing Lantern", "nomFr": "Lanterne des vœux", "image": "https://mlbb.io/images/items/Wishing%20Lantern.png"}
   ]
 }
