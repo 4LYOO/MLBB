@@ -93,6 +93,8 @@ export function DraftScreen(p: DraftScreenProps) {
   const [rank, setRank] = useState<Rank>(p.statsByRank[DEFAULT_RANK]?.length ? DEFAULT_RANK : ((Object.keys(p.statsByRank)[0] as Rank) ?? "all"));
   const [training, setTraining] = useState(false);
   const [owners, setOwners] = useState<Owner[]>(["moi", "elle", null, null, null]);
+  // Emplacement dont le menu « qui joue ici ? » est ouvert.
+  const [ownerMenu, setOwnerMenu] = useState<number | null>(null);
   const [roleFilter, setRoleFilter] = useState("");
   const [q, setQ] = useState("");
   const [pregame, setPregame] = useState(false);
@@ -249,13 +251,22 @@ export function DraftScreen(p: DraftScreenProps) {
   };
   const undo = () => setLog((l) => l.slice(0, -1));
   const removeAt = (t: Target) => setLog((l) => l.filter((a) => !(a.team === t.team && a.action === t.action && a.slot === t.slot)));
-  const cycleOwner = (i: number) =>
+  /**
+   * Place un joueur (ou personne) sur un emplacement allié.
+   * Si ce joueur était ailleurs, on échange : l'occupant actuel prend son ancienne place
+   * (aucun joueur ne disparaît du plateau).
+   */
+  const assignOwner = (i: number, who: Owner) => {
     setOwners((o) => {
-      const order: Owner[] = duo ? [null, "moi", "elle"] : [null, "moi"];
-      const nextOwner = order[(order.indexOf(o[i]) + 1) % order.length];
-      // Un joueur n'occupe qu'un emplacement : on le retire de l'ancien.
-      return o.map((x, k) => (k === i ? nextOwner : x === nextOwner && nextOwner ? null : x));
+      const next = [...o];
+      const from = who ? next.indexOf(who) : -1;
+      const current = next[i];
+      next[i] = who;
+      if (from >= 0 && from !== i) next[from] = current;
+      return next;
     });
+    setOwnerMenu(null);
+  };
   const save = () => {
     const saved = me.drafts as unknown as Saved[];
     const name = prompt("Nom de la draft :", currentId ? saved.find((s) => s.id === currentId)?.name : `Draft du ${new Date().toLocaleString("fr-FR")}`);
@@ -332,12 +343,18 @@ export function DraftScreen(p: DraftScreenProps) {
         )}
         {pick && t.team === "ally" && (
           <button
-            className={clsx("absolute -top-2 left-1 rounded-full px-1.5 text-[10px] font-bold leading-4", owner === "moi" ? "bg-primary text-white" : owner === "elle" ? "bg-[#e66767] text-white" : "bg-white/10 text-muted")}
+            // Zone de toucher agrandie (pseudo-élément) : l'étiquette est petite mais facile à toucher.
+            className={clsx(
+              "absolute -top-2.5 left-1 z-10 rounded-full px-2 text-[11px] font-bold leading-5 before:absolute before:-inset-2.5 before:content-['']",
+              owner === "moi" ? "bg-primary text-white" : owner === "elle" ? "bg-[#e66767] text-white" : "bg-white/10 text-muted",
+            )}
             onClick={(e) => {
               e.stopPropagation();
-              cycleOwner(t.slot);
+              setOwnerMenu(ownerMenu === t.slot ? null : t.slot);
             }}
-            aria-label="Changer le joueur de cet emplacement"
+            aria-haspopup="menu"
+            aria-expanded={ownerMenu === t.slot}
+            aria-label="Choisir qui joue cet emplacement"
           >
             {owner ? `${playerName(owner).slice(0, 12)}${ownerLane ? ` · ${LANE_SHORT[ownerLane]}` : ""}` : "+ joueur"}
           </button>
@@ -425,6 +442,36 @@ export function DraftScreen(p: DraftScreenProps) {
 
   return (
     <div className="space-y-3">
+      {/* Toucher ailleurs ferme le menu « Qui joue ici ? » */}
+      {ownerMenu != null && (
+        <div className="fixed inset-0 z-50 flex items-end" role="dialog" aria-modal="true" aria-label="Qui joue cet emplacement ?">
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setOwnerMenu(null)} />
+          {/* Feuille de choix (style iOS) : un tap = un joueur placé ; échange automatique si besoin */}
+          <div role="menu" className="glass-strong pb-safe relative m-2 w-full animate-sheet rounded-[28px] p-2">
+            <p className="px-3 pb-2 pt-1 text-center text-sm text-muted">Qui joue le pick {ownerMenu + 1} ?</p>
+            {([...(duo ? (["moi", "elle"] as const) : (["moi"] as const)), null] as Owner[]).map((who) => {
+              const cur = effOwner(ownerMenu);
+              const elsewhere = who ? owners.indexOf(who) : -1;
+              return (
+                <button
+                  key={who ?? "personne"}
+                  role="menuitemradio"
+                  aria-checked={cur === who}
+                  onClick={() => assignOwner(ownerMenu, who)}
+                  className={clsx("flex min-h-14 w-full items-center gap-3 rounded-2xl px-4 text-left text-[17px]", cur === who ? "glass-pill font-semibold" : "text-ink")}
+                >
+                  <span className={clsx("h-3 w-3 rounded-full", who === "moi" ? "bg-primary" : who === "elle" ? "bg-[#e66767]" : "bg-white/30")} />
+                  <span className="flex-1">{who ? playerName(who) : "Coéquipier (personne du duo)"}</span>
+                  {who && elsewhere >= 0 && elsewhere !== ownerMenu && <span className="text-xs text-muted">{cur ? `échange avec le pick ${elsewhere + 1}` : `déplacé depuis le pick ${elsewhere + 1}`}</span>}
+                </button>
+              );
+            })}
+            <button className="btn-ghost mt-2 min-h-12 w-full" onClick={() => setOwnerMenu(null)}>
+              Annuler
+            </button>
+          </div>
+        </div>
+      )}
       <AntiTiltBanner />
       {/* 1. Barre d'actions */}
       <div className="flex items-stretch gap-2">
